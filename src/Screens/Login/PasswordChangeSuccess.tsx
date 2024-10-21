@@ -11,7 +11,7 @@ const SuccessImage = require('../../assets/Image/smallTik.png');
 
 const PasswordChange = () => {
     navigate("Login", {})
-    console.warn(' Your password has been changed successfully.')
+    // console.warn(' Your password has been changed successfully.')
 }
 
 const PasswordChangeSuccess = () => {

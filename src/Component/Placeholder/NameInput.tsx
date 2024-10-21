@@ -20,7 +20,7 @@ interface Input {
 const NameInput = (auto: Input) => {
     return (
         <View style={[styles.container, auto.mainStyle,]}>
-            <Text style={[Typography.title, {marginBottom: auto.nameStyle ? 5 : 0}]}>{auto.title}</Text>
+            <Text style={[Typography.title, {marginBottom: auto.nameStyle ? 5 : -15}]}>{auto.title}</Text>
             <View style={styles.inputBox}>
                 <TextInput
                     placeholder={auto.placeholder}

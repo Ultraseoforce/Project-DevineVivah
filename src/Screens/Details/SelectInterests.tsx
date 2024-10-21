@@ -7,6 +7,9 @@ import { Typography } from '../../Theme/Typography'
 import { images } from '../../Theme/Image'
 import Button from '../../Component/Buttons/Button'
 import { navigate } from '../../Navigator/Utils'
+import { useRoute } from '@react-navigation/native'
+import Toast from '../../Component/Modal/ToastMessage'
+import { useUpdatePreferencesDetailsMutation } from '../../Store/profile/ProfileApiSlice'
 
 
 const data = [
@@ -25,18 +28,27 @@ const data = [
 ];
 
 const SelectInterests = () => {
-
+  const route = useRoute();
+  const { showToast } = Toast();
   const [selectedItems, setSelectedItems] = useState<number[]>([]);
+  const [seletedItemsname, setSeletedItemName] = useState<String[]>([])
+  const [addPreferencesDetails, {isLoading}] = useUpdatePreferencesDetailsMutation()
 
-  const toggleSelectItem = (id: number) => {
-    if (selectedItems.includes(id)) {
+
+  const PreferencesDetails = route.params.Preferencesdata
+  console.log(PreferencesDetails)
+
+  const toggleSelectItem = (id: number, title: string) => {
+    if (selectedItems.includes(id,)) {
       setSelectedItems(selectedItems.filter(item => item !== id));
+      setSeletedItemName(seletedItemsname.filter(item => item !== title));
     } else {
       setSelectedItems([...selectedItems, id]);
+      setSeletedItemName([...seletedItemsname, title]);
     }
   };
 
-
+  console.log("selectedItems", seletedItemsname)
 
   const renderRow = (items: any[], isEvenRow: boolean) => {
     return (
@@ -51,8 +63,8 @@ const SelectInterests = () => {
             <TouchableOpacity
               key={item.id}
               style={[itemStyle, isEvenRow ? styles.twoColumn : styles.threeColumn]}
-              onPress={() => toggleSelectItem(item.id)}
-              onLongPress={() => toggleSelectItem(item.id)}
+              onPress={() => toggleSelectItem(item.id, item.title)}
+              onLongPress={() => toggleSelectItem(item.id, item.title)}
               delayLongPress={200}
             >
               <Image style={[styles.icon, { tintColor: iconTintColor }]} resizeMode='contain' source={item.icon} />
@@ -84,21 +96,48 @@ const SelectInterests = () => {
   const groupedData = groupDataIntoRows();
 
 
+
+  const Save = async () => {
+    const request = {
+      about_you: "Idst",
+      dislikes: "Zjgdhdhdd",
+      drink: "1",
+      likes: "Gxydyd",
+      smoke: "1",
+      interests: seletedItemsname
+    }
+    try {
+      const respo = await addPreferencesDetails(request).unwrap();
+      console.log("addPreferencesDetails", respo)
+      if (respo?.status == true) {
+        showToast(respo?.message, { type: 'normal' });
+        navigate("MainNavigator", {})
+      } else {
+        // showToast(respo?.errors?.mobile[0], { type: 'normal' });
+        console.log(respo?.errors)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+    
+  }
+
+
   return (
     <View style={{ flex: 1, backgroundColor: Color.white }}>
-    <StatusBar translucent backgroundColor="transparent" barStyle="dark-content" />
-    <BackHeader />
-    <View style={{ padding: 16, }}>
-         <Text style={[Typography.main_heading, { textAlign: "center" }]}>Select Interests</Text>
-         <Text style={[styles.hedingtext, Typography.body]}>
-           Tell us what piques your curiosity and passions
-         </Text>
-       </View>
-       <ScrollView>
-         {groupedData.map((row, index) => renderRow(row, index % 2 === 0))}
-         <Button title='Save' onPress={() => navigate("MainNavigator", {})}mainStyle={{marginHorizontal: moderateScale(16),}}/>
-       </ScrollView>
-</View>
+      <StatusBar translucent backgroundColor="transparent" barStyle="dark-content" />
+      <BackHeader />
+      <View style={{ padding: 16, }}>
+        <Text style={[Typography.main_heading, { textAlign: "center" }]}>Select Interests</Text>
+        <Text style={[styles.hedingtext, Typography.body]}>
+          Tell us what piques your curiosity and passions
+        </Text>
+      </View>
+      <ScrollView>
+        {groupedData.map((row, index) => renderRow(row, index % 2 === 0))}
+      </ScrollView>
+      <Button title='Save' onPress={Save} mainStyle={styles.btn} />
+    </View>
   )
 }
 
@@ -106,67 +145,73 @@ export default SelectInterests
 
 const styles = StyleSheet.create({
   hedingtext: {
-        marginTop: moderateScale(20),
-        
-        color: Color.chatBg,
-        textAlign: "center",
-      },
-      row: {
-        flexDirection: 'row',
-        alignSelf: "center",
-        alignItems: "center",
-        marginBottom: moderateScale(10),
-      },
-      twoColumn: {
-        padding: 10,
-        marginBottom: 15,
-        marginRight: 7,
-        borderRadius: 50,
-        borderWidth: 1,
-        borderColor: Color.border,
-        flexDirection: "row",
-        alignItems: "center",
-        gap: 7,
-        justifyContent: 'center',
-      },
-      threeColumn: {
-        padding: 10,
-        marginBottom: 15,
-        marginRight: 7,
-        flexDirection: "row",
-        alignItems: "center",
-        gap: 7,
-        borderRadius: 50,
-        borderWidth: 1,
-        borderColor: Color.border,
-        justifyContent: 'center',
-      },
-      item: {
-        backgroundColor: Color.inputBg,
-        borderRadius: 50,
-        justifyContent: 'center',
-        alignItems: 'center',
-        padding: 10,
-        
-      },
-      selectedItem: {
-        backgroundColor: '#FF5A60',
-        borderRadius: 50,
-        justifyContent: 'center',
-        alignItems: 'center',
-        padding: 10,
-      },
-      text: {
-        color: Color.black,
-        textAlign: 'center',
-      },
-      icon: {
-        width: scale(18),
-        height: scale(18),
-        marginBottom: 5, 
-      },
-      selectedText: {
-        color: Color.white,
-        textAlign: 'center',
-      },
+    marginTop: moderateScale(20),
+    color: Color.chatBg,
+    textAlign: "center",
+  },
+  row: {
+    flexDirection: 'row',
+    alignSelf: "center",
+    alignItems: "center",
+    marginBottom: moderateScale(10),
+  },
+  twoColumn: {
+    paddingHorizontal: 15,
+    paddingVertical: 8,
+    marginBottom: 15,
+    marginRight: 7,
+    borderRadius: 50,
+    borderWidth: 1,
+    borderColor: Color.border,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 7,
+    justifyContent: 'center',
+  },
+  threeColumn: {
+    // padding: 15,
+    paddingHorizontal: 15,
+    paddingVertical: 8,
+    marginBottom: 15,
+    marginRight: 7,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 7,
+    borderRadius: 50,
+    borderWidth: 1,
+    borderColor: Color.border,
+    justifyContent: 'center',
+  },
+  item: {
+    backgroundColor: Color.inputBg,
+    borderRadius: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+    // padding: 10,
+
+  },
+  selectedItem: {
+    backgroundColor: '#FF5A60',
+    borderRadius: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 10,
+  },
+  text: {
+    color: Color.black,
+    textAlign: 'center',
+  },
+  icon: {
+    width: scale(18),
+    height: scale(18),
+    marginBottom: 5,
+  },
+  selectedText: {
+    color: Color.white,
+    textAlign: 'center',
+  },
+  btn: {
+    marginHorizontal: moderateScale(16),
+    bottom: moderateScale(40),
+  }
 })

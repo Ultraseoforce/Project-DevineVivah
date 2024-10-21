@@ -7,16 +7,52 @@ import Button from '../../Component/Buttons/Button';
 import { moderateScale } from '../../Theme/ResposiveSize';
 import { navigate, navigationRef } from '../../Navigator/Utils';
 import BackHeader from '../../Component/Header/BackHeader';
+import Toast from '../../Component/Modal/ToastMessage';
+import { useNewPasswordMutation } from '../../Store/auth/authApiSlice';
 
 const CreactNewPassword = ({ route }: any) => {
     const { type } = route.params;
-    const [otp, setOtp] = useState(['', '', '', '',]);
-    const inputs = useRef([]);
+    const { showToast } = Toast();
+    const [newPassword, setNewPassword] = useState<string>('');
+    const [confirmPassword, setConfirmPassword] = useState<string>('');
+    const [errors, setErrors] = useState<PasswordErrors>({});
+    const [ChangePassword, { isLoading }] = useNewPasswordMutation();
+
     const BackButton = require('../../assets/Image/arrow-left.png')
 
-    const handleContinue = () => {
-        navigate("PasswordChangeSuccess", {})
-        console.warn('OTP entered:', otp.join(''));
+
+    const validatePasswords = (): boolean => {
+        let formErrors: PasswordErrors = {};
+        if (!newPassword.trim()) {
+            formErrors.newPassword = 'New password is required';
+        }
+        if (!confirmPassword.trim()) {
+            formErrors.confirmPassword = 'Confirm password is required';
+        } else if (confirmPassword !== newPassword) {
+            formErrors.confirmPassword = 'Passwords do not match';
+        }
+
+        setErrors(formErrors);
+        return Object.keys(formErrors).length === 0;
+    };
+
+    const handleContinue = async () => {
+        if (validatePasswords()) {
+            try {
+                const respo = await ChangePassword({ password: newPassword }).unwrap();
+                if (respo?.status == true) {
+                    showToast(respo?.message, { type: 'normal' });
+                    console.log("ChangePassword repose", respo)
+                    navigate("PasswordChangeSuccess", {})
+
+                } else {
+                    showToast(respo?.message, { type: 'normal' });
+                }
+
+            } catch (error) {
+                console.error(error);
+            }
+        }
     };
 
     return (
@@ -31,17 +67,24 @@ const CreactNewPassword = ({ route }: any) => {
             <View style={styles.container}>
                 <Text style={Typography.main_heading}>Create new password</Text>
                 <Text style={[styles.text, Typography.body]}>Your new password must be unique from those previously used.</Text>
-
-                <ScrollView showsVerticalScrollIndicator={false}>
-
+                <View>
                     <NameInput
                         placeholder='New Password'
+                        nameStyle
+                        value={newPassword}
+                        onChangeText={setNewPassword}
                     />
-
+                    {errors.newPassword && <Text style={styles.errorText}>{errors.newPassword}</Text>}
+                </View>
+                <View>
                     <NameInput
                         placeholder='Confirm Password'
+                        value={confirmPassword}
+                        onChangeText={setConfirmPassword}
+                        nameStyle
                     />
-                </ScrollView>
+                    {errors.confirmPassword && <Text style={styles.errorText}>{errors.confirmPassword}</Text>}
+                </View>
                 <Button title='Update' mainStyle={styles.btn} onPress={handleContinue} />
             </View>
         </SafeAreaView>
@@ -84,5 +127,9 @@ const styles = StyleSheet.create({
         height: moderateScale(50),
         width: moderateScale(50),
         borderRadius: moderateScale(50)
-    }
+    },
+    errorText: {
+        color: 'red',
+        marginTop: 5,
+    },
 });

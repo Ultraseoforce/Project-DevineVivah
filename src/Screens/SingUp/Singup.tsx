@@ -18,22 +18,23 @@ const Singup = () => {
     const { showToast } = Toast();
 
     const [email, setEmail] = useState("")
+    const [number, setNumber] = useState("")
     const [password, setPassword] = useState("")
     const [fullname, setFullName] = useState("")
     const [confirmpassword, setConfirmPassword] = useState("")
 
     const singup = async () => {
         const request = {
-            name: "jay",
-            mobile: "6353786868",
-            password: "jay12345"
+            name: fullname,
+            mobile: number,
+            password: password
         }
         try {
             const singupResponse = await usersingup(request).unwrap();
             console.log("singupResponse", singupResponse)
             if(singupResponse?.status == true ){
                 showToast(singupResponse?.message, { type: 'normal' });
-                navigate("CreationSteps", {})
+                navigate("OTPVerification", {})
             }else{
                 showToast(singupResponse?.errors?.mobile[0], { type: 'normal' });
             }
@@ -53,23 +54,27 @@ const Singup = () => {
                         placeholder='Full Name'
                         value={fullname}
                         onChangeText={setFullName}
+                        nameStyle
                     />
                     <NameInput
                         placeholder='Phone No'
-                        value={email}
+                        value={number}
                         keyboardType="numeric"
                         maxLength={10}
-                        onChangeText={setEmail}
+                        onChangeText={setNumber}
+                        nameStyle
                     />
                     <NameInput
                         placeholder='Password'
                         value={password}
                         onChangeText={setPassword}
+                        nameStyle
                     />
                     <NameInput
                         placeholder='Confirm Password'
                         value={confirmpassword}
                         onChangeText={setConfirmPassword}
+                        nameStyle
                     />
                     <View style={{ flexDirection: "row", alignItems: "center", marginHorizontal: 16 }}>
                         <CheckBox checkstyle />

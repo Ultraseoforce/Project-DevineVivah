@@ -8,12 +8,12 @@ import { NavigationContainer } from "@react-navigation/native";
 import { navigationRef } from './Utils';
 import CreationSteps from '../Screens/CreationSteps';
 import PersonalDetails from '../Screens/Details/PersonalDetails';
-import Education from '../Screens/Details/Education';
-import Profession from '../Screens/Details/Profession';
+import Education from '../Screens/Details/EducationDetails';
+import Profession from '../Screens/Details/ProfessionDetails';
 import FamilyDetails from '../Screens/Details/FamilyDetails';
-import Preferences from '../Screens/Details/Preferences';
-import Location from '../Screens/Details/Location';
-import Verification from '../Screens/Details/Verification';
+import Preferences from '../Screens/Details/PreferencesDetails';
+import Location from '../Screens/Details/LocationDetails';
+import Verification from '../Screens/Details/VerificationDetails';
 import SiblingDetails from '../Screens/Details/SiblingDetails';
 import HomeScreen from '../Screens/HomeScreen';
 import StoreScreen from '../Screens/StoreScreen';
@@ -67,52 +67,6 @@ const Application = () => {
 
 
   return (
-
-    // <SafeAreaProvider>
-    //   <NavigationContainer ref={navigationRef} >
-    //     <Stack.Navigator screenOptions={{ headerShown: false }}>
-    //       <Stack.Screen name="Login" component={Login} />
-    //       <Stack.Screen name="Singup" component={Singup} />
-    //       <Stack.Screen name="MainNavigator" component={MainNavigator} />
-    //       <Stack.Screen name="HelpAndSupport" component={HelpAndSupport} />
-    //       <Stack.Screen name="MyFavorites" component={MyFavorites} />
-    //       <Stack.Screen name="MyOrders" component={MyOrders} />
-    //       <Stack.Screen name="MyWishlist" component={MyWishlist} />
-    //       <Stack.Screen name="SelectInterests" component={SelectInterests} />
-    //       <Stack.Screen name="Notifacations" component={Notifacations} />
-    //       <Stack.Screen name="ChatScreen" component={ChatScreen} />
-    //       <Stack.Screen name="LiveChat" component={LiveChat} />
-    //       <Stack.Screen name="CreationSteps" component={CreationSteps} />
-    //       <Stack.Screen name="OrderDetails" component={OrderDetails} />
-    //       <Stack.Screen name="PersonalDetails" component={PersonalDetails} />
-    //       <Stack.Screen name="Education" component={Education} />
-    //       <Stack.Screen name="Profession" component={Profession} />
-    //       <Stack.Screen name="FamilyDetails" component={FamilyDetails} />
-    //       <Stack.Screen name="Preferences" component={Preferences} />
-    //       <Stack.Screen name="Location" component={Location} />
-    //       <Stack.Screen name="Verification" component={Verification} />
-    //       <Stack.Screen name="HomeScreen" component={HomeScreen} />
-    //       <Stack.Screen name="StoreScreen" component={StoreScreen} />
-    //       <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
-    //       <Stack.Screen name="ViewProfile" component={ViewProfile} />
-    //       <Stack.Screen name="AstrologerProfileView" component={AstrologerProfileView} />
-    //       <Stack.Screen name="SelectCategory" component={SelectCategory} />
-    //       <Stack.Screen name="ProductView" component={ProductView} />
-    //       <Stack.Screen name="CardScreen" component={CardScreen} />
-    //       <Stack.Screen name="ShippingAddress" component={ShippingAddress} />
-    //       <Stack.Screen name="Checkout" component={Checkout} />
-    //       <Stack.Screen name="AddShippingAddress" component={AddShippingAddress} />
-    //       <Stack.Screen name="SelectPaymentMethod" component={SelectPaymentMethod} />
-    //       <Stack.Screen name="Orderplaced" component={Orderplaced} />
-    //       <Stack.Screen name="BookPooja" component={BookPooja} />
-    //       <Stack.Screen name="MyTickers" component={MyTickers} />
-    //       <Stack.Screen name="ProfileSettings" component={ProfileSettings} />
-    //       <Stack.Screen name="Filters" component={Filters} />
-    //     </Stack.Navigator>
-    //   </NavigationContainer>
-    // </SafeAreaProvider>
-
-
     <SafeAreaProvider>
       <NavigationContainer ref={navigationRef}>
         <Stack.Navigator screenOptions={{ headerShown: false }}>
@@ -120,6 +74,8 @@ const Application = () => {
           {token ? (
             <>
               <Stack.Screen name="MainNavigator" component={MainNavigator} />
+              <Stack.Screen name="Login" component={Login} />
+              <Stack.Screen name="Singup" component={Singup} />
             </>
           ) : (
             <>
@@ -128,6 +84,7 @@ const Application = () => {
             </>
           )}
           {/* The rest of the screens accessible after login */}
+          <Stack.Screen name="Location" component={Location} />
           <Stack.Screen name="HelpAndSupport" component={HelpAndSupport} />
           <Stack.Screen name="MyFavorites" component={MyFavorites} />
           <Stack.Screen name="MyOrders" component={MyOrders} />
@@ -143,12 +100,20 @@ const Application = () => {
           <Stack.Screen name="Profession" component={Profession} />
           <Stack.Screen name="FamilyDetails" component={FamilyDetails} />
           <Stack.Screen name="Preferences" component={Preferences} />
-          <Stack.Screen name="Location" component={Location} />
+          
           <Stack.Screen name="Verification" component={Verification} />
           <Stack.Screen name="HomeScreen" component={HomeScreen} />
           <Stack.Screen name="StoreScreen" component={StoreScreen} />
           <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
           <Stack.Screen name="ViewProfile" component={ViewProfile} />
+          <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
+          <Stack.Screen name="OTPVerification" component={OTPVerification} />
+          <Stack.Screen name="CreactNewPassword" component={CreactNewPassword} />
+          <Stack.Screen name="PasswordChangeSuccess" component={PasswordChangeSuccess} />
+          <Stack.Screen name="ShippingAddressCard" component={ShippingAddressCard} />
+          <Stack.Screen name="ChangePassword" component={ChangePassword} />
+          <Stack.Screen name="SiblingDetails" component={SiblingDetails} />
+
           <Stack.Screen name="AstrologerProfileView" component={AstrologerProfileView} />
           <Stack.Screen name="SelectCategory" component={SelectCategory} />
           <Stack.Screen name="ProductView" component={ProductView} />

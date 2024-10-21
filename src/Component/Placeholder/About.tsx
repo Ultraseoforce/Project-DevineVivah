@@ -16,7 +16,6 @@ interface IAbout {
 
 
 const About = (auto: IAbout) => {
-    const [aboutYou, setAboutYou] = useState('');
     return (
         <View>
             <Text style={[Typography.title, { marginBottom: auto.title ? 5 : 0 }]}>{auto.title}</Text>
@@ -42,7 +41,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         fontFamily: "Urbanist-SemiBold",
         fontSize: FontSize.Font16,
-        borderRadius: moderateScale(30),
+        borderRadius: moderateScale(20),
         paddingHorizontal: moderateScale(20),
         textAlignVertical: 'top',
         backgroundColor: Color.inputBg,

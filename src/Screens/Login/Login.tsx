@@ -66,11 +66,13 @@ const Login = () => {
                         onChangeText={setPhoneNumber}
                         keyboardType="numeric"
                         maxLength={10}
+
                     />
                     <NameInput
                         placeholder='Enter Your Password '
                         value={password}
                         onChangeText={setPassword}
+                        nameStyle
                     />
                     <Text onPress={() => navigate("ForgotPassword", {})} style={[styles.forget, Typography.small]}>Forgot Password?</Text>
                     <Button mainStyle={styles.btn} title='Login' onPress={userlogin} />
