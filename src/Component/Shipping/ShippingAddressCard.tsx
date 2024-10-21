@@ -5,6 +5,7 @@ import { Typography } from '../../Theme/Typography'
 import { FontSize } from '../../Theme/FontSize'
 import { moderateScale, scale } from '../../Theme/ResposiveSize'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
+import Right from '../../assets/svg/Right.svg'
 
 
 interface ShippingCard {

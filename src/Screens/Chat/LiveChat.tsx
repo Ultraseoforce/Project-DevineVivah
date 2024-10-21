@@ -4,6 +4,9 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { Color } from '../../Theme';
 import ChatHeader from '../../Component/Header/ChatHeader';
 import ChatModal from '../../Component/Modal/Modal';
+import VideoCall from '../../assets/svg/VideoCall.svg'
+import VoiceCall from '../../assets/svg/VoiceCall.svg'
+import Three_Dot from '../../assets/svg/Three_Dot.svg'
 
 const getCurrentTime = () => {
     const now = new Date();

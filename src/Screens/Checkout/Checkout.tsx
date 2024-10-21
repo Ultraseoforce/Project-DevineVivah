@@ -116,7 +116,7 @@
 //       <View style={styles.couponContainer}>
 //         <View style={styles.couponRow}>
 //           <Image source={coupon} style={styles.couponImage} />
-//           <Text style={styles.couponText}>Enter your coupon code</Text>
+//           <Text style={styles.couponText}>upon code</Text>
 //         </View>
 //         <View style={{ flexDirection: 'row', justifyContent: "space-between", marginTop: 20 }}>
 //           <Text style={{ color: "#8391A1", fontSize: 16, }}>Sub Total</Text>

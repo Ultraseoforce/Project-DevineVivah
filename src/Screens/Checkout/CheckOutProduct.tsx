@@ -36,7 +36,6 @@ const CheckOutProduct = (Props: CheckOut) => {
                                 <Text style={styles.discountLabel}>-10% off</Text>
                                 <Text style={[Typography.samll_bold, { fontSize: FontSize.Font21, color: Color.black }]}>450</Text>
                             </View>
-
                         </View>
                         {Props.status && (
                             <Text style={Typography.small}>

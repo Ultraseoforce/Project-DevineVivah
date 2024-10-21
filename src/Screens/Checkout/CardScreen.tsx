@@ -9,6 +9,9 @@ import CheckBox from '../../Component/CheckBox/CheckBox'
 import Sign from 'react-native-vector-icons/AntDesign'
 import { FontSize } from '../../Theme/FontSize'
 import { images } from '../../Theme/Image'
+import Plus from '../../assets/svg/Plus.svg'
+import Minus from '../../assets/svg/Minus.svg'
+import Delete from '../../assets/svg/Delete.svg'
 
 const CardScreen = ({route}: any) => {
     const { item } = route.params
@@ -23,7 +26,7 @@ const CardScreen = ({route}: any) => {
 
 const Product = require("../../assets/Image/product.png")
 const Dots = require('../../assets/Image/3dots.png');
-const Delete = require('../../assets/Image/Delete.png');
+// const Delete = require('../../assets/Image/Delete.png');
 
 console.log("card add item=>>>>", item)
   return (
@@ -59,15 +62,18 @@ console.log("card add item=>>>>", item)
         <View style={styles.actionsRow}>
           <Text style={[Typography.body, styles.wishlistText]}>Add to Wishlist</Text>
           <TouchableOpacity onPress={handleDelete} style={styles.deleteButton}>
-            <Image source={Delete} />
+            {/* <Image source={Delete} /> */}
+            <Delete />
           </TouchableOpacity>
           <View style={styles.quantityContainer}>
             <TouchableOpacity style={styles.decrementButton} onPress={decrement}>
-              <Sign name='minus' size={20} color={'white'} />
+              <Sign name='minus'size={20} color={'white'} style={styles.Minus} />
+              {/* <Minus  style={styles.Minus}/> */}
             </TouchableOpacity>
             <Text style={styles.quantityText}>{quantity}</Text>
             <TouchableOpacity style={styles.incrementButton} onPress={increment}>
-              <Sign name='plus' size={21} color={'white'} />
+              {/* <Sign name='plus' size={21} color={'white'} /> */}
+              <Plus />
             </TouchableOpacity>
           </View>
         </View>
@@ -186,4 +192,8 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     padding: 8,
   },
+  Minus:{
+    alignSelf:"center",
+  //  padding:3
+  }
 })

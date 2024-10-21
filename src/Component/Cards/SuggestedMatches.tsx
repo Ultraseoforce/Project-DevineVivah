@@ -1,10 +1,11 @@
 import { FlatList, Image, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import { Color } from '../../Theme';
-import { moderateScale } from '../../Theme/ResposiveSize';
+import { height, moderateScale } from '../../Theme/ResposiveSize';
 import { Typography } from '../../Theme/Typography';
 import { FontSize } from '../../Theme/FontSize';
-import AntDesign from 'react-native-vector-icons/AntDesign';
+// import AntDesign from 'react-native-vector-icons/AntDesign';
+import Right from '../../assets/svg/Right.svg'
 
 const SuggestedMatches = () => {
   const right = require("../../assets/Image/smallTik.png")
@@ -54,7 +55,9 @@ const SuggestedMatches = () => {
           </View>
           <Text style={Typography.smallText}>{item.detalis}</Text>
         </View>
-        <AntDesign name="right" size={17} color={Color.orange} style={styles.rightIcon} />
+        {/* <AntDesign name="right" size={17} color={Color.orange} style={styles.rightIcon} /> */}
+        {/* <Right /> */}
+        <Right style={{ height: 17, width: 17 }} />
       </View>
     </View>
   );

@@ -4,6 +4,8 @@ import { scale } from '../../Theme/ResposiveSize';
 import { Color } from '../../Theme';
 import { Typography } from '../../Theme/Typography';
 import { FontSize } from '../../Theme/FontSize';
+import Plus from '../../assets/svg/plus.svg'
+import Minus from '../../assets/svg/Minus.svg'
 
 const QuantitySelector = ({ initialQuantity = 1, onQuantityChange }: any) => {
   const [quantity, setQuantity] = useState(initialQuantity);
@@ -27,13 +29,15 @@ const QuantitySelector = ({ initialQuantity = 1, onQuantityChange }: any) => {
         <Text style={[Typography.samll_bold,{ color: Color.black}]}>Select Quantity:</Text>   
     <View style={styles.container}>
       <Pressable style={styles.button} onPress={decrementQuantity}>
-        <Text style={styles.buttonText}>-</Text>
+        {/* <Text style={styles.buttonText}>-</Text> */}
+        <Minus />
       </Pressable>
       <View style={{height: scale(45), width: scale(45), alignItems: "center", marginHorizontal: 10, justifyContent: "center", borderRadius: 7, borderWidth: 1, borderColor: Color.border}}>
       <Text style={[Typography.samll_bold,{color: Color.black, fontSize: FontSize.Font18}]}>{quantity}</Text>
       </View>
       <Pressable style={styles.button} onPress={incrementQuantity}>
-        <Text style={styles.buttonText}>+</Text>
+        {/* <Text style={styles.buttonText}>+</Text> */}
+        <Plus />
       </Pressable>
     </View>
     </View>
