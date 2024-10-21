@@ -93,7 +93,7 @@
 // })
 
 
-import { Image, Pressable, StatusBar, StyleSheet, Text, View } from 'react-native'
+import { Image, Pressable, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useMemo } from 'react'
 import { Color } from '../../Theme'
 import { height, moderateScale } from '../../Theme/ResposiveSize'
@@ -102,6 +102,7 @@ import SearchContent from '../Search/SearchCard'
 import Filters from '../Filters/Filters'
 import { navigate } from '../../Navigator/Utils'
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import Shopping_cart from '../../assets/svg/Shopping.svg'
 
 interface IHeader {
     BgWhite?: boolean
@@ -116,7 +117,7 @@ const HeaderCard = (Props: IHeader) => {
     const bell = require("../../assets/Image/bell.png")
 
 
-console.log("headre caall =>>>>>>>>>>>>>>>>>>>>")
+    console.log("headre caall =>>>>>>>>>>>>>>>>>>>>")
 
     // Memoize the style based on BgWhite
     const backgroundColor = useMemo(() => {
@@ -141,9 +142,10 @@ console.log("headre caall =>>>>>>>>>>>>>>>>>>>>")
                         <Image source={bell} style={styles.bell} />
                     </Pressable>
                 ) : (
-                    <Pressable>
-                        <FontAwesome5 name="shopping-cart" size={26} color={Color.orange} />
-                    </Pressable>
+                    <TouchableOpacity>
+                        {/* <FontAwesome5 name="shopping-cart" size={26} color={Color.orange} /> */}
+                        <Shopping_cart />
+                    </TouchableOpacity>
                 )}
             </View>
             <View style={styles.searchCard}>
@@ -151,7 +153,7 @@ console.log("headre caall =>>>>>>>>>>>>>>>>>>>>")
                 <Filters onFilter={() => navigate("Filters", {})} mainStyle={{ backgroundColor: Color.boxBg }} />
                 {Props.BgWhite && (
                     <Pressable onPress={() => navigate("Notifacations", {})} style={styles.bgball}>
-                        <Image source={bell} style={{ height: 24, width: 24 }} tintColor={Color.bellbg} />
+                        <Image source={bell} style={{ height: 24, width: 20 }} tintColor={Color.border} />
                     </Pressable>
                 )}
             </View>

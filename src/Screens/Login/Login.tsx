@@ -88,6 +88,12 @@ const Login = () => {
                     <Authenticate />
                     <Text style={styles.register}>Don’t have an account? <Text onPress={() => navigate("Singup", {})} style={{ fontWeight: "bold", color: Color.orange }}>Register Now</Text></Text>
                 </View>
+
+
+
+
+
+
             </ScrollView>
         </View>
     )

@@ -113,7 +113,7 @@ const ProductView = ({ route }: any) => {
             </View>
             <Text style={[Typography.samll_bold, { fontSize: FontSize.Font20, lineHeight: 27 }]}>{item?.lessprice}</Text>
           </View>
-          <View style={{ borderBottomWidth: 1, borderColor: Color.border, marginTop: 20 }} />
+          <View style={{ borderBottomWih: 1, borderColor: Color.border, marginTop: 20 }} />
           <QuantitySelector initialQuantity={quantity} onQuantityChange={handleQuantityChange} />
           <Button title='Add to Cart' mainStyle={{ marginTop: 20 }} onPress={() => navigate("CardScreen", { item })} />
           <View>

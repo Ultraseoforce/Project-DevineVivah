@@ -4,6 +4,7 @@ import { Color } from "../../Theme";
 import Octicons from 'react-native-vector-icons/Octicons';
 import { moderateScale } from "../../Theme/ResposiveSize";
 import { FontSize } from "../../Theme/FontSize";
+import Search from '../../assets/svg/Search.svg'
 
 interface ISearch {
   searchData?: Function;
@@ -17,14 +18,15 @@ interface ISearch {
 const SearchBar = (search: ISearch) => {
   return (
     <View style={[styles.textInput, search.style]}>
-      <Octicons name="search" size={25} color={Color.black} />
+      {/* <Octicons name="search" size={25} color={Color.black} /> */}
+      <Search />
       <TextInput
         style={styles.input}
         placeholder={search?.placeHolder || "Search...."}
         value={search?.value}
         onChangeText={search?.onChangeText}
         placeholderTextColor={Color.chatBg}
-        textAlignVertical="center" 
+        textAlignVertical="center"
       />
     </View>
   );
@@ -48,7 +50,7 @@ const styles = StyleSheet.create({
     flex: 1,
     fontFamily: "Poppins-Medium",
     fontSize: FontSize.Font16,
-    textAlignVertical: "center", 
-    paddingVertical: 0, 
+    textAlignVertical: "center",
+    paddingVertical: 0,
   },
 });

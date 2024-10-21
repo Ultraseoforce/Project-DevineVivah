@@ -400,6 +400,7 @@ import AgeRange from '../Component/Filters/AgeRange';
 import LocationSearch from '../Component/Filters/LocationSearch';
 import { navigationRef } from '../Navigator/Utils';
 import { FontSize } from '../Theme/FontSize';
+import Close from '../assets/svg/Close.svg'
 
 interface IFilter {
   ApplyFilter?: Function;
@@ -445,7 +446,8 @@ const filterClear = () => {
       <View style={styles.container}>
         <View style={styles.header_container}>
           <View style={{ marginTop: moderateScale(50), marginHorizontal: moderateScale(10), flexDirection: "row", alignItems: "center", gap: 10 }}>
-            <Ionicons name="close-sharp" size={30} color={Color.black} onPress={() => navigationRef.goBack()} />
+            <Close onPress={() => navigationRef.goBack()} />
+            {/* <Ionicons name="close-sharp" size={30} color={Color.black} onPress={() => navigationRef.goBack()} /> */}
             <Text style={Typography.large_headings}>Filters</Text>
             <View style={styles.apply_btn}>
                 <Text onPress={() => Props.ApplyFilter ? Props.ApplyFilter() : null} style={[Typography.small]}>Apply Filters</Text>

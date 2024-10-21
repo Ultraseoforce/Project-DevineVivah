@@ -2,6 +2,7 @@ import { View, Text, Image, StyleSheet, Pressable } from 'react-native'
 import React from 'react'
 import { moderateScale } from '../../Theme/ResposiveSize'
 import { Color } from '../../Theme'
+import Filter from '../../assets/svg/Filter.svg'
 
 interface IFilters {
     onFilter?: Function
@@ -9,10 +10,11 @@ interface IFilters {
 }
 const Filters = (auto: IFilters) => {
 
-    const Filter = require("../../assets/Image/Filters.png")
+    // const Filter = require("../../assets/Image/Filters.png")
     return (
         <Pressable onPress={() => auto.onFilter ? auto.onFilter() : null} style={[styles.container, auto.mainStyle]}>
-            <Image source={Filter} style={{ height: 18, width: 24 }} />
+            {/* <Image source={Filter} style={{ height: 18, width: 24 }} /> */}
+            <Filter />
         </Pressable>
     )
 }

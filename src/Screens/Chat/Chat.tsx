@@ -24,6 +24,8 @@ import Interests from './Interests';
 import Calls from './Calls';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { navigate } from '../../Navigator/Utils';
+import Search from '../../assets/svg/Search.svg'
+import Ball from '../../assets/svg/ball.svg'
 
 
 const ChatStatus = [
@@ -118,10 +120,12 @@ const ChatScreen = () => {
                 </View>
                 <View>
                     <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
-                        <Ionicons name="search-outline" size={27} color={Color.black} />
-                        <Pressable onPress={() => navigate("Notifacations", {})}>
+                        {/* <Ionicons name="search-outline" size={27} color={Color.black} /> */}
+                        <Search />
+                        <TouchableOpacity onPress={() => navigate("Notifacations", {})}>
                         <Image source={notification} style={{ height: scale(27), width: scale(24) }} tintColor="black" />
-                        </Pressable>
+                        {/* <Ball /> */}
+                        </TouchableOpacity>
                     </View>
                 </View>
                 </View>
