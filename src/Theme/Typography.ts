@@ -59,3 +59,5 @@ export const Typography = StyleSheet.create({
     color: Color.black
   }
 })
+
+export { FontSize };

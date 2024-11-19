@@ -20,7 +20,7 @@ const data = [
         reting: "4.2",
         review: "23",
         solds: "700+ solds",
-        image: require("../../assets/Image/product.png")
+        image: require("../../assets/Image/bigprofile.png")
     },
     {
         id: 2,
@@ -31,7 +31,7 @@ const data = [
         reting: "2.2",
         review: "25",
         solds: "300+ solds",
-        image: require("../../assets/Image/product.png")
+        image: require("../../assets/Image/bigprofile.png")
     },
     {
         id: 3,
@@ -42,7 +42,7 @@ const data = [
         reting: "4.2",
         review: "23",
         solds: "600+ solds",
-        image: require("../../assets/Image/product.png")
+        image: require("../../assets/Image/bigprofile.png")
     },
     {
         id: 4,
@@ -53,7 +53,7 @@ const data = [
         reting: "3.2",
         review: "22",
         solds: "300+ solds",
-        image: require("../../assets/Image/product.png")
+        image: require("../../assets/Image/bigprofile.png")
     }
 ];
 

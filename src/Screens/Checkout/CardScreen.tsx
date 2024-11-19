@@ -24,7 +24,7 @@ const CardScreen = ({route}: any) => {
   
     if (!isVisible) return null;
 
-const Product = require("../../assets/Image/product.png")
+const Product = require("../../assets/Image/bigprofile.png")
 const Dots = require('../../assets/Image/3dots.png');
 // const Delete = require('../../assets/Image/Delete.png');
 

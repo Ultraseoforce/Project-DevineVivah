@@ -1,142 +1,180 @@
-import { FlatList, Image, Pressable, SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, View } from 'react-native'
-import React, { useState } from 'react'
-import { Color } from '../../Theme'
-import BackHeader from '../../Component/Header/BackHeader'
-import { Typography } from '../../Theme/Typography'
-import { FontSize } from '../../Theme/FontSize'
+import { FlatList, Pressable, SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, View, ActivityIndicator } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { Color } from '../../Theme';
+import BackHeader from '../../Component/Header/BackHeader';
+import { Typography } from '../../Theme/Typography';
+import { FontSize } from '../../Theme/FontSize';
+import Right from "../../assets/svg/Right.svg";
+import { useGetAllTicketQuery } from '../../Store/HelpAndSupport/MyTickersApiSlice';
+import { navigate } from '../../Navigator/Utils';
 
-const RightArrow = require('../../assets/Image/right.png')
+const MyTickets = () => {
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [ticketStatus, setTicketStatus] = useState<null | number>(null);
+  const [selectedTicketId, setSelectedTicketId] = useState(null);
 
-const ticketData = [
-  {
-    id: '1',
-    title: 'Ticket Title',
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam',
-    status: 'Solved',
-  },
-  {
-    id: '2',
-    title: 'Ticket Title',
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam',
-    status: 'Active',
-  },
-  {
-    id: '3',
-    title: 'Ticket Title',
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam',
-    status: 'Active',
-  }
-];
+  const { data: getAllTicket, error, isLoading } = useGetAllTicketQuery(ticketStatus);
+  const tab = ["All Tickets", "Solved Tickets", "Active Tickets"];
 
-const MyTickers = () => {
-  const [seletedindex, setSeletedIndex] = useState(0)
+  useEffect(() => {
+    if (selectedIndex === 0) {
+      setTicketStatus(null); // Show all tickets
+    } else if (selectedIndex === 1) {
+      setTicketStatus(1); // Show solved tickets
+    } else if (selectedIndex === 2) {
+      setTicketStatus(0); // Show active tickets
+    }
+  }, [selectedIndex]);
 
 
-  const tab = ["All Tickets", "Solved Tickets", "Active Tickets"]
-  const renderTicket = ({ item }) => {
-    const isSolved = item.status === 'Solved';
+
+  const renderTicket = ({ item }: any) => {
+    const isSelected = item.id === selectedTicketId;
 
     return (
-      <View style={[styles.ticketContainer, isSolved && styles.selectedTicket]}>
+      <Pressable
+        onPress={() => {
+          setSelectedTicketId(item.id);
+          navigate("DininevivahSupport", {item});
+        }}
+        style={[styles.ticketContainer, isSelected && styles.selectedTicket]}
+      >
         <View style={styles.ticketHeader}>
           <View style={styles.ticketTitleContainer}>
-            <Text style={[Typography.samll_bold, { fontSize: FontSize.Font18 }]}>{item.title}</Text>
-            <Text style={[isSolved ? styles.solvedStatus : styles.activeStatus, Typography.smallText, { fontSize: FontSize.Font18, lineHeight: 20, color: isSolved ? Color.white : Color.orange }]}>
-              {item.status}
+            <Text style={[Typography.samll_bold, { fontSize: FontSize.Font18 }]}>
+              {item.ticket_title}
+            </Text>
+            <Text
+              style={[
+                item.ticket_status === 1 ? styles.solvedStatus : styles.activeStatus,
+                Typography.smallText,
+                {
+                  fontSize: FontSize.Font18,
+                  lineHeight: 20,
+                  color: item.ticket_status === 1 ? Color.white : Color.orange,
+                },
+              ]}
+            >
+              {item.ticket_status === 1 ? "Solved" : "Active"}
             </Text>
           </View>
           <Pressable>
-            <Image source={RightArrow} style={styles.rightArrow} />
+            <Right />
           </Pressable>
         </View>
-        <Text style={[Typography.body, { letterSpacing: 0, }]}>{item.description}</Text>
-      </View>
+        <Text style={[Typography.body, { letterSpacing: 0 }]}>
+          {item.ticket_message}
+        </Text>
+      </Pressable>
     );
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: Color.white }}>
+    <SafeAreaView style={{ flex: 1, }}>
       <StatusBar backgroundColor={'white'} barStyle={'dark-content'} />
-      <BackHeader leftTitle='My Tickers' />
-      <View style={{ padding: 16 }}>
-        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 15}}>
-
-          <View style={styles.tab}>
+      <BackHeader leftTitle='My Tickets' />
+      <View style={{ padding: 16, flex: 1 }}>
+        <View style={styles.tab}>
+          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 5 }}>
             {tab.map((item, index) => (
-              <Pressable onPress={() => setSeletedIndex(index)} style={{ borderWidth: 1, borderColor: Color.border, padding: 7, backgroundColor: seletedindex == index ? Color.orange : Color.white, borderRadius: 50, paddingHorizontal: 20 }}>
-                <Text style={[Typography.smallTitle, { color: seletedindex == index ? Color.white : Color.black, letterSpacing: 0 }]}>{item}</Text>
+              <Pressable
+                key={index}
+                onPress={() => setSelectedIndex(index)}
+                style={{
+                  borderWidth: 1,
+                  borderColor: Color.border,
+                  padding: 7,
+                  backgroundColor: selectedIndex === index ? Color.orange : Color.white,
+                  borderRadius: 50,
+                  paddingHorizontal: 20
+                }}
+              >
+                <Text style={[
+                  Typography.smallTitle,
+                  {
+                    color: selectedIndex === index ? Color.white : Color.black,
+                    letterSpacing: 0
+                  }
+                ]}>
+                  {item}
+                </Text>
               </Pressable>
             ))}
+          </ScrollView>
+        </View>
+        {isLoading ? (
+          <View style={styles.centered}>
+            <ActivityIndicator size="large" color={Color.orange} />
           </View>
-        </ScrollView>
-        <FlatList
-          data={ticketData}
-          keyExtractor={(item) => item.id}
-          renderItem={renderTicket}
-        />
+        ) : getAllTicket && getAllTicket.length > 0 ? (
+          <FlatList
+            data={getAllTicket}
+            keyExtractor={(item) => item.id.toString()}
+            renderItem={renderTicket}
+            showsVerticalScrollIndicator={false}
+
+          />
+        ) : (
+          <View style={styles.centered}>
+            <Text>No tickets found.</Text>
+          </View>
+        )}
       </View>
     </SafeAreaView>
   );
 };
 
-export default MyTickers;
-
 const styles = StyleSheet.create({
   tab: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 5,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    paddingBottom: 10,
   },
   ticketContainer: {
+    padding: 16,
+    backgroundColor: Color.white,
+    marginBottom: 10,
+    borderRadius: 10,
     borderWidth: 1,
-    borderRadius: 8,
     borderColor: Color.border,
-    flexDirection: 'column',
-    justifyContent: "space-between",
-    padding: 10,
-    marginBottom: 15,
   },
   selectedTicket: {
-    borderColor: "#FF5A60",
+    borderColor: Color.orange,
+    borderWidth: 1,
   },
   ticketHeader: {
     flexDirection: 'row',
-    justifyContent: "space-between",
+    justifyContent: 'space-between',
+    alignItems: 'center',
     marginBottom: 10,
   },
   ticketTitleContainer: {
     flexDirection: 'row',
-    alignItems: "center",
-    gap: 10,
-    justifyContent: "space-between",
-  },
-  ticketTitle: {
-    alignSelf: 'center',
-    marginRight: 10,
+    alignItems: 'center',
+    gap: 20
   },
   solvedStatus: {
-    backgroundColor: "#FF5A60",
-    paddingVertical: 8,
+    backgroundColor: Color.orange,
+    paddingVertical: 5,
     paddingHorizontal: 11,
     borderRadius: 50,
+    textAlign: "center"
   },
   activeStatus: {
-    borderColor: "#FF5A60",
+    borderColor: Color.orange,
     borderWidth: 1,
     backgroundColor: Color.white,
-    paddingVertical: 8,
+    paddingVertical: 5,
     paddingHorizontal: 11,
     borderRadius: 50,
+    textAlign: "center"
   },
-  rightArrow: {
-    height: 20,
-    width: 11.5,
-    tintColor: "#FF5A60",
-    alignSelf: 'center',
-  },
-  ticketDescription: {
-    fontSize: 14,
-    fontFamily: "Urbanist",
-    color: Color.black,
+  centered: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
+
+export default MyTickets;
+

@@ -1,4 +1,4 @@
-import { SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, TextInput, View } from 'react-native'
+import { SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
 import NameInput from '../../Component/Placeholder/NameInput'
 import { Typography } from '../../Theme/Typography'
@@ -10,26 +10,28 @@ import { FontSize } from '../../Theme/FontSize'
 import { navigate } from '../../Navigator/Utils'
 import { useLoginMutation } from '../../Store/auth/authApiSlice'
 import Toast from '../../Component/Modal/ToastMessage'
-import { setCredentials } from '../../Store/auth/authSlice'
-import { useDispatch } from 'react-redux'
+import { selectAuthToken, selectFcmToken, setCredentials } from '../../Store/auth/authSlice'
+import { useDispatch, useSelector } from 'react-redux'
 import Loder from '../../Component/Modal/Loder'
 
-// Login Success: {"message": "Your profile is still under review of Divinevivah.", "status": false}
-// credentials {"mobile": "6353786868", "password": "jay12345"}
+
 
 
 const Login = () => {
     const [phonenumber, setPhoneNumber] = useState("")
     const [password, setPassword] = useState("")
     const [login, { isLoading }] = useLoginMutation();
+    const fcmToken = useSelector(selectFcmToken);
     const { showToast } = Toast();
     const dispatch = useDispatch();
+
 
 
     const userlogin = async () => {
         const requestBody = {
             mobile: phonenumber,
             password: password,
+            firebase_token: fcmToken
         };
 
         try {
@@ -73,19 +75,11 @@ const Login = () => {
                         value={password}
                         onChangeText={setPassword}
                         nameStyle
+                        isPassword={true}
                     />
-                    <Text onPress={() => navigate("ForgotPassword", {})} style={[styles.forget, Typography.small]}>Forgot Password?</Text>
+                  
+                    <Text onPress={() => navigate("ForgotPassword", {})} style={[styles.forget, Typography.small,{color: Color.orange,}]}>Forgot Password?</Text>
                     <Button mainStyle={styles.btn} title='Login' onPress={userlogin} />
-                    <View style={{
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                        marginTop: moderateScale(40)
-                    }}>
-                        <View style={styles.line} />
-                        <Text style={[styles.text, Typography.small, { color: Color.border }]}>Or Login with</Text>
-                        <View style={styles.line} />
-                    </View>
-                    <Authenticate />
                     <Text style={styles.register}>Don’t have an account? <Text onPress={() => navigate("Singup", {})} style={{ fontWeight: "bold", color: Color.orange }}>Register Now</Text></Text>
                 </View>
 
@@ -115,7 +109,7 @@ const styles = StyleSheet.create({
         marginTop: moderateScale(110),
     },
     forget: {
-        color: Color.orange,
+        
         textAlign: "right",
         paddingVertical: moderateScale(10)
     },

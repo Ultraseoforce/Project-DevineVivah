@@ -20,7 +20,8 @@ const URLS = {
     deleteProfileImg: "delete-profile-image",
     addFavorite: "add-favorite-profile",
     removeFavorite: "remove-favorite-profile",
-    myfavoritepeople: "my-favorite-people"
+    favoritepeople: "my-favorite-people",
+    myfavoriteastrologer: "my-favorite-astrologer"
 };
 
 export const profileApiSlice = apiSlice.injectEndpoints({
@@ -105,8 +106,6 @@ export const profileApiSlice = apiSlice.injectEndpoints({
                 body: body,
             }),
         }),
-
-
         getAllProfiles: builder.query({
             query: () => `${URLS.allProfile}`,
             transformResponse: (responseData: any, meta: any, arg: any) => {
@@ -114,17 +113,23 @@ export const profileApiSlice = apiSlice.injectEndpoints({
               return data;
             },
           }),
+      
         getMyFavoritePeople: builder.query({
-            query: () => `${URLS.myfavoritepeople}`,
+            query: () => `${URLS.favoritepeople}`,
             transformResponse: (responseData: any, meta: any, arg: any) => {
               const data = responseData.data;
               return data;
             },
           }),
-
-
         getProfile: builder.query({
             query: () => `${URLS.profile}`,
+            transformResponse: (responseData: any, meta: any, arg: any) => {
+              const data = responseData.data;
+              return data;
+            },
+          }),
+          getFavoriteAstrologer: builder.query({
+            query: () => `${URLS.myfavoriteastrologer}`,
             transformResponse: (responseData: any, meta: any, arg: any) => {
               const data = responseData.data;
               return data;
@@ -149,5 +154,6 @@ useAddFavoriteMutation,
 useRemoveFavoriteMutation,
 getAllProfilesQuery,
 getProfilsQuery,
-getMyFavoritePeopleQuery
+useGetMyFavoritePeopleQuery,
+useGetFavoriteAstrologerQuery
 } = profileApiSlice;

@@ -1,5 +1,5 @@
 import { SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Color } from '../../Theme'
 import BackHeader from '../../Component/Header/BackHeader'
 import { Typography } from '../../Theme/Typography'
@@ -11,6 +11,10 @@ import Button from '../../Component/Buttons/Button'
 import { useUpdatePersonalDetailsMutation } from '../../Store/profile/ProfileApiSlice'
 import Toast from '../../Component/Modal/ToastMessage'
 import { navigate } from '../../Navigator/Utils'
+import { useSelector } from 'react-redux'
+import { selectProfile } from '../../Store/auth/authSlice'
+import { getObject } from '../../Component/Utils/helper'
+// import { getObject } from '../../Component/Utils/helper'
 
 const PersonalDetails = () => {
   const [email, setEmail] = useState<string>('');
@@ -19,15 +23,15 @@ const PersonalDetails = () => {
   const [caste, setCaste] = useState<string>('');
   const [mothertongue, setMotherTongue] = useState<string>('');
   const [maritalstatus, setMaritalStatus] = useState<Dropdown | null>(null);
-  const [height, setHeight] = useState<string>('');
+  const [dietname, setDietName] = useState<Dropdown | null>(null);
+  const [height, setHeight] = useState<string>();
   const [weight, setWeight] = useState<string>('');
   const [gender, setGender] = useState<Dropdown | null>(null);
   const [errors, setErrors] = useState<PersonalDetailsErrors>({});
-
+  const profiledata = useSelector(selectProfile)
 
   const { showToast } = Toast();
   const [addPersonalDetails, { isLoading }] = useUpdatePersonalDetailsMutation()
-
 
   const marital_status = [
     { name: 'Never Married', id: '1' },
@@ -40,40 +44,34 @@ const PersonalDetails = () => {
     { name: 'Male', id: '0' },
     { name: 'Female', id: '1' },
   ];
+  const dietItem = [
+    { name: 'Veg', id: '1' },
+    { name: 'Non Veg', id: '2' },
+    { name: 'Jain', id: '3' },
+    { name: 'Swami Narayan', id: '4' },
+  ];
   interface Dropdown {
     name: string,
     id: number
   }
 
-
-  //   email
-  // apiprofileupdate3@gmail.com
-
-  // gender
-  // 0
-
-  // dob
-  // 1995-01-11
-
-  // religion
-  // Muslim
-
-  // caste
-  // Shia
-
-  // mother_tongue
-  // Urdu
-
-  // height
-  // 5.04
-
-  // weight
-  // 64.24
-
-  // marital_status
-  // 1
-
-
+  useEffect(() => {
+    if (profiledata && profiledata.personal_details != 0) {
+      let Marital = getObject(marital_status, profiledata?.marital_status.toString());
+      let gender = getObject(Gender, profiledata?.member_gender.toString());
+      let diet = getObject(dietItem, profiledata?.diet.toString());
+      setMaritalStatus(Marital);
+      setGender(gender)
+      setEmail(profiledata?.member_email)
+      setDob(profiledata?.dob)
+      setReligion(profiledata?.religion)
+      setCaste(profiledata.caste)
+      setMotherTongue(profiledata?.mother_tongue)
+      setHeight(profiledata?.height.toString())
+      setWeight(profiledata?.weight.toString())
+      setDietName(diet)
+    }
+  }, [profiledata])
   const validateForm = (): boolean => {
     let formErrors: PersonalDetailsErrors = {};
 
@@ -82,10 +80,9 @@ const PersonalDetails = () => {
       formErrors.email = 'Please enter a valid email';
     }
 
-    // Basic DOB validation (YYYY-MM-DD)
-    // if (!dob || !/^\d{4}-\d{2}-\d{2}$/.test(dob)) {
-    //   formErrors.dob = 'Please enter date of birth in YYYY-MM-DD format';
-    // }
+    if (!dob || !/^\d{4}-\d{2}-\d{2}$/.test(dob)) {
+      formErrors.dob = 'Please enter date of birth in YYYY-MM-DD format';
+    }
 
     if (!religion) {
       formErrors.religion = 'Religion is required';
@@ -114,6 +111,9 @@ const PersonalDetails = () => {
     if (!gender) {
       formErrors.gender = 'Gender is required';
     }
+    if (!dietname) {
+      formErrors.gender = 'Diet name is required';
+    }
 
     setErrors(formErrors);
     return Object.keys(formErrors).length === 0;
@@ -122,12 +122,13 @@ const PersonalDetails = () => {
     const request = {
       email: email,
       gender: gender?.id,
-      dob: "1995-01-11",
+      dob: dob,
       religion: religion,
       caste: caste,
       mother_tongue: mothertongue,
       height: height,
       weight: weight,
+      diet: dietname?.id,
       marital_status: maritalstatus?.id,
     }
     try {
@@ -148,7 +149,7 @@ const PersonalDetails = () => {
 
 
   return (
-    <View style={{ flex: 1, backgroundColor: Color.white }}>
+    <View style={{ flex: 1, backgroundColor: Color.white, }}>
       <BackHeader />
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.container}>
@@ -195,6 +196,7 @@ const PersonalDetails = () => {
                 title='Date of Birth'
                 value={dob}
                 nameStyle
+                isDate={true}
                 onChangeText={setDob}
               />
               {errors.dob && <Text style={styles.errorText}>{errors.dob}</Text>}
@@ -209,13 +211,6 @@ const PersonalDetails = () => {
               />
               {errors.religion && <Text style={styles.errorText}>{errors.religion}</Text>}
             </View>
-            {/* <CustomDropdown
-              items={items}
-              selectedValue={selected}
-              onSelect={(item: any) => setSelected(item)}
-              placeholder='Select Religion'
-              title='Your Religion'
-            /> */}
             <View>
               <NameInput
                 placeholder='You Caste'
@@ -227,73 +222,57 @@ const PersonalDetails = () => {
               {errors.caste && <Text style={styles.errorText}>{errors.caste}</Text>}
             </View>
             <View>
-            <NameInput
-              placeholder='Mother Tongue'
-              title='Mother Tongue'
-              value={mothertongue}
-              nameStyle
-              onChangeText={setMotherTongue}
-            />
-            {errors.mothertongue && <Text style={styles.errorText}>{errors.mothertongue}</Text>}
+              <NameInput
+                placeholder='Mother Tongue'
+                title='Mother Tongue'
+                value={mothertongue}
+                nameStyle
+                onChangeText={setMotherTongue}
+              />
+              {errors.mothertongue && <Text style={styles.errorText}>{errors.mothertongue}</Text>}
             </View>
-            {/* <NameInput
-              placeholder='Marital Status'
-              title='Select Mother Tongue'
-              value={caste}
-              onChangeText={setCaste}
-            /> */}
             <View>
-            <CustomDropdown
-              items={marital_status}
-              selectedValue={maritalstatus}
-              onSelect={setMaritalStatus}
-              placeholder='Marital Status'
-              title='Select Mother Tongue'
-            />
-            {errors.maritalstatus && <Text style={styles.errorText}>{errors.maritalstatus}</Text>}
+              <CustomDropdown
+                items={marital_status}
+                selectedValue={maritalstatus}
+                onSelect={setMaritalStatus}
+                placeholder='Marital Status'
+                title='Select Mother Tongue'
+              />
+              {errors.maritalstatus && <Text style={styles.errorText}>{errors.maritalstatus}</Text>}
             </View>
-
-            {/* <InputDropdown
-              placeholder='0'
-              title='No. of siblings'
-              nameStyle
-            /> */}
             <View>
-            <InputDropdown
-              placeholder='0'
-              title='Your Height(cm)'
-              nameStyle
-              value={height}
-              onChangeText={setHeight}
-            />
-            {errors.height && <Text style={styles.errorText}>{errors.height}</Text>}
+              <CustomDropdown
+                items={dietItem}
+                selectedValue={dietname}
+                onSelect={setDietName}
+                placeholder='Select Diet'
+                title='Diet'
+              />
+              {errors.dietname && <Text style={styles.errorText}>{errors.dietname}</Text>}
+            </View>
+            <View>
+              <InputDropdown
+                placeholder='0'
+                title='Your Height(cm)'
+                nameStyle
+                value={height}
+                onChangeText={setHeight}
+              />
+              {errors.height && <Text style={styles.errorText}>{errors.height}</Text>}
             </View>
 
             <View>
-            <InputDropdown
-              placeholder='0'
-              title='Your Weight(Kg)'
-              nameStyle
-              value={weight}
-              onChangeText={setWeight}
-            />
-            {errors.weight && <Text style={styles.errorText}>{errors.weight}</Text>}
+              <InputDropdown
+                placeholder='0'
+                title='Your Weight(Kg)'
+                nameStyle
+                value={weight}
+                onChangeText={setWeight}
+              />
+              {errors.weight && <Text style={styles.errorText}>{errors.weight}</Text>}
 
             </View>
-            {/* <NameInput
-              placeholder='Password'
-              title='Password'
-              value={password}
-              nameStyle
-              onChangeText={setPassword}
-            />
-             <NameInput
-              placeholder='Confirm Password'
-              title='Confirm Password'
-              value={confirmpassword}
-              nameStyle
-              onChangeText={setConfirmPassword}
-            /> */}
           </View>
         </View>
         <Button title='SAVE' mainStyle={styles.btn} onPress={save} />
@@ -306,7 +285,7 @@ export default PersonalDetails
 
 const styles = StyleSheet.create({
   container: {
-    margin: moderateScale(10)
+    padding: 17,
   },
   selectedText: {
     marginTop: 20,

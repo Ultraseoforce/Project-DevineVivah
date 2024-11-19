@@ -1,5 +1,5 @@
 import { Image, SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, { useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { Color } from '../Theme'
 import HeaderCard from '../Component/Header/HeaderCard'
 import { moderateScale, scale } from '../Theme/ResposiveSize'
@@ -12,30 +12,78 @@ import SuggestedMatches from '../Component/Cards/SuggestedMatches'
 import Shortlisted from './TopTab/Shortlisted'
 import LinearGradient from 'react-native-linear-gradient'
 import WhiteButton from '../Component/Buttons/WhiteButton'
+import { useGetProfileQuery } from '../Store/auth/authApiSlice'
+import { setAuthProfile } from '../Store/auth/authSlice'
+import { useDispatch, useSelector } from 'react-redux'
+import { navigate } from '../Navigator/Utils'
+import { useIsFocused } from '@react-navigation/native'
 
 const HomeScreen = () => {
-  const [selected, setSelected] = useState(0);
-
+  const isFocused = useIsFocused();
+  const dispatch = useDispatch()
   const scrollViewRef = useRef(null);
-
-  console.log("selected", selected)
-
+  const [selected, setSelected] = useState(0);
+  const { data: getProfile, } = useGetProfileQuery();
   const addphoto = require("../assets/Image/addphoto.png")
+
+  useEffect(() => {
+    const NavigationAndDispatch = async () => {
+      try {
+        switch (true) {
+          case getProfile.personal_details === 0:
+            await navigate('PersonalDetails');
+            break;
+          case getProfile.education_details === 0:
+            await navigate('CreationSteps');
+            break;
+          case getProfile.profession_details === 0:
+            await navigate('Profession');
+            break;
+          case getProfile.family_details === 0:
+            await navigate('FamilyDetails');
+            break;
+          case getProfile.preferences_details === 0:
+            await navigate('Preferences');
+            break;
+          case getProfile.location_details === 0:
+            await navigate('Location');
+            break;
+          case getProfile.verification_details === 0:
+            await navigate('Verification');
+            break;
+          default:
+            console.log('All details are completed');
+            break;
+        }
+
+        await dispatch(
+          setAuthProfile({
+            profile: getProfile,
+          })
+        );
+      } catch (error) {
+        console.error('Error during navigation or dispatch:', error);
+      }
+    };
+
+    NavigationAndDispatch();
+  }, [getProfile, navigate, dispatch]);
 
   const handlePress = (index: any) => {
     setSelected(index);
-    // Scroll to the selected item if necessary
     scrollViewRef.current?.scrollTo({ x: index * 100, animated: true });
   };
 
 
   return (
-    <View style={{flex: 1, backgroundColor: Color.white}}>
-      <StatusBar backgroundColor={Color.orange} barStyle={'light-content'} />
+      <>    
+      {isFocused && <StatusBar backgroundColor="#FF5A60" barStyle="light-content" />}
+      
+      <SafeAreaView style={{ flex: 1, backgroundColor: Color.white }}>
 
-      <HeaderCard StatusBarColor={Color.orange} />
+      <HeaderCard  />
       <ScrollView showsHorizontalScrollIndicator={false}>
-        <View style={{ padding: 10 }}>
+        <View style={{ padding: 15 }}>
           <ScrollView
             ref={scrollViewRef}
             horizontal
@@ -91,7 +139,9 @@ const HomeScreen = () => {
 
         </View>
       </ScrollView>
-    </View>
+    </SafeAreaView>
+    </>
+
   )
 }
 

@@ -5,7 +5,7 @@ import { Typography } from '../../Theme/Typography'
 import { FontSize } from '../../Theme/FontSize'
 import { moderateScale, scale } from '../../Theme/ResposiveSize'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
-import Right from '../../assets/svg/Right.svg'
+// import Right from '../../assets/svg/Right.svg'
 
 
 interface ShippingCard {
@@ -24,7 +24,7 @@ const ShippingAddressCard = (Props: ShippingCard) => {
 
 
   const location = require("../../assets/Image/addlocation.png")
-  const right = require("../../assets/Image/right.png")
+  // const right = require("../../assets/Image/right.png")
 
 
   return (
@@ -35,7 +35,9 @@ const ShippingAddressCard = (Props: ShippingCard) => {
         <View style={{ gap: 3 }}>
           <Text style={[Typography.smallText, { fontSize: FontSize.Font16, lineHeight: 18, color: Color.black }]}>{Props.heading}</Text>
           {!Props.ShowEdit ?
-            <Image source={right} style={{ height: 15, width: 15, position: "absolute", alignSelf: "flex-end",  tintColor: Color.orange }} resizeMode='contain' />
+          // <Right style={{height: 15, width: 15, position: "absolute", alignSelf: "flex-end", }} />
+          <Text>right image</Text>
+            // <Image source={right} style={{ height: 15, width: 15, position: "absolute", alignSelf: "flex-end",  tintColor: Color.orange }} resizeMode='contain' />
             :
             <View style={{ flexDirection: "row", position: "absolute", alignSelf: "flex-end", gap: 5,  alignItems: "center" }}>
               <FontAwesome name='edit' size={20} color={Color.orange}    />

@@ -1,5 +1,5 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React, { useEffect } from 'react'
+import { Alert, PermissionsAndroid, Platform, StyleSheet, Text, View } from 'react-native'
+import React, { useEffect, useState } from 'react'
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NavigationContainer } from "@react-navigation/native";
 
@@ -48,11 +48,18 @@ import ChatScreen from '../Screens/Chat/Chat';
 import LiveChat from '../Screens/Chat/LiveChat';
 import OrderDetails from '../Screens/MyOrders/OrderDetails';
 import BookPooja from '../Screens/Pooja/BookPooja';
-import MyTickers from '../Screens/Help/MyTickers';
 import ProfileSettings from '../Screens/Settings/ProfileSettings';
-import { useSelector } from 'react-redux';
-import { selectAuthToken } from '../Store/auth/authSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectAuthToken, selectFcmToken, setCredentials } from '../Store/auth/authSlice';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import messaging from '@react-native-firebase/messaging';
+import InitialScreen from './InitialScreen';
+import notifee, { AndroidImportance } from '@notifee/react-native';
+import UploadPictures from '../Screens/Profile/UploadPictures';
+import MyTickets from '../Screens/Help/MyTickers';
+import DininevivahSupport from '../Screens/Help/DininevivahSupport';
+import Daily from '../Screens/DailyMatches/Daily';
+
 
 
 
@@ -60,37 +67,159 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 
 const Application = () => {
+  const dispatch = useDispatch();
   const Stack = createNativeStackNavigator();
-  const token = useSelector(selectAuthToken);
+
+  const creactFcm = async () => {
+    try {
+      const FcmToken = await messaging().getToken()
+      dispatch(setCredentials({ fcmtoken: FcmToken }));
+      console.log("FcmToken", FcmToken)
+    } catch (error) {
+      console.log("FCM token", error)
+    }
+  }
+
+  useEffect(() => {
+    creactFcm()
+  }, [])
 
 
 
+  const checkApplicationPermission = async () => {
+    if (Platform.OS === 'android') {
+      try {
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS
+        );
+
+        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+          console.log('Notification permission granted');
+        } else {
+          console.log('Notification permission denied');
+        }
+      } catch (error) {
+        console.log('Permission error:', error);
+      }
+    }
+  };
+
+
+  useEffect(() => {
+    checkApplicationPermission();
+  }, []);
+
+  useEffect(() => {
+    // Request user permission on app startup
+    requestUserPermission();
+    // Get the FCM token for the device
+    getFcmToken();
+    
+    // Foreground notifications listener
+    const unsubscribeForeground = messaging().onMessage(async remoteMessage => {
+      displayNotification(remoteMessage);
+    })
+
+
+    
+  
+    
+
+    messaging()
+    .getInitialNotification()
+    .then(remoteMessage => {
+      if (remoteMessage) {
+        console.log('Notification opened from quit state:', remoteMessage.notification);
+      }
+    });
+
+    // Background notification tap handler
+    const unsubscribeBackground = messaging().onNotificationOpenedApp(remoteMessage => {
+      console.log('Notification caused app to open from background state:', remoteMessage.notification);
+      // Handle background notification tap here
+    });
+
+    // Killed state notification handler
+    messaging()
+      .getInitialNotification()
+      .then(remoteMessage => {
+        if (remoteMessage) {
+          console.log('Notification caused app to open from quit state:', remoteMessage.notification);
+          // Handle quit state notification tap here
+        }
+      });
+
+    return () => {
+      unsubscribeForeground();
+      unsubscribeBackground();
+    };
+  }, []);
+
+
+  const displayNotification = async (remoteMessage) => {
+    await notifee.createChannel({
+      id: 'default',
+      name: 'Default Channel',
+      importance: AndroidImportance.HIGH,
+    });
+
+    await notifee.displayNotification({
+      title: remoteMessage.notification.title,
+      body: remoteMessage.notification.body,
+      android: {
+        channelId: 'default',
+        smallIcon: 'ic_launcher', // Ensure you have this icon in your drawable folder
+      },
+    });
+  };
+
+
+  const requestUserPermission = async () => {
+    const authStatus = await messaging().requestPermission();
+    const enabled = authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+      authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+
+    if (enabled) {
+      console.log('Authorization status:', authStatus);
+    } else {
+      console.log('Notification permission not granted');
+    }
+  };
+
+  const getFcmToken = async () => {
+    const token = await messaging().getToken();
+    if (token) {
+      console.log('FCM Token:', token);
+      // Optionally send the FCM token to your server for push notifications
+    }
+  };
+
+  
 
   return (
     <SafeAreaProvider>
       <NavigationContainer ref={navigationRef}>
         <Stack.Navigator screenOptions={{ headerShown: false }}>
-          {/* If token exists, navigate to MainNavigator, else show login/signup screens */}
-          {token ? (
-            <>
-              <Stack.Screen name="MainNavigator" component={MainNavigator} />
-              <Stack.Screen name="Login" component={Login} />
-              <Stack.Screen name="Singup" component={Singup} />
-            </>
-          ) : (
-            <>
-              <Stack.Screen name="Login" component={Login} />
-              <Stack.Screen name="Singup" component={Singup} />
-            </>
-          )}
+
+          {/* Initialscreen Route Start */}
+          <Stack.Screen name="InitialScreen" component={InitialScreen} />
+          <Stack.Screen name="HomeScreen" component={HomeScreen} />
+
+
+          {/* AuthScreen Route Start  */}
+          <Stack.Screen name="Login" component={Login} />
+          <Stack.Screen name="Singup" component={Singup} />
+
+
+
           {/* The rest of the screens accessible after login */}
+          <Stack.Screen name="MainNavigator" component={MainNavigator} />
           <Stack.Screen name="Location" component={Location} />
           <Stack.Screen name="HelpAndSupport" component={HelpAndSupport} />
           <Stack.Screen name="MyFavorites" component={MyFavorites} />
           <Stack.Screen name="MyOrders" component={MyOrders} />
           <Stack.Screen name="MyWishlist" component={MyWishlist} />
           <Stack.Screen name="SelectInterests" component={SelectInterests} />
-          <Stack.Screen name="Notifacations" component={Notifacations} />
           <Stack.Screen name="ChatScreen" component={ChatScreen} />
           <Stack.Screen name="LiveChat" component={LiveChat} />
           <Stack.Screen name="CreationSteps" component={CreationSteps} />
@@ -100,19 +229,20 @@ const Application = () => {
           <Stack.Screen name="Profession" component={Profession} />
           <Stack.Screen name="FamilyDetails" component={FamilyDetails} />
           <Stack.Screen name="Preferences" component={Preferences} />
-          
+          <Stack.Screen name="Notifacations" component={Notifacations} />
           <Stack.Screen name="Verification" component={Verification} />
-          <Stack.Screen name="HomeScreen" component={HomeScreen} />
           <Stack.Screen name="StoreScreen" component={StoreScreen} />
           <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
           <Stack.Screen name="ViewProfile" component={ViewProfile} />
           <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
-          <Stack.Screen name="OTPVerification" component={OTPVerification} />
           <Stack.Screen name="CreactNewPassword" component={CreactNewPassword} />
           <Stack.Screen name="PasswordChangeSuccess" component={PasswordChangeSuccess} />
           <Stack.Screen name="ShippingAddressCard" component={ShippingAddressCard} />
           <Stack.Screen name="ChangePassword" component={ChangePassword} />
           <Stack.Screen name="SiblingDetails" component={SiblingDetails} />
+          <Stack.Screen name="UploadPictures" component={UploadPictures} />
+          <Stack.Screen name="Daily" component={Daily} />
+          <Stack.Screen name="OTPVerification" component={OTPVerification} />
 
           <Stack.Screen name="AstrologerProfileView" component={AstrologerProfileView} />
           <Stack.Screen name="SelectCategory" component={SelectCategory} />
@@ -124,9 +254,10 @@ const Application = () => {
           <Stack.Screen name="SelectPaymentMethod" component={SelectPaymentMethod} />
           <Stack.Screen name="Orderplaced" component={Orderplaced} />
           <Stack.Screen name="BookPooja" component={BookPooja} />
-          <Stack.Screen name="MyTickers" component={MyTickers} />
+          <Stack.Screen name="MyTickets" component={MyTickets} />
           <Stack.Screen name="ProfileSettings" component={ProfileSettings} />
           <Stack.Screen name="Filters" component={Filters} />
+          <Stack.Screen name="DininevivahSupport" component={DininevivahSupport} />
         </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaProvider>

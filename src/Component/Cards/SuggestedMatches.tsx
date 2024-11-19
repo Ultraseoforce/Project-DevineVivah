@@ -57,7 +57,7 @@ const SuggestedMatches = () => {
         </View>
         {/* <AntDesign name="right" size={17} color={Color.orange} style={styles.rightIcon} /> */}
         {/* <Right /> */}
-        <Right style={{ height: 17, width: 17 }} />
+        {/* <Right style={{ height: 17, width: 17 }} /> */}
       </View>
     </View>
   );

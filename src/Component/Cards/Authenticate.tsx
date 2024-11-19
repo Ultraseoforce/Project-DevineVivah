@@ -8,7 +8,7 @@ const Authenticate = () => {
     const google = require("../../assets/Image/google.png")
     const facebook = require("../../assets/Image/facebook.png")
     return (
-        <View style={{ flexDirection: "row", justifyContent: "space-between", marginTop: moderateScale(30) }}>
+        <View style={{ flexDirection: "row", justifyContent: "space-between", marginTop: moderateScale(20) }}>
             <View style={styles.cards}>
                 <Image source={google} style={styles.icon} resizeMode='contain' />
                 <Text style={[styles.title, Typography.small,{color: Color.black}]}>Google</Text>

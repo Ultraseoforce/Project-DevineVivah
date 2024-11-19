@@ -17,7 +17,7 @@ interface CheckOut {
 }
 
 const CheckOutProduct = (Props: CheckOut) => {
-    const product = require('../../assets/Image/product.png');
+    const product = require('../../assets/Image/bigprofile.png');
     return (
         <View style={styles.container}>
             {Props.status && <Text style={[Typography.small,{color: Color.chatBg}]}>{Props.date}</Text>}

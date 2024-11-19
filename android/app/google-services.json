@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "748915139010",
+    "project_id": "divinevivah-76e32",
+    "storage_bucket": "divinevivah-76e32.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:748915139010:android:19ff3d6c58f1ad220a765b",
+        "android_client_info": {
+          "package_name": "com.devinevivah"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyArlBa2rG7ApH_BmafWCu0vo1lsM0fvZ8c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

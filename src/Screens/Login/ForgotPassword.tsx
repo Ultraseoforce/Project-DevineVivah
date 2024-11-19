@@ -1,5 +1,5 @@
 import { SafeAreaView, View, Text, StyleSheet, ScrollView, Image, Pressable } from 'react-native';
-import React from 'react';
+import React, { useState } from 'react';
 import { Color } from '../../Theme';
 import { Typography } from '../../Theme/Typography';
 import NameInput from '../../Component/Placeholder/NameInput';
@@ -9,9 +9,35 @@ import { navigate, navigationRef } from '../../Navigator/Utils';
 
 
 
-const BackButton = require('../../assets/Image/arrow-left.png')
 
 const ForgotPassword = () => {
+    const [phonenumber, setPhoneNumber] = useState("")
+    const [errors, setErrors] = useState<ForgotPasswordErrors>({});
+    const BackButton = require('../../assets/Image/arrow-left.png')
+
+
+    const checkPhoneNumber = (): boolean => {
+        const formErrors: ForgotPasswordErrors = {
+            phonenumber: ''
+        };
+      
+        if (!phonenumber) {
+          formErrors.phonenumber = 'Please specify your phone number';
+        }
+        else if (!/^\d{10}$/.test(phonenumber)) {
+          formErrors.phonenumber = 'Please enter a valid 10-digit phone number';
+        }
+      
+        setErrors(formErrors);
+        return Object.keys(formErrors).length === 0;
+      };
+      
+    const sendCode = () => {
+        if (checkPhoneNumber()) {
+            navigate("OTPVerification", {})
+        }
+    }
+
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: Color.white }}>
             <Pressable onPress={() => navigationRef.goBack()} style={styles.back}>
@@ -24,12 +50,16 @@ const ForgotPassword = () => {
                 <ScrollView showsVerticalScrollIndicator={false}>
                     <View style={styles.content}>
                         <NameInput
-                            placeholder='Enter your email'
+                            placeholder='Enter Mobile Number'
+                            value={phonenumber}
+                            onChangeText={setPhoneNumber}
+                            keyboardType="numeric"
                             nameStyle
                         />
+                        {errors.phonenumber && <Text style={styles.errorText}>{errors.phonenumber}</Text>}
                     </View>
                 </ScrollView>
-                <Button title='Send Code' mainStyle={styles.btn} onPress={() => navigate("OTPVerification", {})} />
+                <Button title='Send Code' mainStyle={styles.btn} onPress={sendCode} />
             </View>
         </SafeAreaView>
     );
@@ -39,14 +69,11 @@ export default ForgotPassword;
 
 const styles = StyleSheet.create({
     container: {
-        // flex: 1,
         padding: moderateScale(20),
-        // alignItems:"center"
     },
     content: {
         flexGrow: 1,
         marginTop: moderateScale(10),
-        gap: moderateScale(20),
     },
     btn: {
         marginTop: moderateScale(30),
@@ -71,5 +98,9 @@ const styles = StyleSheet.create({
         height: moderateScale(50),
         width: moderateScale(50),
         borderRadius: moderateScale(50)
-    }
+    },
+    errorText: {
+        color: 'red',
+        marginTop: 5,
+    },
 });

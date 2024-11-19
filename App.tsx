@@ -6,6 +6,7 @@ import { Provider } from 'react-redux'
 import { persistor, store } from './src/Store'
 import { PersistGate } from "redux-persist/integration/react";
 import { ToastProvider } from 'react-native-toast-notifications'
+import NetworkConnection from './src/Component/Modal/NetworkConnection'
 
 LogBox.ignoreAllLogs()
 
@@ -23,6 +24,7 @@ const App = () => {
       <Provider store={store}>
         <PersistGate persistor={persistor}>
           <Application />
+          {/* <NetworkConnection Start={undefined}/> */}
         </PersistGate>
       </Provider>
     </ToastProvider>

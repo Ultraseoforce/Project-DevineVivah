@@ -1,4 +1,3 @@
-// ChatModal.js
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Modal, TouchableWithoutFeedback } from 'react-native';
 import { Typography } from '../../Theme/Typography';
@@ -43,12 +42,9 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         borderRadius: 10,
         elevation: 10,
-        // alignItems: 'center',
     },
     modalOption: {
-        paddingVertical:3,
-        // padding: 6,
-        // width: '100%',
+        paddingVertical: 3,
     },
     modalText: {
         fontSize: 16,

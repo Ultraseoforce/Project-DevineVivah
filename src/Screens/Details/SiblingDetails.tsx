@@ -11,12 +11,18 @@ import { useRoute } from '@react-navigation/native'
 import { navigate } from '../../Navigator/Utils'
 import { useUpdateFamilyDetailsMutation } from '../../Store/profile/ProfileApiSlice'
 import Toast from '../../Component/Modal/ToastMessage'
+import { useSelector } from 'react-redux'
+import { selectProfile } from '../../Store/auth/authSlice'
+import { getObject } from '../../Component/Utils/helper'
 
 const SiblingDetails = () => {
   const route = useRoute();
   const { showToast } = Toast();
-  const  Familydata =  route?.params
-  const [siblingCount, setSiblingCount] = useState(Familydata?.FamilyDetails?.siblings || 1); 
+  const profiledata = useSelector(selectProfile);
+  const  Familydata =  route?.params?.FamilyDetails
+  const [addFamilyDetails, { isLoading }] = useUpdateFamilyDetailsMutation()
+  const [errors, setErrors] = useState<SiblingDetailsErrors[]>([]);
+  const [siblingCount, setSiblingCount] = useState(Familydata?.siblings || 1); 
   const [siblingData, setSiblingData] = useState(
     Array.from({ length: siblingCount }, () => ({
       name: '',
@@ -26,12 +32,8 @@ const SiblingDetails = () => {
     }))
   );
     
+  
 
-  const [addFamilyDetails, { isLoading }] = useUpdateFamilyDetailsMutation()
-
-  const [errors, setErrors] = useState<SiblingDetailsErrors[]>([]);
-
-  console.log("FamilyDetails", Familydata?.FamilyDetails?.siblings)
   const Sibling_Gender = [
     { name: 'Male', id: '0' },
     { name: 'Female', id: '1' },
@@ -45,6 +47,20 @@ const SiblingDetails = () => {
     { name: 'Awaiting Divorce', id: '5' },
   ];
 
+useEffect(() => {
+  if (profiledata && profiledata.member_siblings != 0) {
+    let Marital = getObject(sibling_marital_status, profiledata?.marital_status.toString());
+    let gender = getObject(Sibling_Gender, profiledata?.member_gender.toString());
+    const Siblings= profiledata?.member_siblings.map((sibling: any) => ({
+      name: sibling.sibling_name || '',
+      gender: gender || '', 
+      age: sibling.sibling_age?.toString() || '', 
+      maritalstatus: Marital || '', 
+    }));
+    setSiblingData(Siblings); 
+    setSiblingCount(Siblings.length); 
+  }
+}, [profiledata]);
 
 
   const validateForm = (): boolean => {
@@ -78,6 +94,7 @@ const SiblingDetails = () => {
 
 
 
+
   const handleSiblingChange = (index: number, field: string, value: string) => {
     const updatedData = [...siblingData];
     updatedData[index] = { ...updatedData[index], [field]: value };
@@ -86,26 +103,35 @@ const SiblingDetails = () => {
 
 
 
-  console.log("siblingData", siblingData)
 
   const Save = async () => {
-    const request = {
-      father_name: "",
-      mother_name: "",
-      father_profession: "",
-      mother_profession: "",
-      siblings: siblingData.map(sibling => ({
-        name: sibling.name,
-        gender: sibling.gender?.id,
-        age: sibling.age,
-        maritalstatus: sibling?.maritalstatus?.id 
-      }))
-    }
+    const request: any = {
+      about_family: Familydata?.about_family,
+      father_name: Familydata?.father_name,
+      mother_name: Familydata?.mother_name,
+      father_profession: Familydata?.father_profession,
+      mother_profession: Familydata?.mother_profession,
+      siblings: siblingData.length, 
+    };
+  
+    siblingData.forEach((sibling, index) => {
+      request[`sibling_name[]`] = request[`sibling_name[]`] || [];
+      request[`sibling_name[]`].push(sibling.name);
+  
+      request[`sibling_gender[]`] = request[`sibling_gender[]`] || [];
+      request[`sibling_gender[]`].push(sibling.gender?.id);
+  
+      request[`sibling_age[]`] = request[`sibling_age[]`] || [];
+      request[`sibling_age[]`].push(sibling.age);
+  
+      request[`sibling_marital_status[]`] = request[`sibling_marital_status[]`] || [];
+      request[`sibling_marital_status[]`].push(sibling.maritalstatus?.id);
+    });
     console.log("siblingData request", request)
     try {
       if (validateForm()) {
         const respo = await addFamilyDetails(request).unwrap();
-        console.log('add FamilyDetails details->>', respo);
+        console.log('add siblingData details->>', respo);
         if (respo?.status == true) {
           showToast(respo?.message, { type: 'normal' });
           navigate("CreationSteps", { key: "SiblingDetails" })
@@ -121,60 +147,10 @@ const SiblingDetails = () => {
 
 
   return (
-    // <View style={{ flex: 1, backgroundColor: Color.white }}>
-    //   <BackHeader />
-    //   <ScrollView showsVerticalScrollIndicator={false}>
-    //     <View style={styles.container}>
-    //       <Text style={Typography.main_heading}>Sibling Details</Text>
-    //       <View style={{ marginTop: moderateScale(20), gap: moderateScale(20) }}>
-    //         <View>
-    //           <NameInput
-    //             placeholder='Sibling Name'
-    //             title='Sibling 1'
-    //             value={name}
-    //             onChangeText={setName}
-    //             nameStyle />
-    //           {errors.name && <Text style={styles.errorText}>{errors.name}</Text>}
-    //         </View>
-    //         <View>
-    //           <CustomDropdown
-    //             items={Sibling_Gender}
-    //             selectedValue={gender}
-    //             onSelect={setGender}
-    //             placeholder='Select Gender'
-    //           />
-    //           {errors.gender && <Text style={styles.errorText}>{errors.gender}</Text>}
-    //         </View>
-    //         <View>
-    //           <NameInput
-    //             placeholder='Sibling Age'
-    //             value={age}
-    //             onChangeText={setAge}
-    //             keyboardType="numeric"
-    //           />
-    //           {errors.age && <Text style={styles.errorText}>{errors.age}</Text>}
-    //         </View>
-
-    //         <View>
-    //           <CustomDropdown
-    //             items={sibling_marital_status}
-    //             selectedValue={maritalstatus}
-    //             onSelect={setMaritalStatus}
-    //             placeholder='Select Martial Status'
-    //           />
-    //           {errors.maritalstatus && <Text style={styles.errorText}>{errors.maritalstatus}</Text>}
-    //         </View>
-    //       </View>
-    //     </View>
-    //   </ScrollView>
-    //     <Button title='SAVE' mainStyle={styles.btn} />
-    // </View>
-
     <View style={{ flex: 1, backgroundColor: 'white' }}>
       <BackHeader />
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.container}>
-
           {Array.from({ length: siblingCount }).map((_, index) => (
             <View key={index} style={{ marginTop: 20, gap: 20 }}>
               <View>
@@ -230,7 +206,6 @@ const SiblingDetails = () => {
 }
 
 export default SiblingDetails
-
 const styles = StyleSheet.create({
   container: {
     margin: moderateScale(10)

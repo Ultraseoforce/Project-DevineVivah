@@ -68,7 +68,7 @@ const NavigationTab = ({ state, descriptors, navigation }: any) => {
                   style={{ height: scale(24), width: scale(24) }}
                 />
               )}
-              {label === "Book Pooja" && (
+              {label === "Daily" && (
                 <View
                   style={[
                     {
@@ -106,7 +106,7 @@ const NavigationTab = ({ state, descriptors, navigation }: any) => {
               {isFocused && (
                 <Text
                   key={Math.floor(Math.random() * 100) + 1}
-                  style={[styles.activeText, Typography.tab, { bottom: label === "Book Pooja" ? 9 : 0 }]}
+                  style={[styles.activeText, Typography.tab, { bottom: label === "Daily" ? 9 : 0 }]}
                 >
                   {label}
                 </Text>
@@ -114,7 +114,7 @@ const NavigationTab = ({ state, descriptors, navigation }: any) => {
               {!isFocused && (
                 <Text
                   key={Math.floor(Math.random() * 100) + 1}
-                  style={[styles.text, Typography.tab, { bottom: label === "Book Pooja" ? 9 : 0 }]}
+                  style={[styles.text, Typography.tab, { bottom: label === "Daily" ? 9 : 0 }]}
                 >
                   {label}
                 </Text>

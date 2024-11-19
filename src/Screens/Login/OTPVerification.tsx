@@ -42,11 +42,6 @@ const OTPVerification = () => {
             }
         }
     };
-
-    // const handleContinue = () => {
-    //     navigate("CreactNewPassword", {type: "CreactNewPassword"})
-    // };
-
     const verifyOtp = async () => {
         let OtpText = otp.slice(0, 2).join('') + otp.slice(2).join('');
         const request = {
@@ -66,6 +61,7 @@ const OTPVerification = () => {
                         token: verifyotp?.token,
                     })
                 );
+                // navigate("CreactNewPassword", { type: "forgotpassword"})
                 navigate("CreationSteps", {})
             }else{
                 showToast(verifyotp?.message, { type: 'normal' });

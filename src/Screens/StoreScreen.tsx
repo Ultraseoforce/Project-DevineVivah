@@ -1,11 +1,12 @@
 import { Image, SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import React, { useCallback, useEffect } from 'react'
 import HeaderCard from '../Component/Header/HeaderCard'
 import { Color } from '../Theme'
 import ShopStoreCard from '../Component/Cards/ShopStore'
 import ShopeCategoryCard from '../Component/Cards/ShopeCategoryCard'
 import ProductCard from '../Component/Cards/ProductCard'
 import PrivacyCard from '../Component/Cards/PrivacyCard'
+import { useIsFocused } from '@react-navigation/native'
 
 
   const data = [
@@ -18,7 +19,7 @@ import PrivacyCard from '../Component/Cards/PrivacyCard'
         reting: "4.2",
         review: "23",
         solds: "700+ solds",
-        image: require("../assets/Image/product.png")
+        image: require("../assets/Image/bigprofile.png")
     },
     {
         id: 2,
@@ -29,7 +30,7 @@ import PrivacyCard from '../Component/Cards/PrivacyCard'
         reting: "2.2",
         review: "25",
         solds: "300+ solds",
-        image: require("../assets/Image/product.png")
+        image: require("../assets/Image/bigprofile.png")
     },
     {
         id: 3,
@@ -40,7 +41,7 @@ import PrivacyCard from '../Component/Cards/PrivacyCard'
         reting: "4.2",
         review: "23",
         solds: "600+ solds",
-        image: require("../assets/Image/product.png")
+        image: require("../assets/Image/bigprofile.png")
     },
     {
         id: 4,
@@ -51,18 +52,22 @@ import PrivacyCard from '../Component/Cards/PrivacyCard'
         reting: "3.2",
         review: "22",
         solds: "300+ solds",
-        image: require("../assets/Image/product.png")
+        image: require("../assets/Image/bigprofile.png")
     }
   ]
 
 
 
 const StoreScreen = () => {
+  const isFocused = useIsFocused();
+
+
+
   return (
+    <>
+    {isFocused && <StatusBar backgroundColor="#ffffff" barStyle="dark-content" />}
     <View style={{ backgroundColor: Color.white, flex: 1 }}>
-      {/* <HeaderCard BgWhite showCard showNotification  /> */}
       <HeaderCard BgWhite showCard showNotification  />
-      <StatusBar backgroundColor={Color.white} barStyle={'light-content'} />
       <ScrollView>
         <ShopStoreCard />
         <ShopeCategoryCard />
@@ -71,6 +76,7 @@ const StoreScreen = () => {
         <ProductCard heding="Brands Recommended" data={data} />
       </ScrollView>
     </View>
+    </>
 
   )
 }

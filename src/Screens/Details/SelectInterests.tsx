@@ -1,5 +1,5 @@
 import { Image, SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import BackHeader from '../../Component/Header/BackHeader'
 import { Color } from '../../Theme'
 import { moderateScale, scale } from '../../Theme/ResposiveSize'
@@ -10,6 +10,8 @@ import { navigate } from '../../Navigator/Utils'
 import { useRoute } from '@react-navigation/native'
 import Toast from '../../Component/Modal/ToastMessage'
 import { useUpdatePreferencesDetailsMutation } from '../../Store/profile/ProfileApiSlice'
+import { useSelector } from 'react-redux'
+import { selectProfile } from '../../Store/auth/authSlice'
 
 
 const data = [
@@ -30,16 +32,27 @@ const data = [
 const SelectInterests = () => {
   const route = useRoute();
   const { showToast } = Toast();
+  const PreferencesDetails = route.params.Preferencesdata
   const [selectedItems, setSelectedItems] = useState<number[]>([]);
   const [seletedItemsname, setSeletedItemName] = useState<String[]>([])
   const [addPreferencesDetails, {isLoading}] = useUpdatePreferencesDetailsMutation()
+  const profiledata = useSelector(selectProfile)
 
 
-  const PreferencesDetails = route.params.Preferencesdata
-  console.log(PreferencesDetails)
+  useEffect(() => {
+    if (profiledata?.interests) {
+      const selectedItem = data.filter(item => profiledata.interests.includes(item.title));      
+      const selectedId = selectedItem.map(item => item.id);
+      const selectedName = selectedItem.map(item => item.title);
+      setSelectedItems(selectedId);
+      setSeletedItemName(selectedName);
+    }
+  }, [profiledata]);
+
+
 
   const toggleSelectItem = (id: number, title: string) => {
-    if (selectedItems.includes(id,)) {
+    if (selectedItems.includes(id)) {
       setSelectedItems(selectedItems.filter(item => item !== id));
       setSeletedItemName(seletedItemsname.filter(item => item !== title));
     } else {
@@ -47,8 +60,6 @@ const SelectInterests = () => {
       setSeletedItemName([...seletedItemsname, title]);
     }
   };
-
-  console.log("selectedItems", seletedItemsname)
 
   const renderRow = (items: any[], isEvenRow: boolean) => {
     return (
@@ -99,11 +110,11 @@ const SelectInterests = () => {
 
   const Save = async () => {
     const request = {
-      about_you: "Idst",
-      dislikes: "Zjgdhdhdd",
-      drink: "1",
-      likes: "Gxydyd",
-      smoke: "1",
+      about_you: PreferencesDetails.about_you,
+      dislikes: PreferencesDetails.dislikes,
+      drink: PreferencesDetails.drink,
+      likes: PreferencesDetails.likes,
+      smoke: PreferencesDetails.smoke,
       interests: seletedItemsname
     }
     try {

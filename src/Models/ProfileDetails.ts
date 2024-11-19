@@ -8,6 +8,7 @@ interface PersonalDetailsErrors {
   height?: string;
   weight?: string;
   gender?: string;
+  dietname?: string
 }
 
 
@@ -67,3 +68,9 @@ interface PasswordErrors {
   newPassword?: string,
   confirmPassword?: string
 }
+
+
+interface ForgotPasswordErrors{
+  phonenumber: string;
+  email?: string;
+};

@@ -11,6 +11,9 @@ import { useGetCityQuery, useGetCountryQuery, useGetStateQuery } from '../../Sto
 import { useUpdateLocationDetailsMutation } from '../../Store/profile/ProfileApiSlice'
 import { navigate } from '../../Navigator/Utils'
 import Toast from '../../Component/Modal/ToastMessage'
+import { useSelector } from 'react-redux'
+import { selectProfile } from '../../Store/auth/authSlice'
+import { getObject } from '../../Component/Utils/helper'
 
 const Location = () => {
   const { showToast } = Toast();
@@ -23,8 +26,27 @@ const Location = () => {
   const { data: stateData, isLoading } = useGetStateQuery();
   const { data: Citydata, error } = useGetCityQuery(state?.id || 4852);
   const [errors, setErrors] = useState<LocationDetailsErrors>({});
+  const profiledata = useSelector(selectProfile)
 
   const [addLocation, { }] = useUpdateLocationDetailsMutation()
+console.log(CountryData)
+
+const Data = 
+  [{ name: "India", id: 101}]
+
+useEffect(() => {
+  if(profiledata){
+    // let countrydut = getObject(Data, "101");
+    // console.log("seleted", countrydut)
+    // let state = getObject(stateData, "4009");
+    // let City = getObject(Citydata, profiledata.city_id.toString());
+
+    setCountry("")
+    setState(state)
+    // setCity(City)
+    setPostalCode(profiledata.postalcode)
+  }
+}, [profiledata])
 
 
   const validation = (): boolean => {
@@ -141,14 +163,14 @@ export default Location
 
 const styles = StyleSheet.create({
   container: {
-    margin: moderateScale(10)
+    padding: moderateScale(17)
   },
   selectedText: {
     marginTop: 20,
     fontSize: 16,
   },
   btn: {
-    margin: moderateScale(10),
+    margin: moderateScale(17),
     marginVertical: moderateScale(25)
   },
   errorText: {

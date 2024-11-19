@@ -1,5 +1,5 @@
 import { SafeAreaView, StyleSheet, Text, View } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Color } from '../../Theme'
 import BackHeader from '../../Component/Header/BackHeader'
 import { moderateScale } from '../../Theme/ResposiveSize'
@@ -10,6 +10,9 @@ import Button from '../../Component/Buttons/Button'
 import Toast from '../../Component/Modal/ToastMessage'
 import { useUpdateProfessionDetailsMutation } from '../../Store/profile/ProfileApiSlice'
 import { navigate } from '../../Navigator/Utils'
+import { useSelector } from 'react-redux'
+import { selectProfile } from '../../Store/auth/authSlice'
+import { getObject } from '../../Component/Utils/helper'
 
 const Profession = () => {
   const [currentlyworking, setCurrentlyWorking] = useState<string>('');
@@ -18,27 +21,24 @@ const Profession = () => {
   const [salary, setSalary] = useState<string>('');
   const [errors, setErrors] = useState<ProfessionDetailsErrors>({});
   const { showToast } = Toast();
+  const profiledata = useSelector(selectProfile)
   const [addProfessionDetails, { isLoading }] = useUpdateProfessionDetailsMutation()
 
   const Currently_Working = [
-    { name: 'Yes', id: '1' },
-    { name: 'No', id: '2' },
+    { name: 'Yes', id: '0' },
+    { name: 'No', id: '1' },
 
   ];
 
-
-  // currently_working
-  // 1
-  
-  // skill
-  // Computer Engg
-  
-  // office
-  // TCS
-  
-  // salary
-  // 400000
-
+  useEffect(() => {
+  if(profiledata &&  profiledata.profession_details != 0){
+    let working = getObject(Currently_Working, profiledata.currently_working.toString());
+    setCurrentlyWorking(working)
+    setSkill(profiledata.skill)
+    setOfficeName(profiledata.office)
+    setSalary(profiledata.salary.toString())
+  }
+  }, [profiledata])
 
 
   const validateForm = (): boolean => {
@@ -137,7 +137,7 @@ export default Profession
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    margin: moderateScale(10),
+    padding: moderateScale(17),
     justifyContent: 'space-between',
   },
   content: {

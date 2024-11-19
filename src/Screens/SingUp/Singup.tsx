@@ -11,6 +11,8 @@ import { navigate } from '../../Navigator/Utils'
 import CheckBox from '../../Component/CheckBox/CheckBox'
 import { useSingupMutation } from '../../Store/auth/authApiSlice'
 import Toast from '../../Component/Modal/ToastMessage'
+import { useSelector } from 'react-redux'
+import { selectFcmToken } from '../../Store/auth/authSlice'
 
 
 const Singup = () => {
@@ -22,12 +24,14 @@ const Singup = () => {
     const [password, setPassword] = useState("")
     const [fullname, setFullName] = useState("")
     const [confirmpassword, setConfirmPassword] = useState("")
+    const fcmToken = useSelector(selectFcmToken);
 
     const singup = async () => {
         const request = {
             name: fullname,
             mobile: number,
-            password: password
+            password: password,
+            firebase_token: fcmToken
         }
         try {
             const singupResponse = await usersingup(request).unwrap();
@@ -41,7 +45,6 @@ const Singup = () => {
         } catch (error) {
             console.log("login error", error)
         }
-        // 
     }
 
     return (
@@ -49,7 +52,7 @@ const Singup = () => {
             <StatusBar translucent backgroundColor="transparent" barStyle="dark-content" />
             <ScrollView showsVerticalScrollIndicator={false}>
                 <View style={styles.mainContainer}>
-                    <Text style={[styles.heading, Typography.main_heading]}>Hello! Register to get started</Text>
+                    <Text style={Typography.main_heading}>Hello! Register to get started</Text>
                     <NameInput
                         placeholder='Full Name'
                         value={fullname}
@@ -68,17 +71,19 @@ const Singup = () => {
                         placeholder='Password'
                         value={password}
                         onChangeText={setPassword}
+                        isPassword
                         nameStyle
                     />
                     <NameInput
                         placeholder='Confirm Password'
                         value={confirmpassword}
                         onChangeText={setConfirmPassword}
+                        isPassword
                         nameStyle
                     />
                     <View style={{ flexDirection: "row", alignItems: "center", marginHorizontal: 16 }}>
                         <CheckBox checkstyle />
-                        <Text onPress={() => navigate("ForgotPassword", {})} style={[styles.forget, Typography.small, { color: Color.black }]}>
+                        <Text onPress={() => navigate("ForgotPassword", {})} style={[styles.forget, Typography.small, { color: Color.orange }]}>
                             <Text style={{ color: Color.chatBg }}>I agree to the </Text>
                             Terms and Services <Text style={{ color: Color.chatBg }}>and</Text> Privacy Policy.</Text>
 
@@ -87,7 +92,7 @@ const Singup = () => {
                     <View style={{
                         flexDirection: 'row',
                         alignItems: 'center',
-                        marginTop: moderateScale(40)
+                        marginTop: moderateScale(20)
                     }}>
                         <View style={styles.line} />
                         <Text style={[styles.text, Typography.small, { color: Color.border }]}>Or Register with</Text>
@@ -105,23 +110,18 @@ export default Singup
 
 const styles = StyleSheet.create({
     mainContainer: {
-        marginTop: moderateScale(110),
+        marginTop: moderateScale(100),
         padding: moderateScale(16),
         flex: 1,
 
     },
-    heading: {
-        marginBottom: moderateScale(25)
-    },
-    container: {
-    },
     forget: {
         color: Color.orange,
-        marginHorizontal: 10,
+        marginHorizontal: 2,
         paddingVertical: moderateScale(10)
     },
     btn: {
-        marginTop: moderateScale(10)
+        marginTop: moderateScale(5)
     },
     line: {
         flex: 1,

@@ -1,5 +1,5 @@
 import { SafeAreaView, View, Text, StyleSheet, ScrollView } from 'react-native';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { moderateScale } from '../../Theme/ResposiveSize';
 import { Color } from '../../Theme';
 import { Typography } from '../../Theme/Typography';
@@ -10,6 +10,9 @@ import Button from '../../Component/Buttons/Button';
 import { useUpdateEducationDetailsMutation } from '../../Store/profile/ProfileApiSlice';
 import Toast from '../../Component/Modal/ToastMessage';
 import { navigate } from '../../Navigator/Utils';
+import { selectProfile } from '../../Store/auth/authSlice';
+import { useSelector } from 'react-redux';
+import { getObject } from '../../Component/Utils/helper';
 
 
 const EducationDetails = () => {
@@ -18,6 +21,7 @@ const EducationDetails = () => {
   const [institutename, setInstituteName] = useState<string>('');
   const [errors, setErrors] = useState<EducationDetailsErrors>({});
   const [addEducation, { isLoading }] = useUpdateEducationDetailsMutation()
+  const profiledata = useSelector(selectProfile)
 
   const { showToast } = Toast();
 
@@ -26,14 +30,17 @@ const EducationDetails = () => {
     { name: 'No', id: '2' },
   ]
 
-  //   currently_studying
-  // 0
 
-  // education_level
-  // Engg
+  useEffect(() => {
+  if(profiledata && profiledata?.education_details != 0){
+    let Study = getObject(Studying, profiledata.currently_studying.toString());
+    setStudying(Study);
+    setEducationLevel(profiledata.education_level)
+    setInstituteName(profiledata.institute)
+  }
+  }, [profiledata])
 
-  // institute
-  // institute
+
 
 
 
@@ -97,13 +104,6 @@ const EducationDetails = () => {
               />
               {errors.studying && <Text style={styles.errorText}>{errors.studying}</Text>}
             </View>
-            {/* <CustomDropdown
-            placeholder='University'
-            title='Education Level'
-            items={Studying}
-            onSelect={setStudying}
-            selectedValue={studying}
-          /> */}
             <View>
               <NameInput
                 placeholder='Enter your Education Level'
@@ -138,17 +138,15 @@ export default EducationDetails;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    margin: moderateScale(10),
+    padding: moderateScale(17),
     justifyContent: 'space-between',
   },
   content: {
-    // flexGrow: 1,
-    // marginTop: moderateScale(20),
-    // gap: moderateScale(20),
-    marginTop: moderateScale(20), gap: moderateScale(20)
+    marginTop: moderateScale(20),
+    gap: moderateScale(20)
   },
   btn: {
-    marginHorizontal: moderateScale(10),
+    marginHorizontal: moderateScale(17),
     marginBottom: moderateScale(50),
   },
   errorText: {

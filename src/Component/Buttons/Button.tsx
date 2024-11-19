@@ -9,11 +9,13 @@ interface Ibutton {
     onPress?: Function
     mainStyle?: any
     title?: string
+    disabled?: boolean
+    
 }
 
 const Button = (auto: Ibutton) => {
     return (
-        <Pressable style={[styles.container, auto.mainStyle]} onPress={() => auto.onPress ? auto.onPress() : null}>
+        <Pressable disabled={auto.disabled} style={[styles.container, auto.mainStyle]} onPress={() => auto.onPress ? auto.onPress() : null}>
             <Text style={[styles.text, Typography.small]}>{auto.title}</Text>
         </Pressable>
     )

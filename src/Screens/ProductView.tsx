@@ -1,4 +1,4 @@
-import { FlatList, Image, Pressable, SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, TextInput, View } from 'react-native'
+import { FlatList, Image, ImageBackground, Pressable, SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, TextInput, View } from 'react-native'
 import React, { useState } from 'react'
 import { Color } from '../Theme';
 import { scale } from '../Theme/ResposiveSize';
@@ -17,7 +17,7 @@ const ProductView = ({ route }: any) => {
   const [seletedindex, setSeletedIndex] = useState(0)
 
   const [quantity, setQuantity] = useState(1);
-  const proucimage = require("../assets/Image/viewproduct.png")
+  // const proucimage = require("../assets/Image/viewbigprofile.png")
   console.log("item", item)
 
 
@@ -45,7 +45,7 @@ const ProductView = ({ route }: any) => {
     {
       id: '2',
       name: 'Jay Patel',
-      profile: require('../assets/Image/profile1.png'), // Your profile image
+      profile: require('../assets/Image/profile1.png'), 
       rating: 5.0,
       time: '11 months ago',
       message: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.',
@@ -66,7 +66,7 @@ const ProductView = ({ route }: any) => {
     <View style={{ padding: 10 }}>
       <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
         <Image source={tik} style={{ height: 20, width: 20, position: "absolute", zIndex: 1, alignSelf: "flex-end", left: 25 }} />
-        <Image source={profile} style={{ height: 40, width: 40, borderRadius: 50, }} />
+        <Image source={{uri: "https://images.pexels.com/photos/1413420/pexels-photo-1413420.jpeg?auto=compress&cs=tinysrgb&w=600"}} style={{ height: 40, width: 40, borderRadius: 50, }} />
         <Text style={[Typography.samll_bold, { color: 'black', letterSpacing: 0 }]}>
           {item.name}
         </Text>
@@ -94,14 +94,28 @@ const ProductView = ({ route }: any) => {
       {/* <StatusBar backgroundColor={Color.white} barStyle={'dark-content'} /> */}
       <StatusBar translucent backgroundColor="transparent" />
       <ScrollView>
-        <Image source={proucimage} style={{ height: scale(340), width: scale(375), alignSelf: "center" }} resizeMode='contain' />
-
+        {/* <Image source={{uri: "https://images.pexels.com/photos/1413420/pexels-photo-1413420.jpeg?auto=compress&cs=tinysrgb&w=600"}} style={{ height: scale(340), width: scale(375), alignSelf: "center"}} />
         <Pressable style={styles.back} onPress={() => navigationRef.goBack()}>
           <Feather name="chevron-left" size={35} color={Color.black} />
         </Pressable>
         <Pressable style={styles.heart} onPress={() => navigationRef.goBack()}>
           <AntDesign name="heart" size={25} color={Color.orange} />
+        </Pressable> */}
+         <ImageBackground
+        source={{ uri: "https://images.pexels.com/photos/1413420/pexels-photo-1413420.jpeg?auto=compress&cs=tinysrgb&w=600" }}
+        style={styles.imageBackground}
+        imageStyle={styles.imageStyle}
+      >
+        {/* Back Icon */}
+        <Pressable style={styles.back} onPress={() => navigationRef.goBack()}>
+          <Feather name="chevron-left" size={35} color="black" />
         </Pressable>
+        
+        {/* Heart Icon */}
+        <Pressable style={styles.heart} onPress={() => console.log("Favorite")}>
+          <AntDesign name="heart" size={25} color="orange" />
+        </Pressable>
+      </ImageBackground>
         <View style={{ margin: 20, }}>
           <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
             <Text style={[Typography.samll_bold, { fontSize: FontSize.Font20 }]}>{item?.name}</Text>
@@ -186,6 +200,16 @@ const styles = StyleSheet.create({
     alignItems: "center",
     gap: 5,
   },
+
+  imageBackground: {
+    height: 340,
+    width: 375,
+    alignSelf: 'center',
+  },
+  imageStyle: {
+    borderBottomLeftRadius: 25,
+    borderBottomRightRadius: 25,
+  },
   back: {
     position: "absolute",
     backgroundColor: Color.boxBg,
@@ -194,6 +218,7 @@ const styles = StyleSheet.create({
     borderRadius: scale(50),
     margin: scale(15),
     top: 20,
+    left: 10,
     justifyContent: "center",
     alignItems: "center",
   },

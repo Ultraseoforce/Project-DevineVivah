@@ -9,9 +9,11 @@ import { navigate, navigationRef } from '../../Navigator/Utils';
 import BackHeader from '../../Component/Header/BackHeader';
 import Toast from '../../Component/Modal/ToastMessage';
 import { useNewPasswordMutation } from '../../Store/auth/authApiSlice';
+import { useRoute } from '@react-navigation/native';
 
-const CreactNewPassword = ({ route }: any) => {
-    const { type } = route.params;
+const CreactNewPassword = () => {
+    const route = useRoute();
+    const navigationType = route.params
     const { showToast } = Toast();
     const [newPassword, setNewPassword] = useState<string>('');
     const [confirmPassword, setConfirmPassword] = useState<string>('');
@@ -19,7 +21,6 @@ const CreactNewPassword = ({ route }: any) => {
     const [ChangePassword, { isLoading }] = useNewPasswordMutation();
 
     const BackButton = require('../../assets/Image/arrow-left.png')
-
 
     const validatePasswords = (): boolean => {
         let formErrors: PasswordErrors = {};
@@ -42,8 +43,8 @@ const CreactNewPassword = ({ route }: any) => {
                 const respo = await ChangePassword({ password: newPassword }).unwrap();
                 if (respo?.status == true) {
                     showToast(respo?.message, { type: 'normal' });
-                    console.log("ChangePassword repose", respo)
                     navigate("PasswordChangeSuccess", {})
+                    console.log("ChangePassword repose", respo)
 
                 } else {
                     showToast(respo?.message, { type: 'normal' });
@@ -58,7 +59,7 @@ const CreactNewPassword = ({ route }: any) => {
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: Color.white }}>
 
-            {type === "CreactNewPassword" ? <Pressable onPress={() => navigationRef.goBack()} style={styles.back}>
+            {navigationType.type === "forgotpassword" ? <Pressable onPress={() => navigationRef.goBack()} style={styles.back}>
                 <Image source={BackButton} style={styles.icon} />
             </Pressable> : <BackHeader leftTitle='Change Password' />}
 
@@ -73,6 +74,7 @@ const CreactNewPassword = ({ route }: any) => {
                         nameStyle
                         value={newPassword}
                         onChangeText={setNewPassword}
+                        isPassword
                     />
                     {errors.newPassword && <Text style={styles.errorText}>{errors.newPassword}</Text>}
                 </View>
@@ -82,6 +84,7 @@ const CreactNewPassword = ({ route }: any) => {
                         value={confirmPassword}
                         onChangeText={setConfirmPassword}
                         nameStyle
+                        isPassword
                     />
                     {errors.confirmPassword && <Text style={styles.errorText}>{errors.confirmPassword}</Text>}
                 </View>
@@ -95,9 +98,7 @@ export default CreactNewPassword;
 
 const styles = StyleSheet.create({
     container: {
-        // flex: 1,
         padding: moderateScale(20),
-        // alignItems:"center"
     },
     content: {
         flexGrow: 1,
@@ -117,7 +118,7 @@ const styles = StyleSheet.create({
 
     },
     back: {
-        marginTop: moderateScale(50),
+        marginTop: moderateScale(30),
         backgroundColor: Color.boxBg,
         borderWidth: 1,
         borderColor: Color.border,

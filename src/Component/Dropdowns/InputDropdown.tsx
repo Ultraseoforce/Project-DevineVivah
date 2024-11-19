@@ -1,5 +1,5 @@
 import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { moderateScale } from '../../Theme/ResposiveSize'
 import { Color } from '../../Theme'
 import { FontSize } from '../../Theme/FontSize'
@@ -16,7 +16,14 @@ interface Input {
 }
 
 const InputDropdown = (auto: Input) => {
-    const [value, setValue] = useState(auto.value || '');
+    const [value, setValue] = useState('');
+console.log("auto value", auto.value)
+
+    useEffect(() => {
+        if (auto.value !== value) {
+            setValue(auto.value || '');
+        }
+    }, [auto.value]);
 
     const Increment = () => {
         const numericValue = parseInt(value, 10) || 0;

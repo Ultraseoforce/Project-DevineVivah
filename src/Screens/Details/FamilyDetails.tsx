@@ -1,5 +1,5 @@
-import {ScrollView, StyleSheet, Text, View } from 'react-native'
-import React, { useState } from 'react'
+import { ScrollView, StyleSheet, Text, View } from 'react-native'
+import React, { useEffect, useState } from 'react'
 import { Color } from '../../Theme'
 import BackHeader from '../../Component/Header/BackHeader'
 import { Typography } from '../../Theme/Typography'
@@ -8,17 +8,33 @@ import NameInput from '../../Component/Placeholder/NameInput'
 import InputDropdown from '../../Component/Dropdowns/InputDropdown'
 import Button from '../../Component/Buttons/Button'
 import { navigate } from '../../Navigator/Utils'
+import { useSelector } from 'react-redux'
+import { selectProfile } from '../../Store/auth/authSlice'
+import About from '../../Component/Placeholder/About'
 
 const FamilyDetails = () => {
-
+  const profiledata = useSelector(selectProfile)
   const [fathername, setFatherName] = useState<string>('');
   const [mothername, setMotherName] = useState<string>('');
   const [siblingsno, setSiblingsNo] = useState<string>('');
+  const [familydetails, setFamilyDetails] = useState("")
   const [fatherprofession, setFatherProfession] = useState<string>('');
   const [motherprofession, setMotherProfession] = useState<string>('');
   const [errors, setErrors] = useState<FamilyDetailsErrors>({});
 
 
+
+
+  useEffect(() => {
+    if (profiledata && profiledata.family_details != 0) {
+      setFatherName(profiledata?.father_name)
+      setMotherName(profiledata?.mother_name)
+      setFatherProfession(profiledata?.father_profession)
+      setMotherProfession(profiledata?.mother_profession)
+      setSiblingsNo(profiledata?.siblings.toString())
+      setFamilyDetails(profiledata?.about_family)
+    }
+  }, [profiledata])
 
   const validateForm = (): boolean => {
     let formErrors: FamilyDetailsErrors = {};
@@ -53,7 +69,8 @@ const FamilyDetails = () => {
       mother_name: mothername,
       father_profession: fatherprofession,
       mother_profession: motherprofession,
-      siblings: siblingsno
+      siblings: siblingsno,
+      about_family: familydetails
 
     }
     if (validateForm()) {
@@ -121,10 +138,17 @@ const FamilyDetails = () => {
               />
               {errors.motherprofession && <Text style={styles.errorText}>{errors.motherprofession}</Text>}
             </View>
+            <View>
+              <About placeholder='About family details'
+                title='Family details'
+                onChangeText={setFamilyDetails}
+                value={familydetails}
+              />
+            </View>
           </View>
         </View>
       </ScrollView>
-        <Button title='SAVE' mainStyle={styles.btn} onPress={Submit} />
+      <Button title='SAVE' mainStyle={styles.btn} onPress={Submit} />
     </View>
   )
 }
@@ -133,14 +157,14 @@ export default FamilyDetails
 
 const styles = StyleSheet.create({
   container: {
-    margin: moderateScale(10)
+    padding: moderateScale(17)
   },
   selectedText: {
     marginTop: 20,
     fontSize: 16,
   },
   btn: {
-    margin: moderateScale(10),
+    margin: moderateScale(17),
     marginVertical: moderateScale(25)
   },
   errorText: {

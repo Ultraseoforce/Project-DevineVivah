@@ -8,6 +8,7 @@ import StoreScreen from "../../Screens/StoreScreen";
 import ProfileScreen from "../../Screens/Profile/ProfileScreen";
 import ChatScreen from "../../Screens/Chat/Chat";
 import BookPooja from "../../Screens/Pooja/BookPooja";
+import Daily from "../../Screens/DailyMatches/Daily";
 
 const Tab = createBottomTabNavigator();
 
@@ -17,15 +18,10 @@ const MainNavigator = ({ navigation }: any) => {
   const [userList, setUserList] = useState<any>([]);
   const [currentCount, setCurrentCount] = useState(0);
   const backAction = () => {
-    // console.log(currentCount);
     setCurrentCount(currentCount + 1);
     setTimeout(() => {
       setCurrentCount(0);
     }, 1000);
-    // if (currentCount === 1) {
-    //   Toasts("Press again to close!");
-    //   return true;
-    // }
     if (currentCount >= 2) {
       BackHandler.exitApp();
       return true;
@@ -35,26 +31,14 @@ const MainNavigator = ({ navigation }: any) => {
       return true;
     }
   };
-  // console.log(currentCount);
-
-  // console.log(backAction);
-
   BackHandler.addEventListener("hardwareBackPress", backAction);
-  // console.log(userList);
   const options: any = {
     tabBarIconStyle: { display: "none" },
     tabBarLabelPosition: "beside-icon",
   };
 
   return (
-    <>
-      {/* <SearchCard
-        onProfile={() => {
-          navigation.openDrawer();
-        }}
-        userList={(e: any) => setUserList(e)}
-      />
-      {userList.length != 0 && <SearchPopup userList={userList} />} */}
+    <SafeAreaView style={{flex: 1}}>
       <Tab.Navigator
         tabBar={(props) => (
           <NavigationTab
@@ -71,8 +55,8 @@ const MainNavigator = ({ navigation }: any) => {
           options={options}
         />
         <Tab.Screen
-          name="Book Pooja"
-          component={BookPooja}
+          name="Daily"
+          component={Daily}
           options={options}
         />
         <Tab.Screen
@@ -87,14 +71,7 @@ const MainNavigator = ({ navigation }: any) => {
           options={options}
         />
       </Tab.Navigator>
-      {/* {isPopup && (
-        <ProfileDropDown
-          onProfile={() => {
-            setIspopup(false);
-          }}
-        />
-      )} */}
-    </>
+    </SafeAreaView>
   );
 };
 

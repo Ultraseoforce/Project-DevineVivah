@@ -28,6 +28,12 @@ interface City {
 }
 
 interface Profile {
+  diet: any;
+  member_siblings: number;
+  family_details: number;
+  profession_details: number;
+  education_details: number;
+  personal_details: any;
   mId: number;
   member_name: string;
   member_mobile: string;
@@ -48,6 +54,7 @@ interface Profile {
   skill: string;
   office: string;
   salary: string;
+  about_family: string;
   father_name: string;
   mother_name: string;
   father_profession: string;
@@ -58,7 +65,7 @@ interface Profile {
   dislikes: string;
   smoke: number;
   drink: number;
-  interests: string[];
+  interests: string;
   country_id: number;
   state_id: number;
   city_id: number;
@@ -78,18 +85,12 @@ interface Profile {
   is_accepted: number;
   created_at: string;
   updated_at: string;
-  member_siblings: Sibling[];
-  country: Country;
-  state: StateData;
-  city: City;
+  deleted_at: string | null;
 }
 
 interface AuthState {
+  fcmtoken: any;
   user: string | null;
   token: string | null;
-  tnc_agreed: boolean;
   profile: Profile | null;
-  userList: string[];
-  onPlatformPage: boolean;
-  unreadMessageCount: number;
 }

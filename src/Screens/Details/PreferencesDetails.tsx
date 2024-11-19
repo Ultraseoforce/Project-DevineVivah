@@ -1,5 +1,5 @@
 import { SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Color } from '../../Theme'
 import BackHeader from '../../Component/Header/BackHeader'
 import { Typography } from '../../Theme/Typography'
@@ -8,6 +8,9 @@ import CustomDropdown from '../../Component/Dropdowns/Dropdown'
 import Button from '../../Component/Buttons/Button'
 import About from '../../Component/Placeholder/About'
 import { navigate } from '../../Navigator/Utils'
+import { useSelector } from 'react-redux'
+import { selectProfile } from '../../Store/auth/authSlice'
+import { getObject } from '../../Component/Utils/helper'
 
 const Preferences = () => {
   const [abouttext, setAboutText] = useState<string>('');
@@ -16,12 +19,25 @@ const Preferences = () => {
   const [smokestates, setSmokeStates] = useState<string>('');
   const [drinkstates, setDrinkStates] = useState<string>('');
   const [errors, setErrors] = useState<PreferencesErrors>({});
+  const profiledata = useSelector(selectProfile)
 
   const status = [
-    { name: 'Yes', id: '1' },
-    { name: 'No', id: '2' },
+    { name: 'Yes', id: '0' },
+    { name: 'No', id: '1' },
   ];
 
+
+  useEffect(() => {
+   if(profiledata){
+    let smake = getObject(status, profiledata.smoke.toString());
+    let drink = getObject(status, profiledata.drink.toString());
+    setSmokeStates(smake)
+    setDrinkStates(drink)
+    setAboutText(profiledata.about_you)
+    setLikingsText(profiledata.likes)
+    setDislikingsText(profiledata.dislikes)
+   }
+  }, [profiledata])
 
   const validation = (): boolean => {
     let formErrors: PreferencesErrors = {};
@@ -129,14 +145,14 @@ export default Preferences
 
 const styles = StyleSheet.create({
   container: {
-    margin: moderateScale(10)
+    padding: moderateScale(17)
   },
   selectedText: {
     marginTop: 20,
     fontSize: 16,
   },
   btn: {
-    margin: moderateScale(10),
+    margin: moderateScale(17),
     marginVertical: moderateScale(25)
   },
   errorText: {
