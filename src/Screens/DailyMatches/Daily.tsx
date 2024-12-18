@@ -52,7 +52,6 @@ export default function Daily() {
 
   return (
     <>
-    
       <View style={{backgroundColor: Color.white, elevation: 1}} >
         {isFocused && <StatusBar backgroundColor="#ffffff" barStyle="dark-content" />}
         <View style={styles.header}>

@@ -1,18 +1,3 @@
-// import { StyleSheet, Text, View } from 'react-native'
-// import React from 'react'
-
-// const FamousAstrologers = () => {
-//   return (
-//     <View>
-//       <Text>FamousAstrologers</Text>
-//     </View>
-//   )
-// }
-
-// export default FamousAstrologers
-
-// const styles = StyleSheet.create({})
-
 import { FlatList, Image, Pressable, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import { Typography } from '../../Theme/Typography'

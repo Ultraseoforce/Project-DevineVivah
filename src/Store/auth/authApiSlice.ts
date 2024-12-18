@@ -17,19 +17,20 @@ const URLS = {
   profiledata: "profile",
   uploadImg: "upload-profile-image",
   deletedImg: "delete-profile-image",
-  logout: "logout"
+  logout: "logout",
+  profile: "profile"
 
 };
 
 export const authApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder: any) => ({
     login: builder.mutation({
-      query: (credentials: any) => (
-        {
-          url: URLS.login,
-          method: "POST",
-          body: { ...credentials },
-        }),
+      query: (credentials: any) => ({
+        url: URLS.login,
+        method: "POST",
+        body: { ...credentials },
+      }),
+      invalidatesTags: ["Auth"],
     }),
     forgotPassword: builder.mutation({
       query: (mobile: number) => ({
@@ -39,12 +40,12 @@ export const authApiSlice = apiSlice.injectEndpoints({
       }),
     }),
     changePassword: builder.mutation({
-      query: ({ password }: any) => (console.log(password), {
-
+      query: ({ password }: any) => ({
         url: URLS.changepassword,
         method: "POST",
         body: { password },
       }),
+      invalidatesTags: ["Auth"],
     }),
     newPassword: builder.mutation({
       query: ({ password }: any) => ({
@@ -59,6 +60,7 @@ export const authApiSlice = apiSlice.injectEndpoints({
         method: "POST",
         body: data,
       }),
+      invalidatesTags: ["Auth"],
     }),
     verifyOtp: builder.mutation({
       query: (data: any) => ({
@@ -73,6 +75,7 @@ export const authApiSlice = apiSlice.injectEndpoints({
         method: "POST",
         body: data,
       }),
+      invalidatesTags: ["Image"],
     }),
     deleteProfileImg: builder.mutation({
       query: (data: any) => ({
@@ -80,25 +83,26 @@ export const authApiSlice = apiSlice.injectEndpoints({
         method: "POST",
         body: data,
       }),
+      invalidatesTags: ["Image"],
     }),
-
     getProfile: builder.query({
-      query: () => `https://devinevivah.isce.co.in/api/profile`,
-      transformResponse: (responseData: any, meta: any, arg: any) => {
+      query: () => `${URLS.profile}`,
+      transformResponse: (responseData: any) => {
         const data = responseData.data;
         return data;
       },
+      providesTags: ["Profile"],
     }),
     userLogOut: builder.mutation({
       query: () => ({
-        url: URLS.logout,  // Assuming this is the endpoint for logout (use GET)
-        method: 'GET',  // Use GET instead of POST
+        url: URLS.logout,
+        method: "GET",
       }),
+      invalidatesTags: ["Auth"],
     }),
-
-
   }),
 });
+
 
 export const {
   useLoginMutation,
@@ -110,5 +114,5 @@ export const {
   useUploadProfileImgMutation,
   useDeleteProfileImgMutation,
   useGetProfileQuery,
-  useUserLogOutMutation 
+  useUserLogOutMutation
 } = authApiSlice;

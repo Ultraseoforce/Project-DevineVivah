@@ -34,25 +34,28 @@ const Interests = [
   {
     id: 1,
     name: "Reading",
-    icon : require("../../assets/Image/open-book.png")
+    icon: require("../../assets/Image/open-book.png")
   },
   {
     id: 2,
     name: "Music",
-    icon : require("../../assets/Image/open-book.png")
+    icon: require("../../assets/Image/open-book.png")
   },
   {
     id: 3,
     name: "Gaming",
-    icon : require("../../assets/Image/open-book.png")  },
+    icon: require("../../assets/Image/open-book.png")
+  },
   {
     id: 4,
     name: "Photography",
-    icon : require("../../assets/Image/open-book.png")  },
+    icon: require("../../assets/Image/open-book.png")
+  },
   {
     id: 5,
     name: "Charity",
-    icon : require("../../assets/Image/open-book.png")  },
+    icon: require("../../assets/Image/open-book.png")
+  },
 ];
 
 
@@ -101,7 +104,7 @@ const PersonalDetailTrack = (Props: IPersonalTrack) => {
 
   const iconItem = ({ item }) => (
     <View style={styles.interests}>
-      <Image source={item.icon}  style={{height: 16, width: 14}} />
+      <Image source={item.icon} style={{ height: 16, width: 14 }} />
       <Text style={Typography.smallTitle}>{item.name}</Text>
     </View>
   );
@@ -117,29 +120,25 @@ const PersonalDetailTrack = (Props: IPersonalTrack) => {
         renderItem={renderItem}
         keyExtractor={item => item.id.toString()}
       />
-
-
       {!Props.reviews ?
         <View>
-          <Text style={[Typography.samll_bold,{marginLeft: 15, marginVertical: 10}]}>Interests</Text>
+          <Text style={[Typography.samll_bold, { marginLeft: 10, marginVertical: 20 }]}>Interests</Text>
           <FlatList
             data={Interests}
             renderItem={iconItem}
             numColumns={3}
             keyExtractor={(item) => item.id.toString()}
-            columnWrapperStyle={{justifyContent: "space-around"}}
-            contentContainerStyle={{gap: 10, marginBottom: 30, marginHorizontal: 10}}
+            columnWrapperStyle={{ justifyContent: "space-around", marginVertical: 10 }}
 
           />
         </View>
         :
         <View>
-          <Text style={[Typography.samll_bold,{color: Color.black, marginLeft: 15}]}>Reviews</Text>
+          <Text style={[Typography.samll_bold, { color: Color.black, marginLeft: 15 }]}>Reviews</Text>
           <Reviews />
-         
+
         </View>
       }
-
     </View>
   );
 };
@@ -185,7 +184,7 @@ const styles = StyleSheet.create({
     marginTop: moderateScale(15),
     justifyContent: "space-between"
   },
-  interests:{
+  interests: {
     flexDirection: "row",
     alignItems: "center",
     backgroundColor: Color.boxBg,
@@ -194,7 +193,7 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     gap: 10
   },
- 
+
 });
 
 export default PersonalDetailTrack;

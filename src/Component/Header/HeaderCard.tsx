@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { Image, Pressable, StatusBar, StyleSheet, Text, TouchableOpacity, View, Platform } from 'react-native';
 import { useSelector } from 'react-redux';
 import { selectProfile } from '../../Store/auth/authSlice';
@@ -10,6 +10,8 @@ import { Color } from '../../Theme';
 import { moderateScale } from '../../Theme/ResposiveSize';
 import { Typography } from '../../Theme/Typography';
 import Shopping_cart from '../../assets/svg/Shopping.svg';
+import { useGetProfileQuery } from '../../Store/auth/authApiSlice';
+import { useIsFocused } from '@react-navigation/native';
 
 interface IHeader {
   BgWhite?: boolean;
@@ -19,7 +21,8 @@ interface IHeader {
 }
 
 const HeaderCard = (Props: IHeader) => {
-  const profiledata = useSelector(selectProfile);
+  const isFocused = useIsFocused();
+   const { data: profiledata, isLoading, refetch } = useGetProfileQuery();
   const profileImage = getImagePath(profiledata?.profile_photo1 || profiledata?.profile_photo2 || profiledata?.profile_photo3 || "")
   const bell = require('../../assets/Image/bell.png');
 
@@ -32,6 +35,12 @@ const HeaderCard = (Props: IHeader) => {
     [Props.BgWhite]
   );
 
+
+  useEffect(() => {
+      if (isFocused) {
+        refetch();
+      }
+    }, [isFocused]);
   return (
     <View style={[styles.mainView, { backgroundColor }]}>
       {/* StatusBar Styling */}
