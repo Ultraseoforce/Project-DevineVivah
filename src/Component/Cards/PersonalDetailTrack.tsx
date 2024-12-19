@@ -5,30 +5,9 @@ import { Color } from '../../Theme';
 import { Typography } from '../../Theme/Typography';
 import { FontSize } from '../../Theme/FontSize';
 import Reviews from '../../Screens/Reviews/Reviews';
+import { images } from '../../Theme/Image';
 
 
-const PersonalDetails = [
-  {
-    id: 1,
-    title: "Liking’s",
-    desc: "Lorem ipsum dolor sit amet consectetur. Aliquam consectetur tortor sapien a enim."
-  },
-  {
-    id: 2,
-    title: "Disliking's",
-    desc: "Lorem ipsum dolor sit amet consectetur. Aliquam consectetur tortor sapien a enim."
-  },
-  {
-    id: 3,
-    title: "About Family",
-    desc: "Lorem ipsum dolor sit amet consectetur. Aliquam consectetur tortor sapien a enim."
-  },
-  {
-    id: 4,
-    title: "Job Skill",
-    desc: "Office Details"
-  },
-];
 
 const Interests = [
   {
@@ -62,11 +41,55 @@ const Interests = [
 interface IPersonalTrack {
   heding?: string
   reviews?: boolean
+  PersonalDetailData?: any
 }
 
 const PersonalDetailTrack = (Props: IPersonalTrack) => {
   const [lineHeights, setLineHeights] = useState({});
   const check = require("../../assets/Image/check.png")
+
+
+  const data = [
+    { id: 1, icon: images.ReadingIcon, title: "Reading" },
+    { id: 2, icon: images.PhotographyIcon, title: "Photography" },
+    { id: 3, icon: images.GamingIcon, title: "Gaming" },
+    { id: 4, icon: images.MusicIcon, title: "Music" },
+    { id: 5, icon: images.TravelIcon, title: "Travel" },
+    { id: 6, icon: images.PaintingIcon, title: "Painting" },
+    { id: 7, icon: images.PoliticsIcon, title: "Politics" },
+    { id: 8, icon: images.CharityIcon, title: "Charity" },
+    { id: 9, icon: images.CookingIcon, title: "Cooking" },
+    { id: 10, icon: images.PetsIcon, title: "Pets" },
+    { id: 11, icon: images.FashionIcon, title: "Fashion" },
+    { id: 12, icon: images.SportsIcon, title: "Sports" },
+  ];
+ 
+  const interestsArray = Props.PersonalDetailData?.interests?.split(",");
+  const interestData = data.filter((item) => interestsArray?.includes(item.title));
+
+
+  const PersonalDetails = [
+    {
+      id: 1,
+      title: "Liking’s",
+      desc: Props?.PersonalDetailData?.likes
+    },
+    {
+      id: 2,
+      title: "Disliking's",
+      desc: Props?.PersonalDetailData?.dislikes
+    },
+    {
+      id: 3,
+      title: "About Family",
+      desc: Props?.PersonalDetailData?.about_family
+    },
+    {
+      id: 4,
+      title: "Job Skill",
+      desc: Props?.PersonalDetailData?.skill
+    },
+  ];
 
   const onTextLayout = (event: any, id: any) => {
     const { height } = event.nativeEvent.layout;
@@ -102,10 +125,10 @@ const PersonalDetailTrack = (Props: IPersonalTrack) => {
     </View>
   );
 
-  const iconItem = ({ item }) => (
+  const renderIconItem = ({ item }) => (
     <View style={styles.interests}>
       <Image source={item.icon} style={{ height: 16, width: 14 }} />
-      <Text style={Typography.smallTitle}>{item.name}</Text>
+      <Text style={Typography.smallTitle}>{item.title}</Text>
     </View>
   );
 
@@ -124,16 +147,15 @@ const PersonalDetailTrack = (Props: IPersonalTrack) => {
         <View>
           <Text style={[Typography.samll_bold, { marginLeft: 10, marginVertical: 20 }]}>Interests</Text>
           <FlatList
-            data={Interests}
-            renderItem={iconItem}
+            data={interestData}
+            renderItem={renderIconItem}
             numColumns={3}
             keyExtractor={(item) => item.id.toString()}
             columnWrapperStyle={{ justifyContent: "space-around", marginVertical: 10 }}
-
           />
         </View>
         :
-        <View style={{marginTop:moderateScale(30)}}>
+        <View style={{ marginTop: moderateScale(30) }}>
           <Text style={[Typography.samll_bold, { color: Color.black, marginLeft: 15 }]}>Reviews</Text>
           <Reviews />
 

@@ -11,7 +11,7 @@ import Feather from 'react-native-vector-icons/Feather';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Smile from 'react-native-vector-icons/Feather';
 import Icon from 'react-native-vector-icons/Entypo';
-import Send from '../assets/svg/Send.svg'
+import { SvgUri } from 'react-native-svg';
 
 
 const ProductView = ({ route }: any) => {
@@ -23,7 +23,10 @@ const ProductView = ({ route }: any) => {
   console.log("item", item)
 
 
-  const handleQuantityChange = (e) => {
+
+  
+
+  const handleQuantityChange = (e: number) => {
     setQuantity(e);
   };
 
@@ -129,7 +132,7 @@ const ProductView = ({ route }: any) => {
             </View>
             <Text style={[Typography.samll_bold, { fontSize: FontSize.Font20, lineHeight: 27 }]}>{item?.lessprice}</Text>
           </View>
-          <View style={{ borderBottomWih: 1, borderColor: Color.border, marginTop: 20 }} />
+          <View style={{ borderBottomWidth: 1, borderColor: Color.border, marginTop: 20 }} />
           <QuantitySelector initialQuantity={quantity} onQuantityChange={handleQuantityChange} />
           <Button title='Add to Cart' mainStyle={{ marginTop: 20 }} onPress={() => navigate("CardScreen", { item })} />
           <View>
@@ -173,7 +176,7 @@ const ProductView = ({ route }: any) => {
 
             <Pressable style={styles.sendButton}>
               {/* <Image source={CameraImage} style={styles.sendIcon} /> */}
-              <Send />
+              <SvgUri uri={require('../assets/svg/Send.svg')} width={24} height={24} />
             </Pressable>
           </View>
 

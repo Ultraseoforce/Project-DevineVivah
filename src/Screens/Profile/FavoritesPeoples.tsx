@@ -12,7 +12,6 @@ const FavoritesPeoples = () => {
   const { data: MyFavoritePeoples, isLoading } = useGetMyFavoritePeopleQuery()
   const right = require("../../assets/Image/smallTik.png")
 
-  console.log("MyFavoritePeoples", MyFavoritePeoples)
 
   const renderItem = ({ item }: any) => (
     <Pressable onPress={() => navigate("ViewProfile", {})} style={styles.itemContainer}>

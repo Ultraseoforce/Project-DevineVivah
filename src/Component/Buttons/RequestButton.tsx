@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, Text, View } from 'react-native'
+import { ActivityIndicator, Pressable, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import { Color } from '../../Theme'
 import { moderateScale, scale } from '../../Theme/ResposiveSize'
@@ -9,12 +9,17 @@ interface IRequestButton {
     backgroundColor?: string
     title?: string
     onPress?: Function
+    isloading: boolean
 }
 const RequestButton = (Props: IRequestButton) => {
     return (
         <Pressable onPress={() => Props.onPress ? Props.onPress() : null}
             style={[styles.container, { backgroundColor: Props.backgroundColor ? Props.backgroundColor : Color.orange }]}>
-            <Text style={[Typography.samll_bold, { color: Color.white }]}>{Props.title}</Text>
+            {Props.isloading ?
+                <ActivityIndicator color={Color.orange} size={'small'} />
+                :
+                <Text style={[Typography.samll_bold, { color: Color.white }]}>{Props.title}</Text>}
+
         </Pressable>
     )
 }

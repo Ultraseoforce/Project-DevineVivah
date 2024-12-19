@@ -21,7 +21,10 @@ const URLS = {
     addFavorite: "add-favorite-profile",
     removeFavorite: "remove-favorite-profile",
     favoritepeople: "my-favorite-people",
-    myfavoriteastrologer: "my-favorite-astrologer"
+    myfavoriteastrologer: "my-favorite-astrologer",
+    sendchatrequest: "send-chat-request",
+    rejectchatrequest: "reject-chat-request",
+    shortlistprofile: "shortlist-profile"
 };
 
 export const profileApiSlice = apiSlice.injectEndpoints({
@@ -106,54 +109,86 @@ export const profileApiSlice = apiSlice.injectEndpoints({
                 body: body,
             }),
         }),
+
+        sendChatRequest: builder.mutation({
+            query: (receiverMemberId: string) => ({
+                url: `${URLS.sendchatrequest}`,
+                method: 'POST',
+                body: {
+                    receiver_member_id: receiverMemberId,
+                },
+            }),
+        }),
+
+        rejectChatRequest: builder.mutation({
+            query: (body: { receiver_member_id: string }) => ({
+                url: `${URLS.rejectchatrequest}`,
+                method: 'POST',
+                body,
+            }),
+        }),
+
+        shortlistProfile: builder.mutation({
+            query: (interacted_member_id: string) => ({
+                url: `${URLS.shortlistprofile}?interacted_member_id=${interacted_member_id}`,
+                method: "POST",
+            }),
+            transformResponse: (responseData: any) => {
+                return responseData;
+            },
+        }),
+
         getAllProfiles: builder.query({
             query: () => `${URLS.allProfile}`,
             transformResponse: (responseData: any, meta: any, arg: any) => {
-              const data = responseData.data;
-              return data;
+                const data = responseData.data;
+                return data;
             },
-          }),
-      
+        }),
+
         getMyFavoritePeople: builder.query({
             query: () => `${URLS.favoritepeople}`,
             transformResponse: (responseData: any, meta: any, arg: any) => {
-              const data = responseData.data;
-              return data;
+                const data = responseData.data;
+                return data;
             },
-          }),
+        }),
         getProfile: builder.query({
             query: () => `${URLS.profile}`,
             transformResponse: (responseData: any, meta: any, arg: any) => {
-              const data = responseData.data;
-              return data;
+                const data = responseData.data;
+                return data;
             },
-          }),
-          getFavoriteAstrologer: builder.query({
+        }),
+        getFavoriteAstrologer: builder.query({
             query: () => `${URLS.myfavoriteastrologer}`,
             transformResponse: (responseData: any, meta: any, arg: any) => {
-              const data = responseData.data;
-              return data;
+                const data = responseData.data;
+                return data;
             },
-          }),
+        }),
 
 
     }),
 });
 
 export const {
-useUpdatePersonalDetailsMutation,
-useUpdateEducationDetailsMutation,
-useUpdateProfessionDetailsMutation,
-useUpdateFamilyDetailsMutation,
-useUpdatePreferencesDetailsMutation,
-useUpdateLocationDetailsMutation,
-useUpdateVerificationDetailsMutation,
-useUploadProfileImageMutation,
-useDeleteProfileImageMutation,
-useAddFavoriteMutation,
-useRemoveFavoriteMutation,
-getAllProfilesQuery,
-getProfilsQuery,
-useGetMyFavoritePeopleQuery,
-useGetFavoriteAstrologerQuery
+    useUpdatePersonalDetailsMutation,
+    useUpdateEducationDetailsMutation,
+    useUpdateProfessionDetailsMutation,
+    useUpdateFamilyDetailsMutation,
+    useUpdatePreferencesDetailsMutation,
+    useUpdateLocationDetailsMutation,
+    useUpdateVerificationDetailsMutation,
+    useUploadProfileImageMutation,
+    useDeleteProfileImageMutation,
+    useSendChatRequestMutation,
+    useRejectChatRequestMutation,
+    useShortlistProfileMutation,
+    useAddFavoriteProfileMutation,
+    useRemoveFavoriteProfileMutation,
+    useGetAllProfilesQuery,
+    useGetProfileQuery,
+    useGetMyFavoritePeopleQuery,
+    useGetFavoriteAstrologerQuery
 } = profileApiSlice;

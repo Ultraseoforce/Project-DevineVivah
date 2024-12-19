@@ -38,6 +38,8 @@ const SelectInterests = () => {
   const [addPreferencesDetails, {isLoading}] = useUpdatePreferencesDetailsMutation()
   const profiledata = useSelector(selectProfile)
 
+  const formattedInterests = seletedItemsname.join(",");
+
 
   useEffect(() => {
     if (profiledata?.interests) {
@@ -115,7 +117,7 @@ const SelectInterests = () => {
       drink: PreferencesDetails.drink,
       likes: PreferencesDetails.likes,
       smoke: PreferencesDetails.smoke,
-      interests: seletedItemsname
+      interests: formattedInterests
     }
     try {
       const respo = await addPreferencesDetails(request).unwrap();
@@ -130,7 +132,6 @@ const SelectInterests = () => {
     } catch (error) {
       console.log(error)
     }
-    
   }
 
 

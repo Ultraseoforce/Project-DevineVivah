@@ -17,6 +17,7 @@ import Button from '../../Component/Buttons/Button';
 import Toast from '../../Component/Modal/ToastMessage';
 import Loder from '../../Component/Modal/Loder';
 import BackHeader from '../../Component/Header/BackHeader';
+import { navigate } from '../../Navigator/Utils';
 
 const { width } = Dimensions.get('window');
 const imageWidth = (width - 73) / 2.01;
@@ -128,7 +129,7 @@ export default function ImagePickerComponent() {
                     </View>
                 </View>
                 <View style={styles.buttonContainer}>
-                    <Button title='SAVE' onPress={() => console.log('Saving images:', images)} />
+                    <Button title='SAVE' onPress={() => navigate("MainNavigator", {})} />
                 </View>
             </View>
         </SafeAreaView>
