@@ -11,6 +11,7 @@ interface Idropdown {
     onSelect?: any
     title?: string
     placeholder?: string
+    
 }
 
 const CustomDropdown = (props: Idropdown) => {

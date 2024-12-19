@@ -21,8 +21,8 @@ const chatData = [
         name: 'druids',
         status: 'I thought it was you, lol',
         time: 'yesterday',
-        unreadCount: 10,
-        badge: 'Astrologer'
+        unreadCount: 13,
+        // badge: 'Astrologer'
     },
     {
         id: 3,
@@ -36,8 +36,7 @@ const chatData = [
         name: '0x71C7656EC7ab4...dFB7',
         status: 'Whats up Sam, it’s Frankie. 😏',
         time: 'Friday',
-        unreadCount: 10,
-        // badge: 'Astrologer'
+        // unreadCount: 10,
     },
     {
         id: 5,
@@ -109,18 +108,18 @@ const Acceptees = () => {
                                 <Text style={styles.badgeText}>{item.badge}</Text>
                         </View>)}
                     </View>
-                    <Text style={[styles.statusText, Typography.small,{color: Color.black}]}>{item.status}</Text>
+                    <Text style={[styles.statusText, Typography.small,{color: Color.chatBg}]}>{item.status}</Text>
                 </View>
             </View>
             <View style={styles.timeContainer}>
-                <Text style={[styles.timeText, Typography.smallTitle,]}>{item.time}</Text>
+                <Text style={[styles.timeText, Typography.smallText,]}>{item.time}</Text>
                 <View style={{
                     color: Color.white,
                     fontSize: FontSize.Font14,
                     backgroundColor: Color.orange,
-                    borderRadius: 40,
+                    borderRadius: 100,
                     alignSelf: 'flex-end',
-                    paddingHorizontal: 7,
+                    // padding: 3,
                     textAlign: 'center',
                 }}>
                     {item.unreadCount > 0 && (

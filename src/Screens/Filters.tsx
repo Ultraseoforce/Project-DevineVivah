@@ -445,7 +445,7 @@ const filterClear = () => {
 
       <View style={styles.container}>
         <View style={styles.header_container}>
-          <View style={{ marginTop: moderateScale(50), marginHorizontal: moderateScale(10), flexDirection: "row", alignItems: "center", gap: 10 }}>
+          <View style={{ marginTop: moderateScale(50), marginHorizontal: moderateScale(16), flexDirection: "row", alignItems: "center", gap: 10 }}>
             <Close onPress={() => navigationRef.goBack()} />
             {/* <Ionicons name="close-sharp" size={30} color={Color.black} onPress={() => navigationRef.goBack()} /> */}
             <Text style={Typography.large_headings}>Filters</Text>

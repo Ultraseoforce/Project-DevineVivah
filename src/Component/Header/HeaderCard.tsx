@@ -12,6 +12,7 @@ import { Typography } from '../../Theme/Typography';
 import Shopping_cart from '../../assets/svg/Shopping.svg';
 import { useGetProfileQuery } from '../../Store/auth/authApiSlice';
 import { useIsFocused } from '@react-navigation/native';
+import Bell from '../../assets/svg/Ball.svg'
 
 interface IHeader {
   BgWhite?: boolean;
@@ -57,9 +58,9 @@ const HeaderCard = (Props: IHeader) => {
           </Text>
         </View>
         {!Props.showCard ? (
-          <Pressable onPress={() => navigate('Notifacations', {})}>
+          <TouchableOpacity onPress={() => navigate('Notifacations', {})}>
             <Image source={bell} style={styles.bell} />
-          </Pressable>
+          </TouchableOpacity>
         ) : (
           <TouchableOpacity>
             <Shopping_cart />
@@ -73,7 +74,8 @@ const HeaderCard = (Props: IHeader) => {
         <Filters onFilter={() => navigate('Filters', {})} mainStyle={styles.filterStyle} />
         {Props.BgWhite && (
           <Pressable onPress={() => navigate('Notifacations', {})} style={styles.bgball}>
-            <Image source={bell} style={styles.bellInsideWhite} tintColor={Color.border} />
+            {/* <Image source={bell} style={styles.bellInsideWhite} tintColor={Color.border} /> */}
+            <Bell style={styles.bellInsideWhite} color={'red'}/>
           </Pressable>
         )}
       </View>

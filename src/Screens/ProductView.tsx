@@ -11,6 +11,8 @@ import Feather from 'react-native-vector-icons/Feather';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Smile from 'react-native-vector-icons/Feather';
 import Icon from 'react-native-vector-icons/Entypo';
+import Send from '../assets/svg/Send.svg'
+
 
 const ProductView = ({ route }: any) => {
   const { item } = route.params
@@ -159,18 +161,19 @@ const ProductView = ({ route }: any) => {
                 placeholder='Make a Comment'
                 placeholderTextColor={Color.chatBg}
               />
-              <View style={styles.iconContainer}>
+              {/* <View style={styles.iconContainer}>
                 <Pressable>
                   <Icon name='attachment' size={19} color={Color.chatBg} style={styles.icon} />
                 </Pressable>
                 <Pressable>
                   <Icon name='camera' size={19} color={Color.chatBg} style={styles.icon} />
                 </Pressable>
-              </View>
+              </View> */}
             </View>
 
             <Pressable style={styles.sendButton}>
-              <Image source={CameraImage} style={styles.sendIcon} />
+              {/* <Image source={CameraImage} style={styles.sendIcon} /> */}
+              <Send />
             </Pressable>
           </View>
 

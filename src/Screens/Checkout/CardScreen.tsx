@@ -12,6 +12,8 @@ import { images } from '../../Theme/Image'
 import Plus from '../../assets/svg/Plus.svg'
 import Minus from '../../assets/svg/Minus.svg'
 import Delete from '../../assets/svg/Delete.svg'
+// import Dot from '../../assets/svg/Three-Dot.svg'
+
 
 const CardScreen = ({route}: any) => {
     const { item } = route.params
@@ -25,7 +27,7 @@ const CardScreen = ({route}: any) => {
     if (!isVisible) return null;
 
 const Product = require("../../assets/Image/bigprofile.png")
-const Dots = require('../../assets/Image/3dots.png');
+const Dot = require('../../assets/Image/3dots.png');
 // const Delete = require('../../assets/Image/Delete.png');
 
 console.log("card add item=>>>>", item)
@@ -41,7 +43,7 @@ console.log("card add item=>>>>", item)
               <Text style={[Typography.samll_bold,{color: Color.black, fontSize: FontSize.Font20}]}>Product Name</Text>
               <View style={styles.categoryRow}>
                 <Text style={[Typography.body,{letterSpacing: 0, color: Color.chatBg}]}>Category :</Text>
-                <Text style={[Typography.small,{color:Color.black}]}> Jewelery</Text>
+                <Text style={[Typography.small,{color:Color.black}]}>Jewelery</Text>
               </View>
             </View>
             <View style={styles.priceDetails}>
@@ -57,7 +59,8 @@ console.log("card add item=>>>>", item)
               </View>
             </View>
           </View>
-          <Image source={Dots} />
+          <Image source={Dot} />
+
         </View>
         <View style={styles.actionsRow}>
           <Text style={[Typography.body, styles.wishlistText]}>Add to Wishlist</Text>
@@ -72,8 +75,8 @@ console.log("card add item=>>>>", item)
             </TouchableOpacity>
             <Text style={styles.quantityText}>{quantity}</Text>
             <TouchableOpacity style={styles.incrementButton} onPress={increment}>
-              {/* <Sign name='plus' size={21} color={'white'} /> */}
-              <Plus />
+              <Sign name='plus' size={21} color={'white'} />
+              {/* <Plus /> */}
             </TouchableOpacity>
           </View>
         </View>

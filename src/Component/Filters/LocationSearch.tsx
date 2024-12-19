@@ -12,7 +12,7 @@ const LocationSearch = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={[styles.LocationText, Typography.smallTitle]}>Location</Text>
+      <Text style={[styles.LocationText, Typography.smallText]}>Location</Text>
       <SearchBar style={styles.search} />
       <View style={styles.checkBoxContainer}>
         {cities.map((city, index) => (

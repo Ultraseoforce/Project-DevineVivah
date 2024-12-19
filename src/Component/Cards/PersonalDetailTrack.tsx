@@ -133,7 +133,7 @@ const PersonalDetailTrack = (Props: IPersonalTrack) => {
           />
         </View>
         :
-        <View>
+        <View style={{marginTop:moderateScale(30)}}>
           <Text style={[Typography.samll_bold, { color: Color.black, marginLeft: 15 }]}>Reviews</Text>
           <Reviews />
 
@@ -180,7 +180,7 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: "row",
     alignItems: "center",
-    marginHorizontal: moderateScale(15),
+    marginHorizontal: moderateScale(10),
     marginTop: moderateScale(15),
     justifyContent: "space-between"
   },

@@ -129,8 +129,8 @@ const ChatScreen = () => {
                     </View>
                 </View>
                 </View>
-                <Text style={[Typography.large_headings, { fontSize: FontSize.Font24 }]}>Online Matches (22)</Text>
-                <Text style={[Typography.small, { fontSize: FontSize.Font14, color: Color.chatBg }]}>Initiate a chat with your matches to get faster response.</Text>
+                <Text style={[Typography.large_headings, { fontSize: FontSize.Font24 }]}>My Conversations</Text>
+                {/* <Text style={[Typography.small, { fontSize: FontSize.Font14, color: Color.chatBg }]}>Initiate a chat with your matches to get faster response.</Text> */}
             </View>
 
             <View>

@@ -273,7 +273,7 @@ useEffect(() => {
           <View style={{padding: 16}}>
             <YourMatches />
             <CategoryCard />
-            <View style={{ marginTop: moderateScale(10) }}>
+            <View style={{ marginTop: moderateScale(15) }}>
               <LinearGradient
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 0 }}

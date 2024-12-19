@@ -51,7 +51,7 @@ const Notifacations = () => {
             <Image source={item.ShowImage} style={styles.Image} />
             <View style={styles.orderDetails}>
                 <Text style={[styles.orderTitle, Typography.small,{color: Color.black}]}>{item.title}</Text>
-                <Text style={[styles.orderStatus, Typography.small,{color: Color.black}]}>{item.Details}</Text>
+                <Text style={[styles.orderStatus, Typography.small,{color: Color.chatBg}]}>{item.Details}</Text>
             </View>
             <Text style={styles.orderDate}>{item.Time}</Text>
         </View>

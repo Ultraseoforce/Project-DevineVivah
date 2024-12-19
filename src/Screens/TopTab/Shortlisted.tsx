@@ -90,8 +90,8 @@ const styles = StyleSheet.create({
   },
   tagContainer: {
     position: "absolute",
-    top: 10,
-    left: 10,
+    top: 15,
+    left: moderateScale(32),
     backgroundColor: Color.orange,
     paddingHorizontal: 13,
     paddingVertical: 7,
@@ -99,8 +99,8 @@ const styles = StyleSheet.create({
   },
   viewContainer: {
     position: "absolute",
-    top: moderateScale(10),
-    right: moderateScale(10),
+    top: moderateScale(15),
+    right: moderateScale(32),
     backgroundColor: Color.orange,
     paddingHorizontal: 13,
     paddingVertical: 5,
@@ -112,9 +112,9 @@ const styles = StyleSheet.create({
  
   bottomContainer: {
     position: "absolute",
-    bottom: 0,
-    left: 0,
-    right: 0,
+    bottom: 10,
+    left: 32,
+    right: 32,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",

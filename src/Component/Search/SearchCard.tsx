@@ -19,10 +19,10 @@ const SearchBar = (search: ISearch) => {
   return (
     <View style={[styles.textInput, search.style]}>
       {/* <Octicons name="search" size={25} color={Color.black} /> */}
-      <Search />
+      <Search/>
       <TextInput
         style={styles.input}
-        placeholder={search?.placeHolder || "Search...."}
+        placeholder={search?.placeHolder || "Search Location"}
         value={search?.value}
         onChangeText={search?.onChangeText}
         placeholderTextColor={Color.chatBg}

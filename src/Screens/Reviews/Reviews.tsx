@@ -1,4 +1,4 @@
-import { FlatList, Image, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native'
+import { FlatList, Image, Pressable, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, TouchableOpacityBase, View } from 'react-native'
 import React, { useState } from 'react'
 import { Color } from '../../Theme'
 import { Typography } from '../../Theme/Typography'
@@ -6,6 +6,7 @@ import { FontSize } from '../../Theme/FontSize'
 import { scale } from '../../Theme/ResposiveSize'
 import Smile from 'react-native-vector-icons/Feather';
 import Icon from 'react-native-vector-icons/Entypo';
+import Send from '../../assets/svg/Send.svg'
 
 
 const Reviews = () => {
@@ -91,27 +92,28 @@ const Reviews = () => {
             />
              <View style={styles.container}>
             <View style={styles.inputContainer}>
-                <Pressable>
+                <TouchableOpacity>
                     <Smile name='smile' size={24} color={Color.chatBg} style={styles.icon} />
-                </Pressable>
+                </TouchableOpacity>
                 <TextInput
                     style={styles.textInput}
                     placeholder='Make a Comment'
                     placeholderTextColor={Color.chatBg}
                 />
-                <View style={styles.iconContainer}>
+                {/* <View style={styles.iconContainer}>
                     <Pressable>
                         <Icon name='attachment' size={19} color={Color.chatBg} style={styles.icon} />
                     </Pressable>
                     <Pressable>
                         <Icon name='camera' size={19} color={Color.chatBg} style={styles.icon} />
                     </Pressable>
-                </View>
+                </View> */}
             </View>
 
-            <Pressable style={styles.sendButton}>
-                <Image source={CameraImage} style={styles.sendIcon} />
-            </Pressable>
+            <TouchableOpacity style={styles.sendButton}>
+                {/* <Image source={CameraImage} style={styles.sendIcon} /> */}
+                <Send />
+            </TouchableOpacity>
         </View>
         </View>
     )
@@ -159,8 +161,8 @@ const styles = StyleSheet.create({
         backgroundColor: Color.orange,
         borderRadius: 50,
         padding: 10,
-        justifyContent: 'center',
-        alignItems: 'center',
+        // justifyContent: 'center',
+        // alignItems: 'center',
     },
     sendIcon: {
         height: 31,

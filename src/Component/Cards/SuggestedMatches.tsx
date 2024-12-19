@@ -56,7 +56,7 @@ const SuggestedMatches = () => {
           <Text style={Typography.smallText}>{item.detalis}</Text>
         </View>
         {/* <AntDesign name="right" size={17} color={Color.orange} style={styles.rightIcon} /> */}
-        {/* <Right /> */}
+        <Right />
         {/* <Right style={{ height: 17, width: 17 }} /> */}
       </View>
     </View>
@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
+    // alignItems: 'center',
   },
 
 

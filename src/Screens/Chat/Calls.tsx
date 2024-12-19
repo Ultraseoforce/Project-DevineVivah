@@ -4,6 +4,9 @@ import { Color } from '../../Theme';
 import { moderateScale } from '../../Theme/ResposiveSize';
 import { Typography } from '../../Theme/Typography';
 import { FontSize } from '../../Theme/FontSize';
+import VideoCall from '../../assets/svg/Video.svg';
+import VoiceCall from '../../assets/svg/Voice.svg';
+
 
 const ProfileImage = require('../../assets/Image/Notification1.png');
 

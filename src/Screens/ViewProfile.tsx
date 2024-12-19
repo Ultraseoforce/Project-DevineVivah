@@ -463,6 +463,8 @@ const styles = StyleSheet.create({
     borderRadius: scale(50),
     justifyContent: 'center',
     alignItems: 'center',
+    borderWidth:1,
+    borderColor:Color.orange,
   },
   infoSection: {
     gap: 15,
@@ -484,11 +486,13 @@ const styles = StyleSheet.create({
   },
   footer: {
     marginHorizontal: moderateScale(10),
+    marginTop:10
   },
   itemWrapper: {
     flex: 1,
     alignItems: 'center',
     marginBottom: moderateScale(10),
+    marginTop:10
   },
   itemContainer: {
     backgroundColor: 'white',
