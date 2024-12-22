@@ -202,7 +202,7 @@ const Checkout = () => {
       <StatusBar backgroundColor={Color.white} barStyle="dark-content" />
       <BackHeader centerTitle='Checkout'  />
       <View style={styles.content}>
-        <ShippingAddressCard  heading='Shipping Address' name='Person Name' phoneNumber="91123456789" address="House#, Street no. Street name, city, state, country." />
+        <ShippingAddressCard  heading='Shipping Address' name='Person Name' phoneNumber="91123456789" address={"House#, Street no. Street name, city, state, country."} />
         <CheckOutProduct />
       </View>
       <View style={styles.couponContainer}>
@@ -240,19 +240,26 @@ const styles = StyleSheet.create({
   },
   content: {
     margin: scale(16),
-   
   },
   couponContainer: {
     position: 'absolute',
     bottom: 0,
     left: 0,
     right: 0,
-    padding: 15,
+    backgroundColor: Color.white,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    padding: 20,
+    shadowColor: 'blue',
+    shadowOffset: { width: 0, height: -2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
+    elevation: 10,
   },
   couponRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: "#F6F6F6",
+    backgroundColor: Color.boxBg,
     padding: 13,
     gap: 15,
     borderRadius: 8,
@@ -262,14 +269,11 @@ const styles = StyleSheet.create({
     height: 24,
     resizeMode: 'contain',
   },
-
   row: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginTop: 20,
   },
-
- 
   divider: {
     borderStyle: 'dashed',
     borderTopWidth: 1,

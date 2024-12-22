@@ -56,7 +56,7 @@ const ProfileScreen = () => {
     { uri: getImagePath(userProfileData?.profile_photo3 || '') },
   ].filter((image) => image.uri);
 
-  const onViewRef = useRef(({ viewableItems }: { viewableItems: Array<{ index: number }> }) => {
+  const onViewRef = useRef(({ viewableItems }) => {
     if (viewableItems.length > 0) {
       setActiveIndex(viewableItems[0].index);
     }
