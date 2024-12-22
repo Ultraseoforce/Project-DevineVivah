@@ -11,8 +11,7 @@ import Feather from 'react-native-vector-icons/Feather';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Smile from 'react-native-vector-icons/Feather';
 import Icon from 'react-native-vector-icons/Entypo';
-import { SvgUri } from 'react-native-svg';
-
+import Send from '../assets/svg/Send.svg'
 
 const ProductView = ({ route }: any) => {
   const { item } = route.params
@@ -175,8 +174,8 @@ const ProductView = ({ route }: any) => {
             </View>
 
             <Pressable style={styles.sendButton}>
-              {/* <Image source={CameraImage} style={styles.sendIcon} /> */}
-              <SvgUri uri={require('../assets/svg/Send.svg')} width={24} height={24} />
+              {/* <SvgUri uri={require('../assets/svg/Send.svg')} width={24} height={24} /> */}
+              <Send />
             </Pressable>
           </View>
 

@@ -39,11 +39,10 @@ const ShippingAddressCard = (Props: ShippingCard) => {
           <Text>right image</Text>
             // <Image source={right} style={{ height: 15, width: 15, position: "absolute", alignSelf: "flex-end",  tintColor: Color.orange }} resizeMode='contain' />
             :
-            <View style={{ flexDirection: "row", position: "absolute", alignSelf: "flex-end", gap: 5,  alignItems: "center" }}>
-              <FontAwesome name='edit' size={20} color={Color.orange}    />
+            <View style={{ flexDirection: "row", position: "absolute", alignSelf: "flex-end", gap: 5,  alignItems: "center" , }}>
+              <FontAwesome name='edit' size={18} color={Color.orange} />
               <Text style={[Typography.smallText, { fontSize: FontSize.Font18, lineHeight: 22, color: Color.orange }]}>Edit</Text>
             </View>
-
           }
 
           <View style={{ flexDirection: "row", gap: 5 }}>
@@ -74,6 +73,5 @@ const styles = StyleSheet.create({
     //  alignItems: "center",
     gap: 10,
     borderRadius: 8
-
   }
 })

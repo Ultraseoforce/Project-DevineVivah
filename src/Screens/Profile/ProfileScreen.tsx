@@ -461,6 +461,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     padding: 10,
+    paddingTop:30,
+    paddingHorizontal:30
   },
   itemContainer: {
     alignItems: 'center',

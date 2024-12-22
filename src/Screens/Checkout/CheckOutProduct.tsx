@@ -10,6 +10,8 @@ import { FontSize } from '../../Theme/FontSize';
 import { moderateScale, moderateScaleVertical } from '../../Theme/ResposiveSize';
 import { navigate } from '../../Navigator/Utils';
 import { images } from '../../Theme/Image';
+import Icon from 'react-native-vector-icons/MaterialIcons'; 
+
 
 interface CheckOut {
     status?: string
@@ -20,7 +22,7 @@ const CheckOutProduct = (Props: CheckOut) => {
     const product = require('../../assets/Image/bigprofile.png');
     return (
         <View style={styles.container}>
-            {Props.status && <Text style={[Typography.small,{color: Color.chatBg}]}>{Props.date}</Text>}
+            {Props.status && <Text style={[Typography.small, { color: Color.chatBg }]}>{Props.date}</Text>}
             <Pressable onPress={() => navigate("OrderDetails", {})} style={styles.card}>
                 <View style={styles.row}>
                     <Image source={images.jeweleryImage} style={styles.productImage} />
@@ -62,6 +64,8 @@ const CheckOutProduct = (Props: CheckOut) => {
                         <Text style={[Typography.body, { color: Color.chatBg, letterSpacing: 0 }]}>Qty : </Text>
                         <Text style={[Typography.samll_bold, { color: Color.black }]}> 1</Text>
                     </View>
+                    <Icon name="arrow-forward-ios" size={14} color={Color.orange} style={styles.rightIcon} />
+
                 </View>
                 {Props.status === "Received" &&
                     <>
@@ -178,4 +182,3 @@ const styles = StyleSheet.create({
         borderColor: Color.border
     }
 })
-
