@@ -4,19 +4,27 @@ import { Typography } from '../../Theme/Typography';
 import { Color } from '../../Theme';
 import { moderateScale } from '../../Theme/ResposiveSize';
 import { navigate } from '../../Navigator/Utils';
-import { useGetFavoriteAstrologerQuery } from '../../Store/profile/ProfileApiSlice';
 import { getImagePath } from '../../Component/Utils/helper';
+import { useGetFavoriteAstrologerQuery } from '../../Store/Astrologers/AstrologersApiSlice';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
 const FamousAstrologers = () => {
     const right = require("../../assets/Image/smallTik.png");
     const star = require("../../assets/Image/star.png");
 
     const { data: MyFavoriteAstrologer, isLoading } = useGetFavoriteAstrologerQuery();
-    console.log("MyFavoriteAstrologer",MyFavoriteAstrologer)
 
     const renderItem = ({ item }: any) => (
-        <Pressable onPress={() => navigate("ViewProfile", {})} style={styles.itemContainer}>
+        <Pressable onPress={() => navigate("AstrologerProfileView", { id: item.id })} style={styles.itemContainer}>
             <Image source={{ uri: getImagePath(item.profile_photo1) }} style={styles.image} />
+             <View style={styles.favoriteContainer}>
+                      <Icon 
+                        name="heart" 
+                        size={20} 
+                        color="#FF4B6A" 
+                        style={styles.heartIcon}
+                      />
+                    </View>
             <View style={styles.textContainer}>
                 <Text style={[Typography.small, { color: Color.black }]}>{item.full_name}</Text>
                 <Image source={right} style={styles.rightIcon} />
@@ -79,4 +87,18 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
+    favoriteContainer: {
+        position: 'absolute',
+        top: 8,
+        right: 8,
+        backgroundColor: 'rgba(255, 255, 255, 0.9)',
+        borderRadius: 20,
+        padding: 6,
+      },
+      heartIcon: {
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 1 },
+        shadowOpacity: 0.2,
+        shadowRadius: 2,
+      },
 });

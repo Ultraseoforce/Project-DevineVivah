@@ -21,10 +21,10 @@ const URLS = {
     addFavorite: "add-favorite-profile",
     removeFavorite: "remove-favorite-profile",
     favoritepeople: "my-favorite-people",
-    myfavoriteastrologer: "my-favorite-astrologer",
     sendchatrequest: "send-chat-request",
     rejectchatrequest: "reject-chat-request",
-    shortlistprofile: "shortlist-profile"
+    shortlistprofile: "shortlist-profile",
+    viewProfile: "view-profile"
 };
 
 export const profileApiSlice = apiSlice.injectEndpoints({
@@ -138,11 +138,15 @@ export const profileApiSlice = apiSlice.injectEndpoints({
             },
         }),
 
-        getAllProfiles: builder.query({
-            query: () => `${URLS.allProfile}`,
-            transformResponse: (responseData: any, meta: any, arg: any) => {
-                const data = responseData.data;
-                return data;
+        getAllProfiles: builder.mutation({
+            query: (body: any) => (console.log("Request Body:", body),
+            {
+                url: `${URLS.allProfile}`,
+                method: "POST",
+                body: body,
+            }),
+            transformResponse: (responseData: any) => {
+                return responseData.data;
             },
         }),
 
@@ -160,13 +164,15 @@ export const profileApiSlice = apiSlice.injectEndpoints({
                 return data;
             },
         }),
-        getFavoriteAstrologer: builder.query({
-            query: () => `${URLS.myfavoriteastrologer}`,
-            transformResponse: (responseData: any, meta: any, arg: any) => {
-                const data = responseData.data;
-                return data;
-            },
+
+        viewProfile: builder.mutation({
+            query: (interacted_member_id: string) => ({
+                url: `${URLS.viewProfile}`,
+                method: "POST",
+                body: { interacted_member_id },
+            }),
         }),
+
 
 
     }),
@@ -187,8 +193,8 @@ export const {
     useShortlistProfileMutation,
     useAddFavoriteProfileMutation,
     useRemoveFavoriteProfileMutation,
-    useGetAllProfilesQuery,
+    useGetAllProfilesMutation,
     useGetProfileQuery,
     useGetMyFavoritePeopleQuery,
-    useGetFavoriteAstrologerQuery
+    useViewProfileMutation,
 } = profileApiSlice;

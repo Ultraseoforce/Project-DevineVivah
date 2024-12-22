@@ -1,5 +1,5 @@
-import { SafeAreaView, View, Text, StyleSheet, ScrollView, TextInput, Image, StatusBar, Pressable } from 'react-native';
-import React, { useRef, useState } from 'react';
+import { SafeAreaView, View, Text, StyleSheet, Image, StatusBar, Pressable } from 'react-native';
+import React, { useState } from 'react';
 import { Color } from '../../Theme';
 import { Typography } from '../../Theme/Typography';
 import NameInput from '../../Component/Placeholder/NameInput';
@@ -13,19 +13,21 @@ import { useRoute } from '@react-navigation/native';
 
 const CreactNewPassword = () => {
     const route = useRoute();
-    const navigationType = route.params
+    const navigationType = route.params;
     const { showToast } = Toast();
     const [newPassword, setNewPassword] = useState<string>('');
     const [confirmPassword, setConfirmPassword] = useState<string>('');
-    const [errors, setErrors] = useState<PasswordErrors>({});
+    const [errors, setErrors] = useState<{ newPassword?: string; confirmPassword?: string }>({});
     const [ChangePassword, { isLoading }] = useNewPasswordMutation();
 
-    const BackButton = require('../../assets/Image/arrow-left.png')
+    const BackButton = require('../../assets/Image/arrow-left.png');
 
     const validatePasswords = (): boolean => {
-        let formErrors: PasswordErrors = {};
+        let formErrors: { newPassword?: string; confirmPassword?: string } = {};
         if (!newPassword.trim()) {
             formErrors.newPassword = 'New password is required';
+        } else if (newPassword.length < 6) {
+            formErrors.newPassword = 'Password must be at least 6 characters long';
         }
         if (!confirmPassword.trim()) {
             formErrors.confirmPassword = 'Confirm password is required';
@@ -43,27 +45,27 @@ const CreactNewPassword = () => {
                 const respo = await ChangePassword({ password: newPassword }).unwrap();
                 if (respo?.status == true) {
                     showToast(respo?.message, { type: 'normal' });
-                    navigate("PasswordChangeSuccess", {})
-                    console.log("ChangePassword repose", respo)
-
+                    navigate("PasswordChangeSuccess", {});
+                    console.log("ChangePassword response", respo);
                 } else {
-                    showToast(respo?.message, { type: 'normal' });
+                    showToast(respo?.message, { type: 'error' });
                 }
-
             } catch (error) {
-                console.error(error);
+                console.error('Change Password Failed:', error);
+                showToast("Failed to change password. Please try again.", { type: 'error' });
             }
         }
     };
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: Color.white }}>
-
-            {navigationType.type === "forgotpassword" ? <Pressable onPress={() => navigationRef.goBack()} style={styles.back}>
-                <Image source={BackButton} style={styles.icon} />
-            </Pressable> : <BackHeader leftTitle='Change Password' />}
-
-
+            {navigationType.type === "forgotpassword" ? (
+                <Pressable onPress={() => navigationRef.goBack()} style={styles.back}>
+                    <Image source={BackButton} style={styles.icon} />
+                </Pressable>
+            ) : (
+                <BackHeader leftTitle='Change Password' />
+            )}
             <StatusBar backgroundColor={'white'} barStyle={"dark-content"} />
             <View style={styles.container}>
                 <Text style={Typography.main_heading}>Create new password</Text>
@@ -88,7 +90,7 @@ const CreactNewPassword = () => {
                     />
                     {errors.confirmPassword && <Text style={styles.errorText}>{errors.confirmPassword}</Text>}
                 </View>
-                <Button title='Update' mainStyle={styles.btn} onPress={handleContinue} />
+                <Button title='Update' mainStyle={styles.btn} onPress={handleContinue} isLoading={isLoading} />
             </View>
         </SafeAreaView>
     );
@@ -100,22 +102,13 @@ const styles = StyleSheet.create({
     container: {
         padding: moderateScale(20),
     },
-    content: {
-        flexGrow: 1,
-        marginTop: moderateScale(10),
-        gap: moderateScale(20),
-    },
-    btn: {
-        marginTop: moderateScale(30),
-    },
     text: {
         marginTop: moderateScale(3),
-        color: Color.chatBg
+        color: Color.chatBg,
     },
     icon: {
         height: moderateScale(30),
         width: moderateScale(30),
-
     },
     back: {
         marginTop: moderateScale(30),
@@ -127,10 +120,13 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         height: moderateScale(50),
         width: moderateScale(50),
-        borderRadius: moderateScale(50)
+        borderRadius: moderateScale(50),
     },
     errorText: {
         color: 'red',
         marginTop: 5,
+    },
+    btn: {
+        marginTop: moderateScale(30),
     },
 });

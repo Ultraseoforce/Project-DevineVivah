@@ -36,3 +36,24 @@ export function getImagePath(imageUrl: string): string | null {
 
   return `${IMAGE_BASE}${relativePath}`;
 }
+
+
+export function formatTimeDifference(dateString: string): string {
+  const dateObject = new Date(dateString);
+  const currentDate = new Date();
+
+  const timeDifference = currentDate.getTime() - dateObject.getTime();
+  const daysAgo = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+  const monthsAgo = Math.floor(daysAgo / 30); // Approximate
+  const yearsAgo = Math.floor(daysAgo / 365); // Approximate
+
+  if (yearsAgo > 0) {
+      return `${yearsAgo} year${yearsAgo > 1 ? "s" : ""} ago`;
+  } else if (monthsAgo > 0) {
+      return `${monthsAgo} month${monthsAgo > 1 ? "s" : ""} ago`;
+  } else if (daysAgo > 0) {
+      return `${daysAgo} day${daysAgo > 1 ? "s" : ""} ago`;
+  } else {
+      return "Today";
+  }
+}

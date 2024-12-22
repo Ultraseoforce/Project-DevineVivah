@@ -8,6 +8,7 @@ import { FontSize } from '../../Theme/FontSize'
 import YourMatches from '../../Component/Cards/YourMatches'
 import FavoritesPeoples from './FavoritesPeoples'
 import FavoritesAstrologers from './FavoritesAstrologers'
+import FamousAstrologers from './FavoritesAstrologers'
 
 const MyFavorites = () => {
     const [selected, setSelected] = useState(0);
@@ -44,7 +45,7 @@ const MyFavorites = () => {
                     ))}
                 </View>
             </View>
-             {selected === 0 ?  <FavoritesPeoples /> : <FavoritesAstrologers/>}
+             {selected === 0 ?  <FavoritesPeoples /> : <FamousAstrologers/>}
                 
         </View>
     )

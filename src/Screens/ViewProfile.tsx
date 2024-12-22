@@ -71,7 +71,6 @@ const ViewProfile = () => {
 
 
   const handleSendChatRequest = async () => {
-
     try {
       const response = await sendChatRequest(mId).unwrap();
       showToast((response as { message: string }).message, { type: 'normal' });

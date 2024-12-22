@@ -7,7 +7,13 @@ const initialState = AuthAdapter.getInitialState();
 
 const URLS = {
     myfavoriteastrologer: "my-favorite-astrologer",
-    addfavoriteastrologer: "add-favorite-astrologer"
+    addfavoriteastrologer: "add-favorite-astrologer",
+    famousastrologers: "famous-astrologers",
+    removeFavoriteAstrologer: "remove-favorite-astrologer",
+    astrologerProfile: "astrologer-profile",
+    astrologerReviews: "astrologer-reviews"
+
+
 };
 
 export const AstrologersSlice = apiSlice.injectEndpoints({
@@ -20,11 +26,45 @@ export const AstrologersSlice = apiSlice.injectEndpoints({
         }),
 
         addFavoriteAstrologer: builder.mutation({
-            query: (body: any) => ({
+            query: (astrologer_id: string) => ({
                 url: URLS.addfavoriteastrologer,
                 method: "POST",
-                body: body,
+                body: { astrologer_id },
             }),
+        }),
+
+
+        getFamousAstrologers: builder.query({
+            query: () => `${URLS.famousastrologers}`,
+            transformResponse: (responseData: any) => {
+                return responseData.data;
+            },
+        }),
+
+        removeFavoriteAstrologer: builder.mutation({
+            query: (astrologer_id: string) => ({
+                url: `${URLS.removeFavoriteAstrologer}`,
+                method: "POST",
+                body: { astrologer_id },
+            }),
+        }),
+
+        getAstrologerProfile: builder.query({
+            query: (astrologer_id: string) => ({
+                url: `${URLS.astrologerProfile}`,
+                method: "POST",
+                body: { astrologer_id },
+            }),
+            transformResponse: (responseData: any) => {
+                return responseData.data;
+            },
+        }),
+
+        getAstrologerReviews: builder.query({ // Added new query
+            query: (user_id: string) => `${URLS.astrologerReviews}?user_id=${user_id}`,
+            transformResponse: (responseData: any) => {
+                return responseData.data;
+            },
         }),
 
     }),
@@ -32,5 +72,9 @@ export const AstrologersSlice = apiSlice.injectEndpoints({
 
 export const {
     useGetFavoriteAstrologerQuery,
-    useAddFavoriteAstrologerMutation
+    useAddFavoriteAstrologerMutation,
+    useGetFamousAstrologersQuery,
+    useRemoveFavoriteAstrologerMutation,
+    useGetAstrologerProfileQuery,
+    useGetAstrologerReviewsQuery
 } = AstrologersSlice;

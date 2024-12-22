@@ -25,68 +25,104 @@ import { useGetProfileQuery } from '../Store/auth/authApiSlice';
 import { useDispatch } from 'react-redux';
 import { navigate } from '../Navigator/Utils';
 import { useIsFocused } from '@react-navigation/native';
+import AllProfile from './TopTab/AllProfile';
+import NotViewed from './TopTab/NotViewed';
+import NotInterested from './TopTab/NotInterested';
+import Viewed from './TopTab/Viewed';
+import { useGetAllProfilesMutation } from '../Store/profile/ProfileApiSlice';
 
-const TABS = ['Brodata', 'Not viewed', 'Shortlisted', 'Viewed', 'Not Interested'];
+const TABS = ['Brodata', "All", 'Not viewed', 'Shortlisted', 'Viewed', 'Not Interested'];
 
 const HomeScreen = () => {
   const isFocused = useIsFocused();
   const dispatch = useDispatch();
   const [selected, setSelected] = useState(0);
-const { data: getProfile, refetch } = useGetProfileQuery(undefined, {
-  skip: false,
-}) as { data: YourProfileType };
+  const { data: getProfile, refetch } = useGetProfileQuery(undefined, {
+    skip: false,
+  }) as { data: YourProfileType };
+  const [getAllProfiles, { data: AllProfiles, error, isLoading }] = useGetAllProfilesMutation();
+
   const addPhoto = require('../assets/Image/addphoto.png');
 
 
-useEffect(() => {
+ 
+
+  const [formData] = useState({
+    age: "",
+    religion: "",
+    caste: "",
+    drink: "",
+    smoke: "",
+    skill: "",
+    
+    country_id: "",
+    city_id: ""
+  });
+
+  useEffect(() => {
+    const fetchProfiles = async () => {
+      try {
+        const response = await getAllProfiles({status: 1}).unwrap();
+        console.log('Response:', response);
+      } catch (err) {
+        console.error('Error:', err);
+      }
+    };
+
+    fetchProfiles();
+  }, [getAllProfiles, formData]);
+
+
+  useEffect(() => {
     if (isFocused) {
       refetch();
     }
   }, [isFocused]);
 
-  useEffect(() => {
-    const NavigationAndDispatch = async () => {
-      try {
-        switch (true) {
-          case getProfile.personal_details === 0:
-            await navigate('PersonalDetails', {});
-            break;
-          case getProfile.education_details === 0:
-            await navigate('CreationSteps', {});
-            break;
-          case getProfile.profession_details === 0:
-            await navigate('Profession', {});
-            break;
-          case getProfile.family_details === 0:
-            await navigate('FamilyDetails', {});
-            break;
-          case getProfile.preferences_details === 0:
-            await navigate('Preferences', {});
-            break;
-          case getProfile.location_details === 0:
-            await navigate('Location', {});
-            break;
-          case getProfile.verification_details === 0:
-            await navigate('Verification', {});
-            break;
-          default:
-            console.log('All details are completed');
-            break;
-        }
+  // useEffect(() => {
+  //   const NavigationAndDispatch = async () => {
+  //     try {
+  //       switch (true) {
+  //         case getProfile.personal_details === 0:
+  //           await navigate('PersonalDetails', {});
+  //           break;
+  //         case getProfile.education_details === 0:
+  //           await navigate('CreationSteps', {});
+  //           break;
+  //         case getProfile.profession_details === 0:
+  //           await navigate('Profession', {});
+  //           break;
+  //         case getProfile.family_details === 0:
+  //           await navigate('FamilyDetails', {});
+  //           break;
+  //         case getProfile.preferences_details === 0:
+  //           await navigate('Preferences', {});
+  //           break;
+  //         case getProfile.location_details === 0:
+  //           await navigate('Location', {});
+  //           break;
+  //         case getProfile.verification_details === 0:
+  //           await navigate('Verification', {});
+  //           break;
+  //         default:
+  //           console.log('All details are completed');
+  //           break;
+  //       }
 
-      } catch (error) {
-        console.error('Error during navigation or dispatch:', error);
-      }
-    };
+  //     } catch (error) {
+  //       console.error('Error during navigation or dispatch:', error);
+  //     }
+  //   };
 
-    NavigationAndDispatch();
-  }, [getProfile, navigate, dispatch]);
+  //   NavigationAndDispatch();
+  // }, [getProfile, navigate, dispatch]);
+
 
   const renderTabContent = () => {
     switch (selected) {
       case 0:
         return (
-          <View style={{padding: 16}}>
+          <View style={{ padding: 16 }}>
             <YourMatches />
             <CategoryCard />
             <View style={{ marginTop: moderateScale(15) }}>
@@ -112,8 +148,16 @@ useEffect(() => {
             <SuggestedMatches />
           </View>
         );
+      case 1:
+        return <AllProfile profilesData={AllProfiles} />;
       case 2:
+        return <NotViewed />;
+      case 3:
         return <Shortlisted />;
+      case 4:
+        return <Viewed />;
+      case 5:
+        return <NotInterested />;
       default:
         return null;
     }

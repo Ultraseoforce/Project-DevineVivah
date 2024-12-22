@@ -6,17 +6,12 @@ import { FontSize } from '../../Theme/FontSize';
 import { navigate } from '../../Navigator/Utils';
 import { useGetFavoritePeopleQuery } from '../../Store/MyFavorite/MyFavoriteApiSlice';
 import { getImagePath } from '../Utils/helper';
+import Favorite from "../../assets/svg/Favorite.svg"
 
 
 const YourMatches = () => {
     const { data: myfavoritepeople, isLoading, refetch } = useGetFavoritePeopleQuery();
     const right = require('../../assets/Image/smallTik.png');
-
-
-
-
-
-   
 
     const renderItem = ({ item }: any) => (
         <Pressable
@@ -24,6 +19,9 @@ const YourMatches = () => {
             style={styles.itemContainer}
         >
             <Image source={{ uri: getImagePath(item.profile_photo1) }} style={styles.image} />
+            <View style={styles.favoriteContainer}>
+                      <Favorite width={27} height={27} />
+                    </View>
             <View style={styles.infoContainer}>
                 <Text style={styles.nameText}>{item.member_name}</Text>
                 <Image source={right} style={styles.tickIcon} />
@@ -41,7 +39,7 @@ const YourMatches = () => {
             {/* Header Section */}
             <View style={styles.headerContainer}>
                 <Text style={styles.headerTitle}>Your Favorite</Text>
-                <Pressable onPress={() => navigate('ViewAll', {})}>
+                <Pressable onPress={() => navigate("MyFavorites",{})}>
                     <Text style={styles.viewAllText}>View All</Text>
                 </Pressable>
             </View>
@@ -110,4 +108,15 @@ const styles = StyleSheet.create({
         fontSize: FontSize.Font12,
         color: Color.black,
     },
+    favoriteContainer: {
+        position: 'absolute',
+        padding: 6,
+        alignSelf: "flex-end"
+      },
+      heartIcon: {
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 1 },
+        shadowOpacity: 0.2,
+        shadowRadius: 2,
+      },
 });

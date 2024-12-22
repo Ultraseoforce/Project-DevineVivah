@@ -9,12 +9,12 @@ import { useGetMyFavoritePeopleQuery } from '../../Store/profile/ProfileApiSlice
 import { getImagePath } from '../../Component/Utils/helper'
 
 const FavoritesPeoples = () => {
-  const { data: MyFavoritePeoples, isLoading } = useGetMyFavoritePeopleQuery()
+  const { data: MyFavoritePeoples, isLoading } = useGetMyFavoritePeopleQuery({})
   const right = require("../../assets/Image/smallTik.png")
 
 
   const renderItem = ({ item }: any) => (
-    <Pressable onPress={() => navigate("ViewProfile", {})} style={styles.itemContainer}>
+    <Pressable onPress={() => navigate('ViewProfile', { mId: item.mId })} style={styles.itemContainer}>
       <View style={styles.imageContainer}>
         <Image source={{ uri: getImagePath(item.profile_photo1) }} style={styles.image} />
         <View style={styles.favoriteContainer}>
@@ -45,7 +45,7 @@ const FavoritesPeoples = () => {
       <FlatList
         data={MyFavoritePeoples}
         renderItem={renderItem}
-        // keyExtractor={(item) => item.id.toString()}
+        keyExtractor={(item) => item.mId}
         numColumns={2}
         showsVerticalScrollIndicator={false}
         columnWrapperStyle={styles.columnWrapper}

@@ -6,7 +6,7 @@ import { NavigationContainer } from "@react-navigation/native";
 
 // Screens
 import { navigationRef } from './Utils';
-import CreationSteps from '../Screens/CreationSteps';
+// import CreationSteps from '../Screens/CreationSteps';
 import PersonalDetails from '../Screens/Details/PersonalDetails';
 import Education from '../Screens/Details/EducationDetails';
 import Profession from '../Screens/Details/ProfessionDetails';
@@ -59,6 +59,7 @@ import UploadPictures from '../Screens/Profile/UploadPictures';
 import MyTickets from '../Screens/Help/MyTickers';
 import DininevivahSupport from '../Screens/Help/DininevivahSupport';
 import Daily from '../Screens/DailyMatches/Daily';
+import CreationSteps from '../Screens/CreationSteps';
 
 
 
