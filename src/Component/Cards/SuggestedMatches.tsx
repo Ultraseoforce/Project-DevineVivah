@@ -1,4 +1,4 @@
-import { FlatList, Image, StyleSheet, Text, View } from 'react-native'
+import { FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import { Color } from '../../Theme';
 import { height, moderateScale } from '../../Theme/ResposiveSize';
@@ -6,8 +6,17 @@ import { Typography } from '../../Theme/Typography';
 import { FontSize } from '../../Theme/FontSize';
 // import AntDesign from 'react-native-vector-icons/AntDesign';
 import Right from '../../assets/svg/Right.svg'
+import { useGetSuggestedMatchesQuery } from '../../Store/profile/ProfileApiSlice';
+import { getImagePath } from '../Utils/helper';
+import { navigate } from '../../Navigator/Utils';
+
+const defaultImage = require('../../assets/Image/defaultImage.jpg'); // Import the default image
 
 const SuggestedMatches = () => {
+
+  const { data: SuggestedMatches, isLoading, refetch: refetchSuggestedMatches } = useGetSuggestedMatchesQuery({});
+
+
   const right = require("../../assets/Image/smallTik.png")
   const data = [
     {
@@ -29,28 +38,15 @@ const SuggestedMatches = () => {
       image: require("../../assets/Image/profile3.png")
     }
   ]
-
-
-
+  console.log("SuggestedMatches =>", SuggestedMatches)
 
   const renderItem = ({ item }: any) => (
-    // <View style={styles.itemContainer}>
-    //   <Image source={item.image} style={styles.image} />
-    //   <View>
-    //     <View style={{flexDirection: "row", alignItems: "center", gap: 5}}>
-    //     <Text style={styles.name}>{item.name}</Text>
-    //     <Image source={right} style={{height: 14, width: 14}} />
-    //     <AntDesign name="right" size={17} color="#4F8EF7" style={styles.right} />
-    //     </View>
-    //     <Text style={styles.details}>{item.detalis}</Text>
-    //   </View>
-    // </View>
-    <View style={styles.itemContainer}>
-      <Image source={item.image} style={styles.image} />
+    <TouchableOpacity activeOpacity={0.7} onPress={() => navigate('ViewProfile', {mId:item.mId})} style={styles.itemContainer}>
+      <Image source={item.profile_photo1 ? { uri: getImagePath(item.profile_photo1) } : defaultImage} style={styles.image} />
       <View style={styles.contentContainer}>
         <View>
           <View style={{ flexDirection: "row", alignItems: "center", gap: 5 }}>
-            <Text style={[Typography.small, { color: Color.black }]}>{item.name}</Text>
+            <Text style={[Typography.small, { color: Color.black }]}>{item.member_name}</Text>
             <Image source={right} style={{ height: 14, width: 14 }} />
           </View>
           <Text style={Typography.smallText}>{item.detalis}</Text>
@@ -59,7 +55,7 @@ const SuggestedMatches = () => {
         <Right />
         {/* <Right style={{ height: 17, width: 17 }} /> */}
       </View>
-    </View>
+    </TouchableOpacity>
   );
 
   return (
@@ -69,10 +65,10 @@ const SuggestedMatches = () => {
         <Text style={[Typography.title, { color: Color.orange, fontSize: FontSize.Font16 }]}>View All</Text>
       </View>
       <FlatList
-        data={data}
-        keyExtractor={(item) => item.id.toString()}
+        data={SuggestedMatches}
+        // keyExtractor={(item) => item.id.toString()}
         renderItem={renderItem}
-showsHorizontalScrollIndicator={false}
+        showsHorizontalScrollIndicator={false}
       />
     </View>
   )

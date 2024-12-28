@@ -24,7 +24,8 @@ const URLS = {
     sendchatrequest: "send-chat-request",
     rejectchatrequest: "reject-chat-request",
     shortlistprofile: "shortlist-profile",
-    viewProfile: "view-profile"
+    viewProfile: "view-profile",
+    suggestedmatches: "suggested-matches",
 };
 
 export const profileApiSlice = apiSlice.injectEndpoints({
@@ -173,6 +174,13 @@ export const profileApiSlice = apiSlice.injectEndpoints({
             }),
         }),
 
+        getSuggestedMatches: builder.query({
+            query: () => `${URLS.suggestedmatches}`,
+            transformResponse: (responseData: any, meta: any, arg: any) => {
+                const data = responseData.data;
+                return data;
+            },
+        }),
 
 
     }),
@@ -197,4 +205,5 @@ export const {
     useGetProfileQuery,
     useGetMyFavoritePeopleQuery,
     useViewProfileMutation,
+    useGetSuggestedMatchesQuery,
 } = profileApiSlice;

@@ -29,7 +29,7 @@ const Location = () => {
   const profiledata = useSelector(selectProfile)
 
   const [addLocation, { }] = useUpdateLocationDetailsMutation()
-console.log(CountryData)
+console.log(CountryData)   //    console.log('setPostalCode', )
 
 const Data = 
   [{ name: "India", id: 101}]
