@@ -59,6 +59,7 @@ const NameInput = (auto: Input) => {
           maxLength={auto.maxLength}
           secureTextEntry={auto.isPassword && !showPassword}
           editable={!auto.isDate}
+          placeholderTextColor={Color.chatBg}
         />
         {auto.isPassword && (
           <TouchableOpacity

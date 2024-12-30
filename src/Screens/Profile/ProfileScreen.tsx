@@ -85,7 +85,7 @@ const ProfileScreen = () => {
                     keyExtractor={(item, index) => `image_${index}`}
                     renderItem={({ item }) => (
                       <View>
-                       <Image source={item.uri ? { uri: item.uri } : defaultImage} style={styles.image} />
+                        <Image source={item.uri ? { uri: item.uri } : defaultImage} style={styles.image} />
                         {activeIndex === 0 && (
                           <View style={styles.uploadImage}>
                             <Text style={styles.fullName}>Full Name</Text>
@@ -199,6 +199,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     padding: 10,
+    marginTop: moderateScale(25)
   },
   itemContainer: {
     alignItems: 'center',

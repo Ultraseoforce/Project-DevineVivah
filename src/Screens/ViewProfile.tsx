@@ -233,7 +233,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    top: scale(27),
+    top: scale(39),
     width: '100%',
     paddingHorizontal: scale(15),
   },
