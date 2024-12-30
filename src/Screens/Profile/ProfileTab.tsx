@@ -1,4 +1,4 @@
-import { FlatList, Image, Pressable, StyleSheet, Text, View, Alert } from 'react-native';
+import { FlatList, Image, Pressable, StyleSheet, Text, View, Alert, TouchableOpacity } from 'react-native';
 import React from 'react';
 import RightIcon from 'react-native-vector-icons/Feather';
 import { moderateScale, scale } from '../../Theme/ResposiveSize';
@@ -53,13 +53,13 @@ const ProfileTabCard = (Props: Details) => {
     const renderItem = ({ item }) => {
         if (item.title === 'LogOut') {
             return (
-                <Pressable onPress={handleLogout} style={styles.itemContainer}>
+                <TouchableOpacity activeOpacity={0.4} onPress={handleLogout} style={styles.itemContainer}>
                     <View style={styles.textImageContainer}>
                         <Image source={item.icon} style={styles.imageStyle} resizeMode="contain" />
                         <Text style={[Typography.smallText, { fontSize: FontSize.Font18, lineHeight: 22, marginLeft: moderateScale(13), color: Color.black }]}>{item.title}</Text>
                     </View>
                     <RightIcon name="chevron-right" size={30} color="#292D32" />
-                </Pressable>
+                </TouchableOpacity>
             );
         } else {
             return (

@@ -8,10 +8,9 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 interface Idropdown {
     items?: any,
     selectedValue?: any,
-    onSelect?: any
-    title?: string
-    placeholder?: string
-    
+    onSelect?: any,
+    title?: string,
+    placeholder?: string,    
 }
 
 const CustomDropdown = (props: Idropdown) => {
