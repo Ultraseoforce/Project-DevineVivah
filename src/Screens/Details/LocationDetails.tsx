@@ -22,17 +22,14 @@ const Location = () => {
   const [city, setCity] = useState("")
 
   const [postalcode, setPostalCode] = useState("");
-  const { data: CountryData } = useGetCountryQuery();
-  const { data: stateData, isLoading } = useGetStateQuery();
-  const { data: Citydata, error } = useGetCityQuery(state?.id || 4852);
+ const { data: countriesData, isLoading: isLoadingCountries } = useGetCountryQuery({});
+  const { data: statesData, isLoading: isLoadingStates } = useGetStateQuery(country?.id);
+  const { data: citiesData, isLoading: isLoadingCities } = useGetCityQuery(state?.id);
   const [errors, setErrors] = useState<LocationDetailsErrors>({});
   const profiledata = useSelector(selectProfile)
 
   const [addLocation, { }] = useUpdateLocationDetailsMutation()
-console.log(CountryData)   //    console.log('setPostalCode', )
 
-const Data = 
-  [{ name: "India", id: 101}]
 
 useEffect(() => {
   if(profiledata){
@@ -111,7 +108,7 @@ useEffect(() => {
           <View style={{ marginTop: moderateScale(20), gap: moderateScale(20) }}>
             <View>
               <CustomDropdown
-                items={CountryData}
+                items={countriesData}
                 placeholder='Select country'
                 title='Country'
                 selectedValue={country}
@@ -121,7 +118,7 @@ useEffect(() => {
             </View>
             <View>
               <CustomDropdown
-                items={stateData}
+                items={statesData}
                 placeholder='Select state'
                 title='State'
                 selectedValue={state}
@@ -131,7 +128,7 @@ useEffect(() => {
             </View>
             <View>
               <CustomDropdown
-                items={Citydata}
+                items={citiesData}
                 placeholder='Select'
                 title='City'
                 selectedValue={city}

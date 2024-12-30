@@ -26,7 +26,7 @@ const ProfileScreen = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const { data: userProfileData, isLoading, refetch } = useGetProfileQuery(undefined, { skip: false });
   const isFocused = useIsFocused();
-  const defaultImage = require('../../assets/Image/defaultImage.jpg'); // Import the default image
+  const defaultImage = require('../../assets/Image/noprofile.jpeg'); // Import the default image
 
   useEffect(() => {
     if (isFocused) {

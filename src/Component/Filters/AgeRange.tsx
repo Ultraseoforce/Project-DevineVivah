@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
   },
   valueLabel: {
     position: 'absolute',
-    top: 10, 
+    top: -24, 
   },
   leftRangeText: {
     position: 'absolute',

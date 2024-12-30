@@ -1,394 +1,3 @@
-// import { SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, View } from 'react-native'
-// import React, { useState } from 'react'
-// import { Color } from '../Theme'
-// import { moderateScale } from '../Theme/ResposiveSize'
-// import Ionicons from 'react-native-vector-icons/Ionicons';
-// import { Typography } from '../Theme/Typography';
-// import CustomDropdown from '../Component/Dropdowns/Dropdown';
-// import AgeRange from '../Component/Filters/AgeRange';
-// import LocationSearch from '../Component/Filters/LocationSearch';
-// import { navigationRef } from '../Navigator/Utils';
-
-// interface IFilter {
-//   ApplyFilter?: Function
-// }
-// const Filters = (Props: IFilter) => {
-
-//   const religion = [
-//     { label: 'Hindu', value: 'Hindu' },
-//     { label: 'Christianity', value: 'Catholicism' },
-//     { label: 'Catholicism', value: 'Catholicism' },
-//   ]
-
-//   const [religions, setReligions] = useState("")
-//   const [caste, setCaste] = useState("")
-//   const [education, setEducation] = useState("")
-//   const [smoking, setSmoking] = useState("")
-//   const [drinking, setDrinking] = useState("")
-
-
-//   return (
-//     <SafeAreaView style={{ flex: 1, backgroundColor: Color.white }}>
-//       <StatusBar backgroundColor={Color.white} barStyle={'dark-content'} />
-
-//       <View style={styles.container}>
-//         <View style={styles.header_container}>
-//           <View style={{ marginTop: moderateScale(50), marginHorizontal: moderateScale(10), flexDirection: "row", alignItems: "center", gap: 10 }}>
-//             <Ionicons name="close-sharp" size={30} color={Color.black} onPress={() =>  navigationRef.goBack()} />
-//             <Text style={Typography.large_headings}>Filters</Text>
-//             <Text onPress={() => Props.ApplyFilter ? Props.ApplyFilter() : null} style={[Typography.small, styles.apply_btn]}>Apply Filters</Text>
-//           </View>
-//         </View>
-//         <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginHorizontal: moderateScale(10), paddingVertical: 15 }}>
-//           <Text style={[Typography.title, { color: Color.chatBg }]}>Applied Filters</Text>
-//           <Text style={[Typography.title, { color: Color.orange }]}>Clear All</Text>
-//         </View>
-//         <ScrollView style={{marginBottom: "40%"}} showsVerticalScrollIndicator={false}>
-//         <View style={{ marginHorizontal: moderateScale(10), gap: 15 }}>
-//           <CustomDropdown
-//             placeholder='seleted Religion'
-//             title='By Religion'
-//             items={religion}
-//             selectedValue={religions}
-//             onSelect={setReligions}
-//           />
-//           <CustomDropdown
-//             placeholder=' seleted Caste'
-//             title='By Caste'
-//             items={religion}
-//             selectedValue={caste}
-//             onSelect={setCaste}
-//           />
-//            <CustomDropdown
-//             placeholder=' seleted Education'
-//             title='By Education'
-//             items={religion}
-//             selectedValue={education}
-//             onSelect={setEducation}
-//           />
-//            <CustomDropdown
-//             placeholder='seleted Smoking'
-//             title='Do Smoking'
-//             items={religion}
-//             selectedValue={smoking}
-//             onSelect={setSmoking}
-//           />
-//            <CustomDropdown
-//             placeholder='seleted Drinking'
-//             title='Do Drinking'
-//             items={religion}
-//             selectedValue={drinking}
-//             onSelect={setDrinking}
-//           />
-//           <AgeRange />
-//           <LocationSearch />
-//         </View>
-//         </ScrollView>
-//       </View>
-//     </SafeAreaView>
-//   )
-// }
-
-// export default Filters
-
-// const styles = StyleSheet.create({
-//   container: {
-//   },
-//   header_container: {
-//     backgroundColor: Color.white,
-//     height: moderateScale(100),
-//     elevation: 5,
-//   },
-//   apply_btn:
-//   {
-//     position: "absolute",
-//     right: 0,
-//     backgroundColor: Color.orange,
-//     padding: 10,
-//     color: Color.white,
-//     borderRadius: 35,
-//   }
-// })
-
-// import { SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, View } from 'react-native'
-// import React, { useState } from 'react'
-// import { Color } from '../Theme'
-// import { moderateScale } from '../Theme/ResposiveSize'
-// import Ionicons from 'react-native-vector-icons/Ionicons';
-// import { Typography } from '../Theme/Typography';
-// import CustomDropdown from '../Component/Dropdowns/Dropdown';
-// import AgeRange from '../Component/Filters/AgeRange';
-// import LocationSearch from '../Component/Filters/LocationSearch';
-// import { navigationRef } from '../Navigator/Utils';
-// import { FontSize } from '../Theme/FontSize';
-
-// interface IFilter {
-//   ApplyFilter?: Function
-// }
-// const Filters = (Props: IFilter) => {
-
-//   const religion = [
-//     { label: 'Hindu', value: 'Hindu' },
-//     { label: 'Christianity', value: 'Catholicism' },
-//     { label: 'Catholicism', value: 'Catholicism' },
-//   ]
-
-//   const [religions, setReligions] = useState("")
-//   const [caste, setCaste] = useState("")
-//   const [education, setEducation] = useState("")
-//   const [smoking, setSmoking] = useState("")
-//   const [drinking, setDrinking] = useState("")
-
-
-//   return (
-//     <SafeAreaView style={{ flex: 1, backgroundColor: Color.white }}>
-//       <StatusBar backgroundColor={Color.white} barStyle={'dark-content'} />
-
-//       <View style={styles.container}>
-//         <View style={styles.header_container}>
-//           <View style={{ marginTop: moderateScale(50), marginHorizontal: moderateScale(10), flexDirection: "row", alignItems: "center", gap: 10 }}>
-//             <Ionicons name="close-sharp" size={30} color={Color.black} onPress={() => navigationRef.goBack()} />
-//             <Text style={Typography.large_headings}>Filters</Text>
-//             <Text onPress={() => Props.ApplyFilter ? Props.ApplyFilter() : null} style={[Typography.small, styles.apply_btn]}>Apply Filters</Text>
-//           </View>
-//         </View>
-
-//         <View style={{margin:16, flexDirection:'row',justifyContent:'space-between'}}>
-//           <Text style={{ backgroundColor: Color.orange, color: Color.white, fontSize: FontSize.Font16, paddingHorizontal: 15,paddingVertical:10, borderRadius:50 }}>Religion</Text>
-//         </View>
-
-//         <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginHorizontal: moderateScale(10), paddingVertical: 15 }}>
-//           <Text style={[Typography.title, { color: Color.chatBg }]}>Applied Filters</Text>
-//           <Text style={[Typography.title, { color: Color.orange }]}>Clear All</Text>
-//         </View>
-
-
-
-//         <ScrollView style={{ marginBottom: "40%" }} showsVerticalScrollIndicator={false}>
-//           <View style={{ marginHorizontal: moderateScale(10), gap: 15 }}>
-//             <CustomDropdown
-//               placeholder='seleted Religion'
-//               title='By Religion'
-//               items={religion}
-//               selectedValue={religions}
-//               onSelect={setReligions}
-//             />
-//             <CustomDropdown
-//               placeholder=' seleted Caste'
-//               title='By Caste'
-//               items={religion}
-//               selectedValue={caste}
-//               onSelect={setCaste}
-//             />
-//             <CustomDropdown
-//               placeholder=' seleted Education'
-//               title='By Education'
-//               items={religion}
-//               selectedValue={education}
-//               onSelect={setEducation}
-//             />
-//             <CustomDropdown
-//               placeholder='seleted Smoking'
-//               title='Do Smoking'
-//               items={religion}
-//               selectedValue={smoking}
-//               onSelect={setSmoking}
-//             />
-//             <CustomDropdown
-//               placeholder='seleted Drinking'
-//               title='Do Drinking'
-//               items={religion}
-//               selectedValue={drinking}
-//               onSelect={setDrinking}
-//             />
-//             <AgeRange />
-//             <LocationSearch />
-//           </View>
-//         </ScrollView>
-//       </View>
-//     </SafeAreaView>
-//   )
-// }
-
-// export default Filters
-
-// const styles = StyleSheet.create({
-//   container: {
-//   },
-//   header_container: {
-//     backgroundColor: Color.white,
-//     height: moderateScale(100),
-//     elevation: 5,
-//   },
-//   apply_btn:
-//   {
-//     position: "absolute",
-//     right: 0,
-//     backgroundColor: Color.orange,
-//     padding: 10,
-//     color: Color.white,
-//     borderRadius: 35,
-//   }
-// })
-
-
-
-// import { SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, View } from 'react-native';
-// import React, { useState } from 'react';
-// import { Color } from '../Theme';
-// import { moderateScale } from '../Theme/ResposiveSize';
-// import Ionicons from 'react-native-vector-icons/Ionicons';
-// import { Typography } from '../Theme/Typography';
-// import CustomDropdown from '../Component/Dropdowns/Dropdown';
-// import AgeRange from '../Component/Filters/AgeRange';
-// import LocationSearch from '../Component/Filters/LocationSearch';
-// import { navigationRef } from '../Navigator/Utils';
-// import { FontSize } from '../Theme/FontSize';
-
-// interface IFilter {
-//   ApplyFilter?: Function;
-// }
-
-// const Filters = (Props: IFilter) => {
-//   const religionOptions = [
-//     { label: 'Hindu', value: 'Hindu' },
-//     { label: 'Christianity', value: 'Christianity' },
-//     { label: 'Catholicism', value: 'Catholicism' },
-//   ];
-
-//   const [religions, setReligions] = useState<{ label: string, value: string } | null>(null);
-//   const [caste, setCaste] = useState<{ label: string, value: string } | null>(null);
-//   const [education, setEducation] = useState<{ label: string, value: string } | null>(null);
-//   const [smoking, setSmoking] = useState<{ label: string, value: string } | null>(null);
-//   const [drinking, setDrinking] = useState<{ label: string, value: string } | null>(null);
-
-//   // Helper function to get display text for each filter
-//   const getFilterDisplay = (label: string, value: { label: string, value: string } | null) => {
-//     return value ? (
-//       <View style={styles.filterDisplay}>
-//         <Text style={styles.filterLabel}>{label}</Text>
-//         <Text style={styles.filterValue}>{value.label}</Text>
-//       </View>
-//     ) : null;
-//   };
-
-
-
-//   return (
-//     <SafeAreaView style={{ flex: 1, backgroundColor: Color.white }}>
-//       <StatusBar backgroundColor={Color.white} barStyle={'dark-content'} />
-
-//       <View style={styles.container}>
-//         <View style={styles.header_container}>
-//           <View style={{ marginTop: moderateScale(50), marginHorizontal: moderateScale(10), flexDirection: "row", alignItems: "center", gap: 10 }}>
-//             <Ionicons name="close-sharp" size={30} color={Color.black} onPress={() => navigationRef.goBack()} />
-//             <Text style={Typography.large_headings}>Filters</Text>
-//             <Text onPress={() => Props.ApplyFilter ? Props.ApplyFilter() : null} style={[Typography.small, styles.apply_btn]}>Apply Filters</Text>
-//           </View>
-//         </View>
-
-//         {/* Display Selected Filters */}
-//         <View style={{ margin: 16, flexDirection: "row", gap: 5 }}>
-//           {getFilterDisplay('', religions)}
-//           {getFilterDisplay('', caste)}
-//           {getFilterDisplay('', education)}
-//           {getFilterDisplay('', smoking)}
-//           {getFilterDisplay('', drinking)}
-//         </View>
-
-//         {/* Applied Filters Section */}
-//         <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginHorizontal: moderateScale(10), paddingVertical: 15 }}>
-//           <Text style={[Typography.title, { color: Color.chatBg }]}>Applied Filters</Text>
-//           <Text style={[Typography.title, { color: Color.orange }]}>Clear All</Text>
-//         </View>
-
-//         {/* Dropdown and Filters */}
-//         <ScrollView style={{ marginBottom: "40%" }} showsVerticalScrollIndicator={false}>
-//           <View style={{ marginHorizontal: moderateScale(10), gap: 15 }}>
-//             <CustomDropdown
-//               placeholder='Select Religion'
-//               title='By Religion'
-//               items={religionOptions}
-//               selectedValue={religions}
-//               onSelect={setReligions}
-//             />
-//             <CustomDropdown
-//               placeholder='Select Caste'
-//               title='By Caste'
-//               items={religionOptions}
-//               selectedValue={caste}
-//               onSelect={setCaste}
-//             />
-//             <CustomDropdown
-//               placeholder='Select Education'
-//               title='By Education'
-//               items={religionOptions}
-//               selectedValue={education}
-//               onSelect={setEducation}
-//             />
-//             <CustomDropdown
-//               placeholder='Select Smoking'
-//               title='Do Smoking'
-//               items={religionOptions}
-//               selectedValue={smoking}
-//               onSelect={setSmoking}
-//             />
-//             <CustomDropdown
-//               placeholder='Select Drinking'
-//               title='Do Drinking'
-//               items={religionOptions}
-//               selectedValue={drinking}
-//               onSelect={setDrinking}
-//             />
-//             <AgeRange />
-//             <LocationSearch />
-//           </View>
-//         </ScrollView>
-//       </View>
-//     </SafeAreaView>
-//   );
-// };
-
-// export default Filters;
-
-// const styles = StyleSheet.create({
-//   container: {},
-//   header_container: {
-//     backgroundColor: Color.white,
-//     height: moderateScale(100),
-//     elevation: 5,
-//   },
-//   apply_btn: {
-//     position: "absolute",
-//     right: 0,
-//     backgroundColor: Color.orange,
-//     padding: 10,
-//     color: Color.white,
-//     borderRadius: 35,
-//   },
-//   filterDisplay: {
-//     backgroundColor: Color.orange,
-//     borderRadius: 50,
-//     paddingHorizontal: 15,
-//     paddingVertical: 10,
-//     marginBottom: 8,
-//     flexDirection: 'row',
-//     alignItems: 'center',
-//     justifyContent: 'space-between',
-//   },
-//   filterLabel: {
-//     color: Color.white,
-//     fontSize: FontSize.Font16,
-//   },
-//   filterValue: {
-//     color: Color.white,
-//     fontSize: FontSize.Font16,
-//     fontWeight: 'bold',
-//   }
-// });
-
-
-
 import { SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, View } from 'react-native';
 import React, { useState } from 'react';
 import { Color } from '../Theme';
@@ -397,10 +6,11 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Typography } from '../Theme/Typography';
 import CustomDropdown from '../Component/Dropdowns/Dropdown';
 import AgeRange from '../Component/Filters/AgeRange';
-import LocationSearch from '../Component/Filters/LocationSearch';
 import { navigationRef } from '../Navigator/Utils';
 import { FontSize } from '../Theme/FontSize';
-import Close from '../assets/svg/Close.svg'
+import Close from '../assets/svg/Close.svg';
+import NameInput from '../Component/Placeholder/NameInput';
+import { useGetCityQuery, useGetCountryQuery, useGetStateQuery } from '../Store/dropdown/dropdownApiSlice';
 
 interface IFilter {
   ApplyFilter?: Function;
@@ -408,112 +18,167 @@ interface IFilter {
 
 const Filters = (Props: IFilter) => {
   const religionOptions = [
-    { label: 'Hindu', value: 'Hindu' },
-    { label: 'Christianity', value: 'Christianity' },
-    { label: 'Catholicism', value: 'Catholicism' },
+    { id: 1, name: 'Hinduism' },
+    { id: 2, name: 'Islam' },
+    { id: 3, name: 'Christianity' },
+    { id: 4, name: 'Sikhism' },
+    { id: 5, name: 'Buddhism' },
+    { id: 6, name: 'Jainism' },
+    { id: 7, name: 'Zoroastrianism (Parsis)' },
+    { id: 8, name: 'Judaism' },
+    { id: 9, name: "Baha'i Faith" },
+    { id: 10, name: 'Tribal and Indigenous Beliefs' },
   ];
 
-  const [religions, setReligions] = useState<{ label: string, value: string } | null>(null);
-  const [caste, setCaste] = useState<{ label: string, value: string } | null>(null);
-  const [education, setEducation] = useState<{ label: string, value: string } | null>(null);
-  const [smoking, setSmoking] = useState<{ label: string, value: string } | null>(null);
-  const [drinking, setDrinking] = useState<{ label: string, value: string } | null>(null);
+  const educationLevelData = [
+    { id: 1, name: '8th' },
+    { id: 2, name: '10th' },
+    { id: 3, name: '12th' },
+    { id: 4, name: 'UG' },
+    { id: 5, name: 'PG' },
+    { id: 6, name: 'PhD' },
+  ];
 
-  // Helper function to get display text for each filter
-  const getFilterDisplay = (label: string, value: { label: string, value: string } | null) => {
+  const SmokingData = [
+    { name: 'Yes', id: '0' },
+    { name: 'No', id: '1' },
+  ];
+
+  const [filters, setFilters] = useState({
+    religion: null,
+    caste: '',
+    education: null,
+    smoking: null,
+    drinking: null,
+    country: null,
+    state: null,
+    city: null,
+  });
+
+  const { data: countriesData, isLoading: isLoadingCountries } = useGetCountryQuery({});
+  const { data: statesData, isLoading: isLoadingStates } = useGetStateQuery(filters.country?.id);
+  const { data: citiesData, isLoading: isLoadingCities } = useGetCityQuery(filters.state?.id);
+
+  const handleFilterChange = (key: string, value: any) => {
+    setFilters((prevFilters) => ({ ...prevFilters, [key]: value }));
+  };
+
+console.log("countriesData", countriesData)
+
+  const filterClear = () => {
+    setFilters({
+      religion: null,
+      caste: '',
+      education: null,
+      smoking: null,
+      drinking: null,
+      country: null,
+      state: null,
+      city: null,
+    });
+  };
+
+  const getFilterDisplay = (value: any) => {
     return value ? (
       <View style={styles.filterDisplay}>
-        <Text style={styles.filterLabel}>{label}</Text>
-        <Text style={styles.filterValue}>{value.label}</Text>
+        <Text style={styles.filterValue}>{value.name || value}</Text>
       </View>
     ) : null;
   };
 
-
-
-const filterClear = () => {
-  setReligions("")
-  setCaste('')
-  setSmoking('')
-  setDrinking('')
-  setEducation('')
-}
-
   return (
     <View style={{ flex: 1, backgroundColor: Color.white }}>
       <StatusBar backgroundColor={Color.white} barStyle={'dark-content'} />
-
       <View style={styles.container}>
-        <View style={styles.header_container}>
-          <View style={{ marginTop: moderateScale(50), marginHorizontal: moderateScale(16), flexDirection: "row", alignItems: "center", gap: 10 }}>
+        <View style={styles.headerContainer}>
+          <View style={styles.headerContent}>
             <Close onPress={() => navigationRef.goBack()} />
-            {/* <Ionicons name="close-sharp" size={30} color={Color.black} onPress={() => navigationRef.goBack()} /> */}
             <Text style={Typography.large_headings}>Filters</Text>
-            <View style={styles.apply_btn}>
-                <Text onPress={() => Props.ApplyFilter ? Props.ApplyFilter() : null} style={[Typography.small]}>Apply Filters</Text>
+            <View style={styles.applyBtn}>
+              <Text onPress={() => Props.ApplyFilter ? Props.ApplyFilter() : null} style={Typography.small}>Apply Filters</Text>
             </View>
           </View>
         </View>
 
-        {/* Applied Filters Section */}
-        <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginHorizontal: moderateScale(10), paddingVertical: 15 }}>
-          <Text style={[Typography.title, { color: Color.chatBg }]}>Applied Filters</Text>
-          <Text onPress={() => filterClear()} style={[Typography.title, { color: Color.orange }]}>Clear All</Text>
-        </View>
+        <View style={styles.appliedFiltersContainer}>
+          <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
+            <Text style={[Typography.title, { color: Color.chatBg }]}>Applied Filters</Text>
+            <Text onPress={filterClear} style={[Typography.title, { color: Color.orange }]}>Clear All</Text>
 
-
-        {/* Display Selected Filters */}
-        <View style={{ marginHorizontal: religions || caste || education || smoking || drinking ? 10 : 0 }}>
+          </View>
           <View style={styles.filtersWrapper}>
-            {getFilterDisplay('', religions)}
-            {getFilterDisplay('', caste)}
-            {getFilterDisplay('', education)}
-            {getFilterDisplay('', smoking)}
-            {getFilterDisplay('', drinking)}
+            {getFilterDisplay(filters.religion)}
+            {getFilterDisplay(filters.caste)}
+            {getFilterDisplay(filters.education)}
+            {getFilterDisplay(filters.smoking)}
+            {getFilterDisplay(filters.drinking)}
+            {getFilterDisplay(filters.country)}
+            {getFilterDisplay(filters.state)}
+            {getFilterDisplay(filters.city)}
           </View>
         </View>
-
-
-        {/* Dropdown and Filters */}
-        <ScrollView style={{ marginBottom: "40%" }} showsVerticalScrollIndicator={false}>
-          <View style={{ marginHorizontal: moderateScale(10), gap: 15 }}>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <View style={styles.filtersContainer}>
             <CustomDropdown
               placeholder='Select Religion'
               title='By Religion'
               items={religionOptions}
-              selectedValue={religions}
-              onSelect={setReligions}
+              selectedValue={filters.religion}
+              onSelect={(value) => handleFilterChange('religion', value)}
             />
-            <CustomDropdown
-              placeholder='Select Caste'
+            <NameInput
+              placeholder='Your Caste'
               title='By Caste'
-              items={religionOptions}
-              selectedValue={caste}
-              onSelect={setCaste}
+              value={filters.caste}
+              nameStyle
+              onChangeText={(value) => handleFilterChange('caste', value)}
             />
             <CustomDropdown
               placeholder='Select Education'
               title='By Education'
-              items={religionOptions}
-              selectedValue={education}
-              onSelect={setEducation}
+              items={educationLevelData}
+              selectedValue={filters.education}
+              onSelect={(value) => handleFilterChange('education', value)}
             />
             <CustomDropdown
               placeholder='Select Smoking'
               title='Do Smoking'
-              items={religionOptions}
-              selectedValue={smoking}
-              onSelect={setSmoking}
+              items={SmokingData}
+              selectedValue={filters.smoking}
+              onSelect={(value) => handleFilterChange('smoking', value)}
             />
             <CustomDropdown
               placeholder='Select Drinking'
               title='Do Drinking'
-              items={religionOptions}
-              selectedValue={drinking}
-              onSelect={setDrinking}
+              items={SmokingData}
+              selectedValue={filters.drinking}
+              onSelect={(value) => handleFilterChange('drinking', value)}
             />
             <AgeRange />
-            <LocationSearch />
+            <CustomDropdown
+              items={countriesData}
+              placeholder='Select Country'
+              title='Country'
+              selectedValue={filters.country}
+              onSelect={(value) => handleFilterChange('country', value)}
+              isLoading={isLoadingCountries}
+            />
+            <CustomDropdown
+              items={statesData}
+              placeholder='Select State'
+              title='State'
+              selectedValue={filters.state}
+              onSelect={(value) => handleFilterChange('state', value)}
+              isLoading={isLoadingStates}
+            />
+            <CustomDropdown
+              items={citiesData}
+              placeholder='Select City'
+              title='City'
+              selectedValue={filters.city}
+              onSelect={(value) => handleFilterChange('city', value)}
+              isLoading={isLoadingCities}
+            />
           </View>
         </ScrollView>
       </View>
@@ -525,32 +190,49 @@ export default Filters;
 
 const styles = StyleSheet.create({
   container: {
-  
-    marginBottom: moderateScale(50)
+    flex: 1,
   },
-  header_container: {
+  headerContainer: {
     backgroundColor: Color.white,
     height: moderateScale(100),
     elevation: 5,
   },
-  apply_btn: {
+  headerContent: {
+    marginTop: moderateScale(50),
+    marginHorizontal: moderateScale(16),
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 10,
+  },
+  applyBtn: {
     position: "absolute",
     right: 0,
     backgroundColor: Color.orange,
     padding: 10,
     borderRadius: 35,
   },
+  filtersContainer: {
+    gap: 15,
+    padding: 16
+
+  },
+  appliedFiltersContainer: {
+    paddingHorizontal: moderateScale(15),
+    paddingVertical: 15,
+    
+
+  },
   filtersWrapper: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     gap: 8,
+    paddingVertical: 10
   },
   filterDisplay: {
     backgroundColor: Color.orange,
     borderRadius: 50,
     paddingHorizontal: 15,
     paddingVertical: 10,
-    marginBottom: 8,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -564,5 +246,5 @@ const styles = StyleSheet.create({
     color: Color.white,
     fontSize: FontSize.Font16,
     fontWeight: 'bold',
-  }
+  },
 });

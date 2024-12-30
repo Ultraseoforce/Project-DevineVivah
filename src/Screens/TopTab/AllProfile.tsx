@@ -1,7 +1,3 @@
-
-
-
-
 import React from "react";
 import { FlatList, View, Text, Image, StyleSheet, Dimensions } from "react-native";
 import { height, moderateScale, width } from "../../Theme/ResposiveSize";
@@ -10,42 +6,10 @@ import { Typography } from "../../Theme/Typography";
 import { FontSize } from "../../Theme/FontSize";
 import { getImagePath } from "../../Component/Utils/helper";
 
-const data = [
-  {
-    id: 1,
-    name: "Full Name",
-    Education: "Education",
-    Location: "Location",
-    DOB: "Date of Birth",
-    view: "2",
-    tag: "D0012",
-    profile: require("../../assets/Image/bigprofile.png"),
-  },
-  {
-    id: 2,
-    name: "Full Name",
-    Education: "Education",
-    Location: "Location",
-    DOB: "Date of Birth",
-    view: "2",
-    tag: "D0012",
-    profile: require("../../assets/Image/bigprofile.png"),
-  },
-  {
-    id: 3,
-    name: "Full Name",
-    Education: "Education",
-    Location: "Location",
-    DOB: "Date of Birth",
-    view: "10",
-    tag: "D0515",
-    profile: require("../../assets/Image/bigprofile.png"),
-  },
-];
 
 const AllProfile = ({ profilesData }: any) => {
   const camera = require("../../assets/Image/camera.png")
-  const defaultImage = require('../../assets/Image/defaultImage.jpg'); // Import the default image
+  const defaultImage = require('../../assets/Image/noprofile.jpeg'); // Import the default image
 
 
   const renderItem = ({ item }: any) => (

@@ -10,7 +10,7 @@ import { useGetSuggestedMatchesQuery } from '../../Store/profile/ProfileApiSlice
 import { getImagePath } from '../Utils/helper';
 import { navigate } from '../../Navigator/Utils';
 
-const defaultImage = require('../../assets/Image/defaultImage.jpg'); // Import the default image
+const defaultImage = require('../../assets/Image/noprofile.jpeg'); // Import the default image
 
 const SuggestedMatches = () => {
 

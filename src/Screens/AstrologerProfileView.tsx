@@ -131,7 +131,7 @@ const AstrologerProfileView = () => {
                             <Feather name="chevron-left" size={24} color="#000" />
                         </TouchableOpacity>
                         <TouchableOpacity activeOpacity={0.7} onPress={handleFavoriteToggle}>
-                            {AstrologerDetails?.is_favorite === 0 ? (
+                            {AstrologerDetails?.is_favorite != 0 ? (
                                 <Favorite height={40} width={40} />
                             ) : (
                                 <NotFavorite height={40} width={40} />
@@ -222,7 +222,7 @@ const AstrologerProfileView = () => {
                                             source={
                                                 review.profile_photo1
                                                     ? { uri: getImagePath(review.profile_photo1) }
-                                                    : require('../assets/Image/defaultImage.jpg')
+                                                    : require('../assets/Image/noprofile.jpeg')
                                             }
                                             style={styles.avatar}
                                         />

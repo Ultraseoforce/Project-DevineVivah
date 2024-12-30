@@ -45,7 +45,6 @@ const HomeScreen = () => {
   const addPhoto = require('../assets/Image/addphoto.png');
 
 
- 
 
   const [formData] = useState({
     age: "",
@@ -54,7 +53,7 @@ const HomeScreen = () => {
     drink: "",
     smoke: "",
     skill: "",
-    
+    status: 1,
     country_id: "",
     city_id: ""
   });
@@ -62,8 +61,8 @@ const HomeScreen = () => {
   useEffect(() => {
     const fetchProfiles = async () => {
       try {
-        const response = await getAllProfiles({status: 1}).unwrap();
-        console.log('Response:', response);
+        const response = await getAllProfiles([formData]).unwrap();
+        console.log('Response---------------------:', response);
       } catch (err) {
         console.error('Error:', err);
       }
@@ -151,13 +150,13 @@ const HomeScreen = () => {
       case 1:
         return <AllProfile profilesData={AllProfiles} />;
       case 2:
-        return <NotViewed />;
+        return <AllProfile profilesData={AllProfiles} />;
       case 3:
-        return <Shortlisted />;
+        return <AllProfile profilesData={AllProfiles} />;
       case 4:
-        return <Viewed />;
+        return <AllProfile profilesData={AllProfiles} />;
       case 5:
-        return <NotInterested />;
+        return <AllProfile profilesData={AllProfiles} />;
       default:
         return null;
     }

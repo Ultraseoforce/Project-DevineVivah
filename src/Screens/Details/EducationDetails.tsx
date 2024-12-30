@@ -31,13 +31,22 @@ const EducationDetails = () => {
   ]
 
 
+  const educationLevelData = [
+    { id: 1, name: '8th' },
+    { id: 2, name: '10th' },
+    { id: 3, name: '12th' },
+    { id: 4, name: 'UG' },
+    { id: 5, name: 'PG' },
+    { id: 6, name: 'PhD' },
+  ]
+
   useEffect(() => {
-  if(profiledata && profiledata?.education_details != 0){
-    let Study = getObject(Studying, profiledata.currently_studying.toString());
-    setStudying(Study);
-    setEducationLevel(profiledata.education_level)
-    setInstituteName(profiledata.institute)
-  }
+    if (profiledata && profiledata?.education_details != 0) {
+      let Study = getObject(Studying, profiledata.currently_studying.toString());
+      setStudying(Study);
+      setEducationLevel(profiledata.education_level)
+      setInstituteName(profiledata.institute)
+    }
   }, [profiledata])
 
 
@@ -67,7 +76,7 @@ const EducationDetails = () => {
   const Save = async () => {
     const request = {
       currently_studying: studying.id,
-      education_level: educationlevel,
+      education_level: educationlevel.id,
       institute: institutename,
     }
     try {
@@ -90,9 +99,9 @@ const EducationDetails = () => {
   return (
     <View style={{ flex: 1, backgroundColor: Color.white }}>
       <BackHeader />
-        <ScrollView showsVerticalScrollIndicator={false}>
-      <View style={styles.container}>
-        <Text style={Typography.main_heading}>Education Details</Text>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View style={styles.container}>
+          <Text style={Typography.main_heading}>Education Details</Text>
           <View style={styles.content}>
             <View>
               <CustomDropdown
@@ -105,12 +114,12 @@ const EducationDetails = () => {
               {errors.studying && <Text style={styles.errorText}>{errors.studying}</Text>}
             </View>
             <View>
-              <NameInput
-                placeholder='Enter your Education Level'
+              <CustomDropdown
                 title='Education Level'
-                value={educationlevel}
-                onChangeText={setEducationLevel}
-                nameStyle
+                placeholder='Selecte Education Level'
+                items={educationLevelData}
+                selectedValue={educationlevel}
+                onSelect={setEducationLevel}
               />
               {errors.educationlevel && <Text style={styles.errorText}>{errors.educationlevel}</Text>}
             </View>
@@ -126,9 +135,9 @@ const EducationDetails = () => {
               {errors.institutename && <Text style={styles.errorText}>{errors.institutename}</Text>}
             </View>
           </View>
-      </View>
-        </ScrollView>
-        <Button title='SAVE' onPress={Save} mainStyle={styles.btn} />
+        </View>
+      </ScrollView>
+      <Button title='SAVE' onPress={Save} mainStyle={styles.btn} />
     </View>
   );
 };

@@ -9,7 +9,8 @@ export const Style = StyleSheet.create({
         height: width * 1.3,
         borderRadius: 8,
         overflow: 'hidden',
-        marginHorizontal: 16
+        marginHorizontal: 16,
+        marginVertical: 10
       },
       image: {
         width: '100%',
