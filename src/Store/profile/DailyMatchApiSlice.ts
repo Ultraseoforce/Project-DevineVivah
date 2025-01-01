@@ -25,8 +25,12 @@ export const dailyMatchSlice = apiSlice.injectEndpoints({
                 return data;
             },
         }),
-        getDailyMatchProfileView: builder.query({
-            query: (mId: string) => `${URLS.dailyMatchProfileView}?mId=${mId}`,
+       
+        getDailyMatchProfileView: builder.mutation({
+            query: (mId: string) => ({
+              url: `${URLS.dailyMatchProfileView}?mId=${mId}`,
+              method: 'GET',
+            }),
             transformResponse: (responseData: any) => responseData.data,
           }),
 
@@ -53,9 +57,9 @@ export const dailyMatchSlice = apiSlice.injectEndpoints({
 
 export const {
     useGetNearMeProfilesQuery,
-    useGetDailyMatchProfileViewQuery,
     useGetRecentVisitorsProfilesQuery,
     useGetMyMatchesProfilesQuery,
+    useGetDailyMatchProfileViewMutation,
     useGetDailyMatchesProfilesQuery,
     useGetNewMatchesProfilesQuery,
 } = dailyMatchSlice;

@@ -6,19 +6,18 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
-export default function AboutCard() {
+export default function AboutCard({ data }: any) {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const fullText = `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam...`;
-
   return (
     <View style={styles.container}>
-      <Text style={styles.heading}>About "Full Name"</Text>
+      <Text style={styles.heading}>About "{data.name}"</Text>
       <View>
         <Text style={styles.description} numberOfLines={isExpanded ? undefined : 4}>
           {fullText}
         </Text>
-        <TouchableOpacity 
+        <TouchableOpacity
           onPress={() => setIsExpanded(!isExpanded)}
           style={styles.viewMoreButton}
         >

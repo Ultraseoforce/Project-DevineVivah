@@ -1,96 +1,114 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
   StyleSheet,
   ScrollView,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import RoseVerify from '../../assets/svg/RoseVerify.svg';
 import DustySkyVerify from '../../assets/svg/DustySkyVerify.svg';
-import Restaurant from '../../assets/svg/Restaurant.svg';
-import Both from '../../assets/svg/Both.svg';
 
-const PreferenceItem = ({ label, value, matched }: { label: string; value: string; matched: boolean }) => (
+type PreferenceItemProps = {
+  label: string;
+  value: string;
+  matched: boolean;
+};
+
+const PreferenceItem: React.FC<PreferenceItemProps> = ({ label, value, matched }) => (
   <View style={styles.preferenceItem}>
     <View>
       <Text style={styles.label}>{label}</Text>
       <Text style={styles.value}>{value}</Text>
     </View>
-    {matched ? <RoseVerify /> : <DustySkyVerify/>}
+    {matched ? <RoseVerify /> : <DustySkyVerify />}
   </View>
 );
 
-const CommonItem = ({ text }: { text: string }) => (
-  console.log("text",text.length),
-  <View style={styles.commonItem}>
-    <View style={styles.commonIconContainer}>
-      {text.length == 23 ? <Restaurant/> : <Both/> }
-      {/* <Icon name="check" size={16} color="#FFF" /> */}
-    </View>
-    <Text style={styles.commonText}>{text}</Text>
-  </View>
-);
+type PreferencesCardProps = {
+  data: {
+    height: string;
+    mother_tongue: string;
+    age: string;
+    religion: string;
+  };
+};
 
-export default function PreferencesCard() {
+const PreferencesCard: React.FC<PreferencesCardProps> = ({ data }: any) => {
+
+  const [preferenceCount, setPreferenceCount] = useState<number>(0)
+
+
+  useEffect(() => {
+    if (data) {
+      const preferenceData = {
+        is_marital_status: data.is_marital_status,
+        is_diet: data.is_diet,
+        is_mother_tongue: data.is_mother_tongue,
+        is_religion: data.is_religion,
+        is_age: data.is_age,
+      };
+      const countActivePreferences = () => {
+        return Object.values(preferenceData).filter(value => value === 1).length;
+      };
+      let count = countActivePreferences();
+      setPreferenceCount(count)
+    }
+  }, [data])
   return (
-    <ScrollView style={styles.container}>
-      <Text style={styles.header}>You Match 3/5 of her preferences</Text>
-      
-      <PreferenceItem 
+    <View style={styles.container}>
+      <Text style={styles.header}>You Match {preferenceCount}/5 of her preferences</Text>
+
+      <PreferenceItem
         label="Height"
-        value="5'0(152cm) to 5'11(180cm)"
+        value={data.height}
         matched={true}
       />
-      
-      <PreferenceItem 
+
+      <PreferenceItem
         label="Children"
         value="Ok, if not staying together"
         matched={true}
       />
-      
-      <PreferenceItem 
+
+      <PreferenceItem
         label="Mother Tongue"
-        value="Gujrati"
+        value={data.mother_tongue}
         matched={true}
       />
-      
-      <PreferenceItem 
+
+      <PreferenceItem
         label="Age"
-        value="33 to 44"
-        matched={false}
-      />
-      
-      <PreferenceItem 
-        label="Religion/Community"
-        value="Hindu : Gujrati"
+        value={data.age}
         matched={false}
       />
 
-      <Text style={styles.commonHeader}>Common between the both of you</Text>
-      
-      <CommonItem text="You both are vegeterian" />
-      <CommonItem text="Your both mother tongue is Gujrati" />
-    </ScrollView>
+      <PreferenceItem
+        label="Religion/Community"
+        value={data.religion}
+        matched={false}
+      />
+    </View>
   );
-}
+};
+
+export default PreferencesCard;
 
 const styles = StyleSheet.create({
   container: {
-      backgroundColor: '#FFFFFF',
-      borderRadius: 16,
-      padding: 16,
-      gap: 10,
-      marginHorizontal: 16,
-      marginTop: 10,
-      shadowColor: '#000',
-      shadowOffset: {
-          width: 0,
-          height: 2,
-      },
-      shadowOpacity: 0.1,
-      shadowRadius: 4,
-      elevation: 0.5,
+    backgroundColor: '#FFFFFF',
+    borderRadius: 16,
+    padding: 16,
+    gap: 10,
+    marginHorizontal: 16,
+    marginTop: 10,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 0.5,
   },
   header: {
     fontSize: 18,
@@ -103,7 +121,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingVertical: 16,
+    paddingVertical: 5,
     borderBottomWidth: 1,
     borderBottomColor: '#EEEEEE',
   },
@@ -116,32 +134,5 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#333',
     fontWeight: '500',
-  },
-  commonHeader: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: '#333',
-    marginTop: 24,
-    marginBottom: 16,
-  },
-  commonItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingVertical: 12,
-    borderBottomWidth: 1,
-    borderBottomColor: '#EEEEEE',
-  },
-  commonIconContainer: {
-    width: 28,
-    height: 28,
-    borderRadius: 14,
-    backgroundColor: '#FF6B6B',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: 12,
-  },
-  commonText: {
-    fontSize: 16,
-    color: '#333',
   },
 });

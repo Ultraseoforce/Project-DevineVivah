@@ -37,15 +37,15 @@ const InfoRow = ({
   </View>
 );
 
-export default function BasicDetailsCard() {
+export default function BasicDetailsCard({data}: any) {
   return (
     <View style={styles.container}>
       <Text style={styles.heading}>Basic Details</Text>
       
       <View style={styles.tagsContainer}>
-        <Tag>Created by Self</Tag>
+        <Tag>{data.profile_created_by}</Tag>
         <View style={styles.idTag}>
-          <Text style={styles.tagText}>ID : SH02213213</Text>
+          <Text style={styles.tagText}>{data.divinevivah_profile_number}</Text>
           <TouchableOpacity onPress={() => {}}>
             <Icon name="content-copy" size={18} color="#666" />
           </TouchableOpacity>
@@ -53,30 +53,30 @@ export default function BasicDetailsCard() {
       </View>
       
       <View style={styles.tagsContainer}>
-        <Tag>39 Yrs old</Tag>
-        <Tag>Height - 5'0</Tag>
+        <Tag>{data.age}Yrs old</Tag>
+        <Tag>Height - {data.height}</Tag>
       </View>
 
       <View style={styles.infoContainer}>
         <InfoRow
           SvgIcon={Date}
           label="Birth Date"
-          value="Virgo, Born on 18-Sep 1985"
+          value={data.dob}
         />
         <InfoRow
           SvgIcon={Martial}
           label="Martial Status"
-          value="Divorced (No Children)"
+          value={data.marital_status}
         />
         <InfoRow
           SvgIcon={Location}
           label="Lives in"
-          value="Lives in Surat, Gujarat, India"
+          value={data.lives_in}
         />
         <InfoRow
           SvgIcon={Religion}
           label="Religion & Mother Tongue"
-          value="Hindu, Gujarati"
+          value={data.religion_mother_tongue}
         />
       </View>
     </View>

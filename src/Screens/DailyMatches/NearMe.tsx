@@ -7,11 +7,14 @@ import Fire from "../../assets/svg/Fire.svg";
 import { Color } from '../../Theme';
 import { useGetNearMeProfilesQuery } from '../../Store/profile/DailyMatchApiSlice';
 import NoData from '../../Component/Cards/NoData';
+import { getImagePath } from '../../Component/Utils/helper';
 
 const { width } = Dimensions.get('window');
 
 const NearMe = () => {
   const { data: nearMeProfiles, isLoading, error } = useGetNearMeProfilesQuery({});
+  const defaultImage = require('../../assets/Image/noprofile.jpeg');
+
 
   if (isLoading) {
     return <ActivityIndicator size="large" color={Color.orange} style={styles.loader} />;
@@ -26,9 +29,7 @@ const NearMe = () => {
         style={Style.image}
       /> */}
       <Image
-        source={{
-          uri: 'https://images.pexels.com/photos/29326581/pexels-photo-29326581/free-photo-of-young-woman-in-uniform-holding-camera-outdoors.jpeg?auto=compress&cs=tinysrgb&w=600',
-        }}
+        source={item.profile_photo1 ? { uri: getImagePath(item.profile_photo1) } : defaultImage}
         style={Style.image}
       />
       <View style={Style.profileOverlay}>
@@ -68,7 +69,7 @@ const NearMe = () => {
 
   return (
     <View>
-     {nearMeProfiles.length === 0 ? <NoData /> : null}
+      {nearMeProfiles.length === 0 ? <NoData /> : null}
 
       <FlatList
         data={nearMeProfiles}

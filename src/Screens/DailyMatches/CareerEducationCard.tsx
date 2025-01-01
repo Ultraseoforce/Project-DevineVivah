@@ -5,7 +5,7 @@ import Income from '../../assets/svg/Income.svg';
 import Profession from '../../assets/svg/Profession.svg';
 import Education from '../../assets/svg/Education.svg';
 
-const CareerEducationCard = () => {
+const CareerEducationCard = ({data}: any) => {
   return (
     <View style={styles.card}>
     <Text style={styles.heading}>Career & Education</Text>
@@ -16,7 +16,7 @@ const CareerEducationCard = () => {
       </View>
       <View style={styles.detailContent}>
         <Text style={styles.label}>Profession</Text>
-        <Text style={styles.value}>Business Owner / Entrepreneur</Text>
+        <Text style={styles.value}>{data.profession ? data.profession : "-"} </Text>
       </View>
     </View>
     
@@ -26,7 +26,7 @@ const CareerEducationCard = () => {
       </View>
       <View style={styles.detailContent}>
         <Text style={styles.label}>Annual Income</Text>
-        <Text style={styles.value}>Doesn't wish to specify her income</Text>
+        <Text style={styles.value}>{data.annual_income}</Text>
       </View>
     </View>
     
@@ -36,11 +36,11 @@ const CareerEducationCard = () => {
       </View>
       <View style={styles.detailContent}>
         <Text style={styles.label}>Highest Qualification</Text>
-        <Text style={styles.value}>B. Com - Bachelor of Commerce</Text>
+        <Text style={styles.value}>{data.highest_qualification}</Text>
       </View>
     </View>
     
-    <View style={styles.detailRow}>
+    {/* <View style={styles.detailRow}>
       <View style={styles.iconContainer}>
         <Education/>
       </View>
@@ -48,7 +48,7 @@ const CareerEducationCard = () => {
         <Text style={styles.label}>Education Field</Text>
         <Text style={styles.value}>Finance / Commerce</Text>
       </View>
-    </View>
+    </View> */}
   </View>
   )
 }

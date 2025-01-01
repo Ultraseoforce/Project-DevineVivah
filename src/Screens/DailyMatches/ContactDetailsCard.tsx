@@ -6,7 +6,7 @@ import Email from '../../assets/svg/Email.svg';
 import { Color } from '../../Theme';
 
 
-const ContactDetailsCard = () => {
+const ContactDetailsCard = ({data}: any) => {
     return (
         <View style={styles.card}>
             <View style={styles.headerContainer}>
@@ -21,7 +21,7 @@ const ContactDetailsCard = () => {
                 <View style={styles.detailContent}>
                     <Text style={styles.label}>Contact No.</Text>
                     <View style={styles.valueContainer}>
-                        <Text style={styles.value}>+91 9023*******</Text>
+                        <Text style={styles.value}>{data.contact_no}</Text>
                         <Icon name="lock" size={20} color="#666" />
                     </View>
                 </View>
@@ -34,7 +34,7 @@ const ContactDetailsCard = () => {
                 <View style={styles.detailContent}>
                     <Text style={styles.label}>Email ID</Text>
                     <View style={styles.valueContainer}>
-                        <Text style={styles.value}>************@gmail.com</Text>
+                        <Text style={styles.value}>{data.email_id}</Text>
                         <Icon name="lock" size={20} color="#666" />
                     </View>
                 </View>

@@ -2,7 +2,7 @@ import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import Family from '../../assets/svg/Family.svg';
 
-const FamilyDetailsCard = () => {
+const FamilyDetailsCard = ({data}: any) => {
   return (
     <View style={styles.card}>
     <Text style={styles.heading}>Family Details</Text>
@@ -13,8 +13,8 @@ const FamilyDetailsCard = () => {
       </View>
       <View style={styles.detailContent}>
         <Text style={styles.label}>Parent's Details</Text>
-        <Text style={styles.value}>Father(army officer)</Text>
-        <Text style={styles.value}>Mother(House Wife)</Text>
+        <Text style={styles.value}>{data.father_details}</Text>
+        <Text style={styles.value}>{data.mother_details}</Text>
       </View>
     </View>
     
@@ -24,7 +24,7 @@ const FamilyDetailsCard = () => {
       </View>
       <View style={styles.detailContent}>
         <Text style={styles.label}>Siblings</Text>
-        <Text style={styles.value}>1 Brother</Text>
+        <Text style={styles.value}>{data.siblings}</Text>
       </View>
     </View>
   </View>
