@@ -83,7 +83,7 @@ const NavigationTab = ({ state, descriptors, navigation }: any) => {
                   ]}
                 >
                   <Image
-                    source={images.bookPoojaIcon}
+                    source={images.DailyMatch}
                     style={{ height: scale(25), width: scale(31) }}
                     resizeMode="contain"
                   />

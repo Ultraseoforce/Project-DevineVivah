@@ -217,6 +217,7 @@ const styles = StyleSheet.create({
   image: {
     height: moderateScale(360),
     width: Dimensions.get('screen').width,
+    borderRadius:15
   },
   dotContainer: {
     flexDirection: 'row',

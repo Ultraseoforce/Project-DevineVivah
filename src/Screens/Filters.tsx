@@ -63,7 +63,7 @@ const Filters = (Props: IFilter) => {
     setFilters((prevFilters) => ({ ...prevFilters, [key]: value }));
   };
 
-console.log("countriesData", countriesData)
+  console.log("countriesData", countriesData)
 
   const filterClear = () => {
     setFilters({
@@ -219,7 +219,7 @@ const styles = StyleSheet.create({
   appliedFiltersContainer: {
     paddingHorizontal: moderateScale(15),
     paddingVertical: 15,
-    
+
 
   },
   filtersWrapper: {

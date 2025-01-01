@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
     height: moderateScale(340),
     // width: moderateScale(345),
     width: Dimensions.get("screen").width - 8,
-    borderRadius: 6,
+    borderRadius: 20,
   },
   tagContainer: {
     position: "absolute",
