@@ -19,6 +19,7 @@ export const images = {
    ChatBGIcon : require("../assets/Image/chet_bg.png"),
    ProfileBGIcon : require("../assets/Image/profile_bg.png"),
    bookPoojaIcon : require("../assets/Image/kalasha.png"),
+   DailyMatch : require("../assets/Image/heart.png"),
    ReadingIcon : require("../assets/Image/open-book.png"),
    PhotographyIcon : require("../assets/Image/diaphragm.png"),
    GamingIcon : require("../assets/Image/games.png"),

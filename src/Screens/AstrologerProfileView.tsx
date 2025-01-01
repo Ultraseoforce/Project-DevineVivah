@@ -284,6 +284,7 @@ const styles = StyleSheet.create({
     profileImage: {
         width,
         height: 400,
+        borderRadius:15
     },
     headerButtons: {
         position: 'absolute',
