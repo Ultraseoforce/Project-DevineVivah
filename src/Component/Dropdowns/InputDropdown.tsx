@@ -17,7 +17,6 @@ interface Input {
 
 const InputDropdown = (auto: Input) => {
     const [value, setValue] = useState('');
-console.log("auto value", auto.value)
 
     useEffect(() => {
         if (auto.value !== value) {

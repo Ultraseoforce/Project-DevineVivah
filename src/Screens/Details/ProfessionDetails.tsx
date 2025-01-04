@@ -8,7 +8,7 @@ import CustomDropdown from '../../Component/Dropdowns/Dropdown'
 import NameInput from '../../Component/Placeholder/NameInput'
 import Button from '../../Component/Buttons/Button'
 import Toast from '../../Component/Modal/ToastMessage'
-import { useUpdateProfessionDetailsMutation } from '../../Store/profile/ProfileApiSlice'
+import { useGetProfileQuery, useUpdateProfessionDetailsMutation } from '../../Store/profile/ProfileApiSlice'
 import { navigate } from '../../Navigator/Utils'
 import { useSelector } from 'react-redux'
 import { selectProfile } from '../../Store/auth/authSlice'
@@ -21,8 +21,14 @@ const Profession = () => {
   const [salary, setSalary] = useState<string>('');
   const [errors, setErrors] = useState<ProfessionDetailsErrors>({});
   const { showToast } = Toast();
-  const profiledata = useSelector(selectProfile)
+  // const profiledata = useSelector(selectProfile)
   const [addProfessionDetails, { isLoading }] = useUpdateProfessionDetailsMutation()
+  const { data: profiledata, refetch } = useGetProfileQuery({});
+
+
+  useEffect(() => {
+    refetch();
+  }, [refetch]);
 
   const Currently_Working = [
     { name: 'Yes', id: '0' },

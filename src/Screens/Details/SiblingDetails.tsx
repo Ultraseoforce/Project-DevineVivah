@@ -9,7 +9,7 @@ import CustomDropdown from '../../Component/Dropdowns/Dropdown'
 import Button from '../../Component/Buttons/Button'
 import { useRoute } from '@react-navigation/native'
 import { navigate } from '../../Navigator/Utils'
-import { useUpdateFamilyDetailsMutation } from '../../Store/profile/ProfileApiSlice'
+import { useGetProfileQuery, useUpdateFamilyDetailsMutation } from '../../Store/profile/ProfileApiSlice'
 import Toast from '../../Component/Modal/ToastMessage'
 import { useSelector } from 'react-redux'
 import { selectProfile } from '../../Store/auth/authSlice'
@@ -18,7 +18,8 @@ import { getObject } from '../../Component/Utils/helper'
 const SiblingDetails = () => {
   const route = useRoute();
   const { showToast } = Toast();
-  const profiledata = useSelector(selectProfile);
+  // const profiledata = useSelector(selectProfile);
+  const { data: profiledata, refetch } = useGetProfileQuery({});
   const  Familydata =  route?.params?.FamilyDetails
   const [addFamilyDetails, { isLoading }] = useUpdateFamilyDetailsMutation()
   const [errors, setErrors] = useState<SiblingDetailsErrors[]>([]);
@@ -33,6 +34,9 @@ const SiblingDetails = () => {
   );
     
   
+  useEffect(() => {
+    refetch();
+  }, [refetch]);
 
   const Sibling_Gender = [
     { name: 'Male', id: '0' },
@@ -208,7 +212,7 @@ useEffect(() => {
 export default SiblingDetails
 const styles = StyleSheet.create({
   container: {
-    margin: moderateScale(10)
+    padding: moderateScale(16)
   },
   selectedText: {
     marginTop: 20,

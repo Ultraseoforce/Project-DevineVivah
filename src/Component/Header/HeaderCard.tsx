@@ -23,7 +23,7 @@ interface IHeader {
 
 const HeaderCard = (Props: IHeader) => {
   const isFocused = useIsFocused();
-   const { data: profiledata, isLoading, refetch } = useGetProfileQuery();
+  const { data: profiledata, isLoading, refetch } = useGetProfileQuery({});
   const profileImage = getImagePath(profiledata?.profile_photo1 || profiledata?.profile_photo2 || profiledata?.profile_photo3 || "")
   const bell = require('../../assets/Image/bell.png');
 
@@ -38,10 +38,10 @@ const HeaderCard = (Props: IHeader) => {
 
 
   useEffect(() => {
-      if (isFocused) {
-        refetch();
-      }
-    }, [isFocused]);
+    if (isFocused) {
+      refetch();
+    }
+  }, [isFocused]);
   return (
     <View style={[styles.mainView, { backgroundColor }]}>
       {/* StatusBar Styling */}
@@ -75,7 +75,7 @@ const HeaderCard = (Props: IHeader) => {
         {Props.BgWhite && (
           <Pressable onPress={() => navigate('Notifacations', {})} style={styles.bgball}>
             {/* <Image source={bell} style={styles.bellInsideWhite} tintColor={Color.border} /> */}
-            <Bell style={styles.bellInsideWhite} color={'red'}/>
+            <Bell style={styles.bellInsideWhite} color={'red'} />
           </Pressable>
         )}
       </View>

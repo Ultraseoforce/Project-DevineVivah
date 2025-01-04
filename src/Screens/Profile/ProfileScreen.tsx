@@ -44,17 +44,22 @@ const ProfileScreen = () => {
     { id: 7, title: 'LogOut', icon: require('../../assets/Image/help.png'), screen: "" },
   ];
 
+
+console.log("userProfileData", userProfileData)
+
+  const images = [
+    { uri: getImagePath(userProfileData?.profile_photo1 ? userProfileData?.profile_photo1 : null) },
+    { uri: getImagePath(userProfileData?.profile_photo2 ? userProfileData?.profile_photo2 : null) },
+    { uri: getImagePath(userProfileData?.profile_photo3 ? userProfileData?.profile_photo3 : null) },
+  ].filter((image) => image.uri);
+
+
   const profiledata = [
-    { id: 1, icon: require('../../assets/Image/shortlist.png'), name: '24', desc: 'Shortlisted' },
-    { id: 2, icon: require('../../assets/Image/view.png'), name: '20', desc: 'Viewed' },
+    { id: 1, icon: require('../../assets/Image/shortlist.png'), name: userProfileData?.shortlisted_count, desc: 'Shortlisted' },
+    { id: 2, icon: require('../../assets/Image/view.png'), name: userProfileData?.viewed_count, desc: 'Viewed' },
     { id: 3, icon: require('../../assets/Image/Plan.png'), name: '29', desc: 'Plan' },
   ];
 
-  const images = [
-    { uri: getImagePath(userProfileData?.profile_photo1 || '') },
-    { uri: getImagePath(userProfileData?.profile_photo2 || '') },
-    { uri: getImagePath(userProfileData?.profile_photo3 || '') },
-  ].filter((image) => image.uri);
 
   const onViewRef = useRef(({ viewableItems }) => {
     if (viewableItems.length > 0) {
@@ -85,7 +90,10 @@ const ProfileScreen = () => {
                     keyExtractor={(item, index) => `image_${index}`}
                     renderItem={({ item }) => (
                       <View>
-                        <Image source={item.uri ? { uri: item.uri } : defaultImage} style={styles.image} />
+                        {item.uri ? <Image source={item.uri ? { uri: item.uri } : defaultImage} style={styles.image} />
+                          :
+                          <Image source={defaultImage} style={styles.image} />}
+
                         {activeIndex === 0 && (
                           <View style={styles.uploadImage}>
                             <Text style={styles.fullName}>Full Name</Text>

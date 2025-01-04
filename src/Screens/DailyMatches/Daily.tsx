@@ -29,6 +29,8 @@ import WhiteBell from '../../assets/svg/WhiteBell.svg';
 import { Style } from './CommonStyles';
 import { useIsFocused } from '@react-navigation/native';
 import { useGetDailyMatchesProfilesQuery, useGetDailyMatchProfileViewMutation } from '../../Store/profile/DailyMatchApiSlice';
+import { useGetProfileQuery } from '../../Store/profile/ProfileApiSlice';
+import { getImagePath } from '../../Component/Utils/helper';
 
 const { width } = Dimensions.get('window');
 
@@ -39,6 +41,8 @@ export default function Daily() {
   const scrollViewRef = useRef(null);
   const { data: dailyMatchesProfiles, isLoading, error } = useGetDailyMatchesProfilesQuery({});
   const [getProfile, { data: profile, isLoading: profileLoading }] = useGetDailyMatchProfileViewMutation();
+  const { data: profiledata, refetch } = useGetProfileQuery({});
+  const profileImage = getImagePath(profiledata?.profile_photo1 || profiledata?.profile_photo2 || profiledata?.profile_photo3 || "")
 
   const tabs = [
     { id: 'daily', label: 'Daily', count: 19, icon: 'fire' },
@@ -47,6 +51,9 @@ export default function Daily() {
   ];
 
 
+  useEffect(() => {
+    refetch();
+  }, [refetch])
 
 
   useEffect(() => {
@@ -115,12 +122,7 @@ export default function Daily() {
       <View style={{ backgroundColor: Color.white, elevation: 1 }}>
         {isFocused && <StatusBar backgroundColor="#ffffff" barStyle="dark-content" />}
         <View style={styles.header}>
-          <TouchableOpacity>
-            <Image
-              source={{ uri: 'https://images.pexels.com/photos/29352975/pexels-photo-29352975/free-photo-of-sophisticated-gentleman-in-elegant-suit-indoors.jpeg?auto=compress&cs=tinysrgb&w=600' }}
-              style={styles.profileImage}
-            />
-          </TouchableOpacity>
+          <Image source={{ uri: profileImage }} style={styles.profileImage} />
           <View style={styles.iconContainer}>
             <TouchableOpacity style={styles.iconButton}>
               <Kalasha />
@@ -184,7 +186,7 @@ export default function Daily() {
                 <PreferencesCard data={profile} />
                 <AboutCard data={profile} />
                 <BasicDetailsCard data={profile} />
-                <ContactDetailsCard  data={profile}/>
+                <ContactDetailsCard data={profile} />
                 <FamilyDetailsCard data={profile} />
                 <CareerEducationCard data={profile} />
               </>

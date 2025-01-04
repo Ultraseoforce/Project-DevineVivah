@@ -10,6 +10,7 @@ import {
     FlatList,
     TextInput,
     StatusBar,
+    Modal,
 } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -18,7 +19,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import { useRoute } from '@react-navigation/native';
-import { useAddFavoriteAstrologerMutation, useGetAstrologerProfileQuery, useGetAstrologerReviewsQuery, useRemoveFavoriteAstrologerMutation } from '../Store/Astrologers/AstrologersApiSlice';
+import { useAddFavoriteAstrologerMutation, useAddReviewRatingAstrologerMutation, useGetAstrologerProfileQuery, useGetAstrologerReviewsQuery, useRemoveFavoriteAstrologerMutation } from '../Store/Astrologers/AstrologersApiSlice';
 import { formatTimeDifference, getImagePath } from '../Component/Utils/helper';
 import Loader from '../Component/Modal/Loader';
 import { Color } from '../Theme';
@@ -27,6 +28,8 @@ import Toast from '../Component/Modal/ToastMessage';
 import { useViewProfileMutation } from '../Store/profile/ProfileApiSlice';
 import NotFavorite from "../assets/svg/NotFavorite.svg"
 import Favorite from "../assets/svg/Favorite.svg"
+import Icon from 'react-native-vector-icons/MaterialIcons';
+
 
 
 const { width } = Dimensions.get('window');
@@ -45,10 +48,13 @@ const AstrologerProfileView = () => {
     const [activeImageIndex, setActiveImageIndex] = useState(0);
     const [isBioExpanded, setIsBioExpanded] = useState(false);
     const [comment, setComment] = useState('');
+    const [modalVisible, setModalVisible] = useState(false);
+    const [rating, setRating] = useState(0);
     const { data: AstrologerDetails, error, isLoading, refetch: refetchAstrologerDetails } = useGetAstrologerProfileQuery(AstrologerId);
-    const { data: astrologerReviews } = useGetAstrologerReviewsQuery(AstrologerId);
+    const { data: astrologerReviews, refetch } = useGetAstrologerReviewsQuery(AstrologerId);
     const [addFavoriteAstrologer, { isLoading: addFavoriteLoading }] = useAddFavoriteAstrologerMutation();
     const [removeFavoriteAstrologer, { isLoading: removeFavoriteLoading }] = useRemoveFavoriteAstrologerMutation();
+    const [addReviewRating, { isLoading: addaddreviewLoading }] = useAddReviewRatingAstrologerMutation();
 
     const [viewProfile, { }] = useViewProfileMutation();
 
@@ -56,13 +62,36 @@ const AstrologerProfileView = () => {
     useEffect(() => {
         refetchAstrologerDetails()
     }, [])
-    console.log("AstrologerDetails", AstrologerDetails)
 
     const profileImages = [
         AstrologerDetails?.profile_photo1,
         AstrologerDetails?.profile_photo2,
         AstrologerDetails?.profile_photo3,
     ].filter(Boolean);
+
+
+    const handleRating = (selectedRating: number) => {
+        setRating(selectedRating);
+    };
+
+    const handleSubmit = async () => {
+        setModalVisible(false);
+        setRating(0);
+
+        const requset = {
+            user_id: AstrologerId,
+            rating: rating,
+            review: comment
+        }
+        try {
+            const response = await addReviewRating(requset).unwrap();
+            showToast((response as { message: string }).message, { type: 'normal' });
+            setComment("")
+            refetch();
+        } catch (error) {
+            console.log(error)
+        }
+    };
 
 
 
@@ -260,11 +289,49 @@ const AstrologerProfileView = () => {
 
                         </View>
 
-                        <TouchableOpacity style={styles.sendButton}>
+                        <TouchableOpacity style={styles.sendButton} onPress={() => comment.length ? setModalVisible(true) : null
+                        }>
                             <Feather name="send" size={20} color="#FFF" />
                         </TouchableOpacity>
                     </View>
                 </View>
+                <Modal
+                    animationType="fade"
+                    transparent={true}
+                    visible={modalVisible}
+                    onRequestClose={() => setModalVisible(false)}
+                >
+                    <View style={styles.modalOverlay}>
+                        <View style={styles.modalContent}>
+                            <TouchableOpacity
+                                style={styles.closeButton}
+                                onPress={() => setModalVisible(false)}
+                            >
+                                <Icon name="close" size={24} color="#666" />
+                            </TouchableOpacity>
+                            <Text style={styles.ratingtitle}>Rate Now</Text>
+
+                            <View style={styles.starsContainer}>
+                                {[1, 2, 3, 4, 5].map((star) => (
+                                    <TouchableOpacity
+                                        key={star}
+                                        onPress={() => handleRating(star)}
+                                    >
+                                        <Icon
+                                            name="star"
+                                            size={40}
+                                            color={star <= rating ? '#FFB800' : '#E0E0E0'}
+                                        />
+                                    </TouchableOpacity>
+                                ))}
+                                <TouchableOpacity style={styles.sendButton} onPress={handleSubmit}>
+                                    <Feather name="send" size={20} color="#FFF" />
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                    </View>
+                </Modal>
+
             </>
             }
 
@@ -284,7 +351,7 @@ const styles = StyleSheet.create({
     profileImage: {
         width,
         height: 400,
-        borderRadius:15
+        borderRadius: 15
     },
     headerButtons: {
         position: 'absolute',
@@ -528,6 +595,41 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
+
+    modalOverlay: {
+        flex: 1,
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    modalContent: {
+        backgroundColor: '#fff',
+        padding: 20,
+        borderRadius: 15,
+        width: '90%',
+        borderWidth: 1,
+        borderColor: Color.border
+    },
+    ratingtitle: {
+        fontSize: 24,
+        fontWeight: '600',
+        textAlign: 'center',
+        marginBottom: 20,
+    },
+    starsContainer: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        gap: 8,
+    },
+
+    closeButton: {
+        position: 'absolute',
+        right: 10,
+        top: 10,
+        zIndex: 1,
+    },
+
 
 });
 

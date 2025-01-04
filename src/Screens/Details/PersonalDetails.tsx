@@ -1,4 +1,4 @@
-import { SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { Color } from '../../Theme';
 import BackHeader from '../../Component/Header/BackHeader';
@@ -8,12 +8,12 @@ import NameInput from '../../Component/Placeholder/NameInput';
 import CustomDropdown from '../../Component/Dropdowns/Dropdown';
 import InputDropdown from '../../Component/Dropdowns/InputDropdown';
 import Button from '../../Component/Buttons/Button';
-import { useUpdatePersonalDetailsMutation } from '../../Store/profile/ProfileApiSlice';
+import { useGetProfileQuery, useUpdatePersonalDetailsMutation } from '../../Store/profile/ProfileApiSlice';
 import Toast from '../../Component/Modal/ToastMessage';
 import { navigate } from '../../Navigator/Utils';
 import { useSelector } from 'react-redux';
 import { selectProfile } from '../../Store/auth/authSlice';
-import { getObject } from '../../Component/Utils/helper';
+import { getObject, getObjectByName } from '../../Component/Utils/helper';
 
 interface PersonalDetailsErrors {
   email?: string;
@@ -39,23 +39,43 @@ interface Dropdown {
 const PersonalDetails = () => {
   const [email, setEmail] = useState<string>('');
   const [dob, setDob] = useState<string>('');
-  const [religion, setReligion] = useState<Dropdown | null>(null);
+  const [religion, setReligion] = useState("");
   const [caste, setCaste] = useState<string>('');
-  const [mothertongue, setMotherTongue] = useState<Dropdown | null>(null);
-  const [maritalstatus, setMaritalStatus] = useState<Dropdown | null>(null);
+  const [mothertongue, setMotherTongue] = useState("");
+  const [maritalstatus, setMaritalStatus] = useState("");
   const [dietname, setDietName] = useState<Dropdown | null>(null);
   const [height, setHeight] = useState<string>('');
   const [weight, setWeight] = useState<string>('');
   const [gender, setGender] = useState<Dropdown | null>(null);
   const [errors, setErrors] = useState<PersonalDetailsErrors>({});
-  const profiledata = useSelector(selectProfile);
-  const [childrenCount, setChildrenCount] = useState<string>('');
+  const [childrenCount, setChildrenCount] = useState('');
   const [childrenLive, setChildrenLives] = useState<Dropdown | null>(null);
   const [annualIncome, setAnnualIncome] = useState<Dropdown | null>(null);
   const [createdBy, setCreatedBy] = useState<Dropdown | null>(null);
 
   const { showToast } = Toast();
-  const [addPersonalDetails, { isLoading }] = useUpdatePersonalDetailsMutation();
+  const [addPersonalDetails, { }] = useUpdatePersonalDetailsMutation();
+  interface ProfileData {
+    personal_details: number;
+    marital_status: string;
+    member_gender: string;
+    diet: string;
+    member_email: string;
+    dob: string;
+    religion: number;
+    caste: string;
+    mother_tongue: number;
+    height: number;
+    weight: number;
+  }
+  
+  const { data: profiledata,  refetch } = useGetProfileQuery<ProfileData>({});
+
+  useEffect(() => {
+    refetch();
+  }, [refetch]);
+
+
 
   const marital_status = [
     { name: 'Never Married', id: '1' },
@@ -78,16 +98,16 @@ const PersonalDetails = () => {
   ];
 
   const religionData = [
-    { id: 1, name: 'Hinduism' },
-    { id: 2, name: 'Islam' },
-    { id: 3, name: 'Christianity' },
-    { id: 4, name: 'Sikhism' },
-    { id: 5, name: 'Buddhism' },
-    { id: 6, name: 'Jainism' },
-    { id: 7, name: 'Zoroastrianism (Parsis)' },
-    { id: 8, name: 'Judaism' },
-    { id: 9, name: "Baha'i Faith" },
-    { id: 10, name: 'Tribal and Indigenous Beliefs' },
+    { name: 'Hinduism', id: 1 },
+    { name: 'Islam', id: 2 },
+    { name: 'Christianity', id: 3, },
+    { name: 'Sikhism', id: 4 },
+    { name: 'Buddhism', id: 5, },
+    { name: 'Jainism', id: 6 },
+    { name: 'Zoroastrianism (Parsis)', id: 7 },
+    { name: 'Judaism', id: 8 },
+    { name: "Baha'i Faith", id: 9 },
+    { name: 'Tribal and Indigenous Beliefs', id: 10 },
   ];
 
   const motherTongueData = [
@@ -138,23 +158,34 @@ const PersonalDetails = () => {
     { id: 5, name: 'More than 1 Crore' },
   ];
 
+
   useEffect(() => {
     if (profiledata && profiledata.personal_details != 0) {
       let Marital = getObject(marital_status, profiledata?.marital_status.toString());
       let gender = getObject(Gender, profiledata?.member_gender.toString());
       let diet = getObject(dietItem, profiledata?.diet.toString());
+      const religion = getObjectByName(religionData, profiledata?.religion);
+      const motherTongue = getObjectByName(motherTongueData, profiledata?.mother_tongue);
+      const childrenLive = getObject(childrenLiveData, profiledata?.children_live);
+      const annualincome = getObject(annualIncomeData, profiledata?.annual_income);
+      const creactedBy = getObject(profileCreatedByData, profiledata?.profile_created_by);
+      setCreatedBy(creactedBy)
+      setAnnualIncome(annualincome)
+      setChildrenLives(childrenLive)
+      setReligion(religion)
       setMaritalStatus(Marital);
       setGender(gender);
       setEmail(profiledata?.member_email);
       setDob(profiledata?.dob);
-      setReligion(profiledata?.religion);
       setCaste(profiledata.caste);
-      setMotherTongue(profiledata?.mother_tongue);
+      setMotherTongue(motherTongue);
       setHeight(profiledata?.height.toString());
       setWeight(profiledata?.weight.toString());
       setDietName(diet);
+      setChildrenCount(profiledata.children_count)
     }
   }, [profiledata]);
+
 
   const validateForm = (): boolean => {
     let formErrors: PersonalDetailsErrors = {};
@@ -410,7 +441,7 @@ const PersonalDetails = () => {
             </View>
           </View>
         </View>
-        <Button title='SAVE' mainStyle={styles.btn} onPress={save} isLoading={isLoading} />
+        <Button title='SAVE' mainStyle={styles.btn} onPress={save} />
       </ScrollView>
     </View>
   );

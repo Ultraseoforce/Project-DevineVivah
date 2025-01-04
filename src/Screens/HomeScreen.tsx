@@ -44,7 +44,43 @@ const HomeScreen = () => {
 
   const addPhoto = require('../assets/Image/addphoto.png');
 
+  useEffect(() => {
+    const NavigationAndDispatch = async () => {
+      try {
+        switch (true) {
+          case getProfile.personal_details === 0:
+            await navigate('PersonalDetails', {});
+            break;
+          case getProfile.education_details === 0:
+            await navigate('CreationSteps', {});
+            break;
+          case getProfile.profession_details === 0:
+            await navigate('Profession', {});
+            break;
+          case getProfile.family_details === 0:
+            await navigate('FamilyDetails', {});
+            break;
+          case getProfile.preferences_details === 0:
+            await navigate('Preferences', {});
+            break;
+          case getProfile.location_details === 0:
+            await navigate('Location', {});
+            break;
+          case getProfile.verification_details === 0:
+            await navigate('Verification', {});
+            break;
+          default:
+            console.log('All details are completed');
+            break;
+        }
 
+      } catch (error) {
+        console.error('Error during navigation or dispatch:', error);
+      }
+    };
+
+    NavigationAndDispatch();
+  }, [getProfile, navigate, dispatch]);
 
   const [formData] = useState({
     age: "",
@@ -62,7 +98,6 @@ const HomeScreen = () => {
     const fetchProfiles = async () => {
       try {
         const response = await getAllProfiles([formData]).unwrap();
-        console.log('Response---------------------:', response);
       } catch (err) {
         console.error('Error:', err);
       }

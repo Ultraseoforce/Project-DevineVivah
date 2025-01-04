@@ -11,9 +11,11 @@ import { navigate } from '../../Navigator/Utils'
 import { useSelector } from 'react-redux'
 import { selectProfile } from '../../Store/auth/authSlice'
 import About from '../../Component/Placeholder/About'
+import { useGetProfileQuery } from '../../Store/profile/ProfileApiSlice'
 
 const FamilyDetails = () => {
-  const profiledata = useSelector(selectProfile)
+  // const profiledata = useSelector(selectProfile)
+  const { data: profiledata, isLoading, refetch } = useGetProfileQuery({});
   const [fathername, setFatherName] = useState<string>('');
   const [mothername, setMotherName] = useState<string>('');
   const [siblingsno, setSiblingsNo] = useState<string>('');
@@ -22,7 +24,9 @@ const FamilyDetails = () => {
   const [motherprofession, setMotherProfession] = useState<string>('');
   const [errors, setErrors] = useState<FamilyDetailsErrors>({});
 
-
+  useEffect(() => {
+    refetch();
+  }, [refetch]);
 
 
   useEffect(() => {

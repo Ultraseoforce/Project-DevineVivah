@@ -1,4 +1,4 @@
-import { SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { ActivityIndicator, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { Color } from '../../Theme'
 import BackHeader from '../../Component/Header/BackHeader'
@@ -8,7 +8,7 @@ import NameInput from '../../Component/Placeholder/NameInput'
 import CustomDropdown from '../../Component/Dropdowns/Dropdown'
 import Button from '../../Component/Buttons/Button'
 import { useGetCityQuery, useGetCountryQuery, useGetStateQuery } from '../../Store/dropdown/dropdownApiSlice'
-import { useUpdateLocationDetailsMutation } from '../../Store/profile/ProfileApiSlice'
+import { useGetProfileQuery, useUpdateLocationDetailsMutation } from '../../Store/profile/ProfileApiSlice'
 import { navigate } from '../../Navigator/Utils'
 import Toast from '../../Component/Modal/ToastMessage'
 import { useSelector } from 'react-redux'
@@ -26,21 +26,23 @@ const Location = () => {
   const { data: statesData, isLoading: isLoadingStates } = useGetStateQuery(country?.id);
   const { data: citiesData, isLoading: isLoadingCities } = useGetCityQuery(state?.id);
   const [errors, setErrors] = useState<LocationDetailsErrors>({});
-  const profiledata = useSelector(selectProfile)
-
+  const { data: profiledata, isLoading, error, refetch } = useGetProfileQuery({});
   const [addLocation, { }] = useUpdateLocationDetailsMutation()
 
 
 useEffect(() => {
-  if(profiledata){
-    // let countrydut = getObject(Data, "101");
-    // console.log("seleted", countrydut)
-    // let state = getObject(stateData, "4009");
-    // let City = getObject(Citydata, profiledata.city_id.toString());
+  refetch();
+}, [refetch]);
 
-    setCountry("")
-    setState(state)
-    // setCity(City)
+if (isLoading) {
+  return <ActivityIndicator size="large" color={Color.orange} />;
+}
+
+useEffect(() => {
+  if(profiledata){
+    setCountry(profiledata.country.name)
+    setState(profiledata.state.name)
+    setCity(profiledata.city.name)
     setPostalCode(profiledata.postalcode)
   }
 }, [profiledata])

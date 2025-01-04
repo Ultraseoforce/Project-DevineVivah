@@ -38,7 +38,6 @@ const SuggestedMatches = () => {
       image: require("../../assets/Image/profile3.png")
     }
   ]
-  console.log("SuggestedMatches =>", SuggestedMatches)
 
   const renderItem = ({ item }: any) => (
     <TouchableOpacity activeOpacity={0.7} onPress={() => navigate('ViewProfile', {mId:item.mId})} style={styles.itemContainer}>

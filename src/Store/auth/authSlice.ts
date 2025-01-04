@@ -27,6 +27,7 @@ const authSlice: any = createSlice({
     },
 
     setAuthProfile: (state, action) => {
+      console.log("acion",action.payload)
       state.profile = action.payload.profile;
     },
     clearCredentials: (state) => {

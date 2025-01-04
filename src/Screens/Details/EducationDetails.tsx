@@ -1,4 +1,4 @@
-import { SafeAreaView, View, Text, StyleSheet, ScrollView } from 'react-native';
+import { SafeAreaView, View, Text, StyleSheet, ScrollView, ActivityIndicator } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { moderateScale } from '../../Theme/ResposiveSize';
 import { Color } from '../../Theme';
@@ -7,28 +7,37 @@ import BackHeader from '../../Component/Header/BackHeader';
 import CustomDropdown from '../../Component/Dropdowns/Dropdown';
 import NameInput from '../../Component/Placeholder/NameInput';
 import Button from '../../Component/Buttons/Button';
-import { useUpdateEducationDetailsMutation } from '../../Store/profile/ProfileApiSlice';
+import { useGetProfileQuery, useUpdateEducationDetailsMutation } from '../../Store/profile/ProfileApiSlice';
 import Toast from '../../Component/Modal/ToastMessage';
 import { navigate } from '../../Navigator/Utils';
 import { selectProfile } from '../../Store/auth/authSlice';
 import { useSelector } from 'react-redux';
-import { getObject } from '../../Component/Utils/helper';
+import { getObject, getObjectByName } from '../../Component/Utils/helper';
 
 
 const EducationDetails = () => {
+  const { showToast } = Toast();
   const [studying, setStudying] = useState<string>('');
   const [educationlevel, setEducationLevel] = useState<string>('');
   const [institutename, setInstituteName] = useState<string>('');
   const [errors, setErrors] = useState<EducationDetailsErrors>({});
-  const [addEducation, { isLoading }] = useUpdateEducationDetailsMutation()
-  const profiledata = useSelector(selectProfile)
+  const [addEducation, { }] = useUpdateEducationDetailsMutation()
+  const { data: profiledata, error, isLoading, refetch } = useGetProfileQuery({});
 
-  const { showToast } = Toast();
+
+  useEffect(() => {
+    refetch();
+  }, [refetch]);
+
+  if (isLoading) {
+    return <ActivityIndicator size="large" color={Color.orange} />;
+  }
 
   const Studying = [
     { name: 'Yes', id: '1' },
     { name: 'No', id: '2' },
   ]
+
 
 
   const educationLevelData = [
@@ -43,8 +52,9 @@ const EducationDetails = () => {
   useEffect(() => {
     if (profiledata && profiledata?.education_details != 0) {
       let Study = getObject(Studying, profiledata.currently_studying.toString());
+      const educationlevel = getObjectByName(educationLevelData, profiledata?.education_level);
       setStudying(Study);
-      setEducationLevel(profiledata.education_level)
+      setEducationLevel(educationlevel)
       setInstituteName(profiledata.institute)
     }
   }, [profiledata])

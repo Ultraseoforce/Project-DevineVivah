@@ -11,6 +11,8 @@ import { navigate } from '../../Navigator/Utils'
 import { useSelector } from 'react-redux'
 import { selectProfile } from '../../Store/auth/authSlice'
 import { getObject } from '../../Component/Utils/helper'
+import { useGetProfileQuery } from '../../Store/profile/ProfileApiSlice'
+import { ActivityIndicator } from 'react-native'
 
 const Preferences = () => {
   const [abouttext, setAboutText] = useState<string>('');
@@ -19,7 +21,13 @@ const Preferences = () => {
   const [smokestates, setSmokeStates] = useState<string>('');
   const [drinkstates, setDrinkStates] = useState<string>('');
   const [errors, setErrors] = useState<PreferencesErrors>({});
-  const profiledata = useSelector(selectProfile)
+  // const profiledata = useSelector(selectProfile)
+  const { data: profiledata, isLoading, refetch } = useGetProfileQuery({});
+
+
+  useEffect(() => {
+    refetch();
+  }, [refetch]);
 
   const status = [
     { name: 'Yes', id: '0' },
@@ -28,15 +36,15 @@ const Preferences = () => {
 
 
   useEffect(() => {
-   if(profiledata){
-    let smake = getObject(status, profiledata.smoke.toString());
-    let drink = getObject(status, profiledata.drink.toString());
-    setSmokeStates(smake)
-    setDrinkStates(drink)
-    setAboutText(profiledata.about_you)
-    setLikingsText(profiledata.likes)
-    setDislikingsText(profiledata.dislikes)
-   }
+    if (profiledata) {
+      let smake = getObject(status, profiledata.smoke.toString());
+      let drink = getObject(status, profiledata.drink.toString());
+      setSmokeStates(smake)
+      setDrinkStates(drink)
+      setAboutText(profiledata.about_you)
+      setLikingsText(profiledata.likes)
+      setDislikingsText(profiledata.dislikes)
+    }
   }, [profiledata])
 
   const validation = (): boolean => {
@@ -79,7 +87,7 @@ const Preferences = () => {
   return (
     <View style={{ flex: 1, backgroundColor: Color.white }}>
       <BackHeader />
-      <ScrollView showsVerticalScrollIndicator={false}>
+      {isLoading ? <ActivityIndicator size="large" color={Color.orange} style={styles.loader} /> : <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.container}>
           <Text style={Typography.main_heading}>Preferences Details</Text>
           <View style={{ marginTop: moderateScale(20), gap: moderateScale(20) }}>
@@ -136,7 +144,7 @@ const Preferences = () => {
           </View>
         </View>
         <Button title='SAVE' mainStyle={styles.btn} onPress={Save} />
-      </ScrollView>
+      </ScrollView>}
     </View>
   )
 }
@@ -159,4 +167,7 @@ const styles = StyleSheet.create({
     color: 'red',
     marginTop: 5,
   },
+  loader: {
+    marginTop: moderateScale(20),
+  }
 })

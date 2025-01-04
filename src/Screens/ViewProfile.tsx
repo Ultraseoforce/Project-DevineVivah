@@ -48,14 +48,13 @@ const ViewProfile = () => {
   const [rejectChatRequest, { isLoading: rejectChatRequestLoder }] = useRejectChatRequestMutation();
   const [shortlistProfile, { isLoading: shortlistProfileLoder }] = useShortlistProfileMutation();
 
-
-
+  const defaultImage = require('../assets/Image/noprofile.jpeg');
 
   const toggleExpand = () => setIsExpanded(!isExpanded);
   const Profileimage = [
-    { id: 1, image: ProfileDetelis?.profile_photo1 },
-    { id: 2, image: ProfileDetelis?.profile_photo2 },
-    { id: 3, image: ProfileDetelis?.profile_photo3 },
+    { id: 1, image: ProfileDetelis?.profile_photo1 ? ProfileDetelis?.profile_photo1 : null },
+    { id: 2, image: ProfileDetelis?.profile_photo2 ? ProfileDetelis?.profile_photo2 : null },
+    { id: 3, image: ProfileDetelis?.profile_photo3 ? ProfileDetelis?.profile_photo3: null },
   ];
 
   const data = [
@@ -79,6 +78,8 @@ const ViewProfile = () => {
     }
   };
 
+
+  console.log("ProfileDetelis", ProfileDetelis)
 
   const handleRejectChatRequest = async () => {
     try {
@@ -108,7 +109,7 @@ const ViewProfile = () => {
         showsHorizontalScrollIndicator={false}
         keyExtractor={(_, index) => index.toString()}
         renderItem={({ item }) => (
-          <Image source={{ uri: getImagePath(item.image) || '' }} style={styles.image} />
+          <Image source={item.image ? { uri: getImagePath(item.image) } : defaultImage} style={styles.image} />
         )}
         onScroll={({ nativeEvent }) => {
           const index = Math.round(nativeEvent.contentOffset.x / Dimensions.get('screen').width);
@@ -136,7 +137,7 @@ const ViewProfile = () => {
       </View>
       <View style={styles.infoSection}>
         <View style={styles.nameWrapper}>
-          <Text style={[Typography.large_headings, { fontSize: FontSize.Font31 }]}>Full Name</Text>
+          <Text style={[Typography.large_headings, { fontSize: FontSize.Font31 }]}>{ProfileDetelis?.member_name}</Text>
           <Image source={require('../assets/Image/smallTik.png')} style={styles.tikIcon} />
         </View>
         <RequestButton

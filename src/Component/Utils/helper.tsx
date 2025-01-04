@@ -25,6 +25,10 @@ export function getObject(
   return array.find(item => item.id === id) || null;
 }
 
+// Export function to get the object by name
+export const getObjectByName = (Data: { name: string; id: string }[], name: string) => {
+  return Data.find((item) => item.name === name);
+};
 
 // id to return name value
 export function getImagePath(imageUrl: string): string | null {

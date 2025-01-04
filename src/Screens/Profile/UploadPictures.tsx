@@ -26,7 +26,7 @@ type ImageType = 'primary' | 'second' | 'third';
 
 export default function ImagePickerComponent() {
     const { showToast } = Toast();
-    const { data: userProfileData } = useGetProfileQuery();
+    const { data: userProfileData } = useGetProfileQuery({});
     const [uploadPictures] = useUploadProfileImgMutation();
     const [deleteProfileImg] = useDeleteProfileImgMutation();
     const [images, setImages] = useState<Record<ImageType, string>>({

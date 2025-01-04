@@ -11,8 +11,8 @@ const URLS = {
     famousastrologers: "famous-astrologers",
     removeFavoriteAstrologer: "remove-favorite-astrologer",
     astrologerProfile: "astrologer-profile",
-    astrologerReviews: "astrologer-reviews"
-
+    astrologerReviews: "astrologer-reviews",
+    addReviewRatingAstrologer: "add-review-rating-astrologer",
 
 };
 
@@ -67,6 +67,14 @@ export const AstrologersSlice = apiSlice.injectEndpoints({
             },
         }),
 
+        addReviewRatingAstrologer: builder.mutation({
+            query: ({ user_id, rating, review }: any) => ({
+                url: URLS.addReviewRatingAstrologer,
+                method: "POST",
+                body: { user_id, rating, review },
+            }),
+        }),
+
     }),
 });
 
@@ -76,5 +84,6 @@ export const {
     useGetFamousAstrologersQuery,
     useRemoveFavoriteAstrologerMutation,
     useGetAstrologerProfileQuery,
-    useGetAstrologerReviewsQuery
+    useGetAstrologerReviewsQuery,
+    useAddReviewRatingAstrologerMutation
 } = AstrologersSlice;

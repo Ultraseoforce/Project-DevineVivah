@@ -72,25 +72,33 @@ const CustomDatePicker: React.FC<CustomDatePickerProps> = ({
   };
 
   const renderDay = ({ item }: { item: { day: number; currentMonth: boolean } }) => {
+    const isToday = item.currentMonth && 
+      item.day === currentDate.getDate() &&
+      currentDate.getMonth() === new Date().getMonth() &&
+      currentDate.getFullYear() === new Date().getFullYear();
+  
     return (
       <TouchableOpacity
         style={[
           styles.dayItem,
-          !item.currentMonth && styles.otherMonthDay
+          !item.currentMonth && styles.otherMonthDay,
+          isToday && styles.todayBorder, // Highlight the current date
         ]}
         onPress={() => item.currentMonth && selectDate(item.day)}
         disabled={!item.currentMonth}
       >
-        <Text style={[
-          styles.dayText,
-          !item.currentMonth && styles.otherMonthDayText
-        ]}>
+        <Text
+          style={[
+            styles.dayText,
+            !item.currentMonth && styles.otherMonthDayText,
+          ]}
+        >
           {item.day}
         </Text>
       </TouchableOpacity>
     );
   };
-
+  
   const weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
   return (
@@ -198,6 +206,11 @@ const styles = StyleSheet.create({
   },
   otherMonthDayText: {
     color: '#6A707C',
+  },
+  todayBorder: {
+    borderWidth: 1,
+    borderColor: '#FF4D67', 
+    borderRadius: 50,
   },
 });
 
