@@ -12,6 +12,7 @@ import Toast from '../../Component/Modal/ToastMessage'
 import { useUpdatePreferencesDetailsMutation } from '../../Store/profile/ProfileApiSlice'
 import { useSelector } from 'react-redux'
 import { selectProfile } from '../../Store/auth/authSlice'
+import { Icon } from 'react-native-paper'
 
 
 const data = [
@@ -27,6 +28,7 @@ const data = [
   { id: 10, icon: images.PetsIcon, title: "Pets" },
   { id: 11, icon: images.FashionIcon, title: "Fashion" },
   { id: 12, icon: images.SportsIcon, title: "Sports" },
+  { id1: 13, icon: images.Other, title: "Other" },
 ];
 
 const SelectInterests = () => {
@@ -35,7 +37,7 @@ const SelectInterests = () => {
   const PreferencesDetails = route.params.Preferencesdata
   const [selectedItems, setSelectedItems] = useState<number[]>([]);
   const [seletedItemsname, setSeletedItemName] = useState<String[]>([])
-  const [addPreferencesDetails, {isLoading}] = useUpdatePreferencesDetailsMutation()
+  const [addPreferencesDetails, { isLoading }] = useUpdatePreferencesDetailsMutation()
   const profiledata = useSelector(selectProfile)
 
   const formattedInterests = seletedItemsname.join(",");
@@ -43,7 +45,7 @@ const SelectInterests = () => {
 
   useEffect(() => {
     if (profiledata?.interests) {
-      const selectedItem = data.filter(item => profiledata.interests.includes(item.title));      
+      const selectedItem = data.filter(item => profiledata.interests.includes(item.title));
       const selectedId = selectedItem.map(item => item.id);
       const selectedName = selectedItem.map(item => item.title);
       setSelectedItems(selectedId);

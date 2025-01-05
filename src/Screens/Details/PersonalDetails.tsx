@@ -68,8 +68,8 @@ const PersonalDetails = () => {
     height: number;
     weight: number;
   }
-  
-  const { data: profiledata,  refetch } = useGetProfileQuery<ProfileData>({});
+
+  const { data: profiledata, refetch } = useGetProfileQuery<ProfileData>({});
 
   useEffect(() => {
     refetch();
@@ -182,7 +182,7 @@ const PersonalDetails = () => {
       setHeight(profiledata?.height.toString());
       setWeight(profiledata?.weight.toString());
       setDietName(diet);
-      setChildrenCount(profiledata.children_count)
+      setChildrenCount(profiledata?.children_count.toString());
     }
   }, [profiledata]);
 
@@ -343,6 +343,16 @@ const PersonalDetails = () => {
             </View>
 
             <View>
+              <NameInput
+                placeholder='Children Count'
+                title='Children Count'
+                value={childrenCount}
+                nameStyle
+                onChangeText={setChildrenCount}
+              />
+            </View>
+
+            <View>
               <CustomDropdown
                 items={motherTongueData}
                 selectedValue={mothertongue}
@@ -373,16 +383,6 @@ const PersonalDetails = () => {
                 title='Diet'
               />
               {errors.dietname && <Text style={styles.errorText}>{errors.dietname}</Text>}
-            </View>
-
-            <View>
-              <NameInput
-                placeholder='Children Count'
-                title='Children Count'
-                value={childrenCount}
-                nameStyle
-                onChangeText={setChildrenCount}
-              />
             </View>
 
             <View>
@@ -421,7 +421,7 @@ const PersonalDetails = () => {
             <View>
               <InputDropdown
                 placeholder='0'
-                title='Your Height(cm)'
+                title='Your Height (Feet)'
                 nameStyle
                 value={height}
                 onChangeText={setHeight}
@@ -432,7 +432,7 @@ const PersonalDetails = () => {
             <View>
               <InputDropdown
                 placeholder='0'
-                title='Your Weight(Kg)'
+                title='Your Weight (Kg)'
                 nameStyle
                 value={weight}
                 onChangeText={setWeight}
