@@ -124,7 +124,8 @@ const SelectInterests = () => {
       console.log("addPreferencesDetails", respo)
       if (respo?.status == true) {
         showToast(respo?.message, { type: 'normal' });
-        navigate("MainNavigator", {})
+        // navigate("MainNavigator", {})
+        navigate("DetailsSubmitSuccessfully", {})
       } else {
         // showToast(respo?.errors?.mobile[0], { type: 'normal' });
         console.log(respo?.errors)

@@ -36,7 +36,9 @@ const SiblingDetails = () => {
   
   useEffect(() => {
     refetch();
-  }, [refetch]);
+  }, []);
+
+  console.log("profiledata", profiledata.member_siblings)
 
   const Sibling_Gender = [
     { name: 'Male', id: '0' },
@@ -138,7 +140,7 @@ useEffect(() => {
         console.log('add siblingData details->>', respo);
         if (respo?.status == true) {
           showToast(respo?.message, { type: 'normal' });
-          navigate("CreationSteps", { key: "SiblingDetails" })
+          navigate(route.params.type ? "MainNavigator" : "CreationSteps", {});
         } else {
           showToast(respo?.message, { type: 'normal' });
         }

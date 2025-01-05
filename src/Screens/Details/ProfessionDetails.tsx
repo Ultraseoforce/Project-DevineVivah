@@ -13,8 +13,10 @@ import { navigate } from '../../Navigator/Utils'
 import { useSelector } from 'react-redux'
 import { selectProfile } from '../../Store/auth/authSlice'
 import { getObject } from '../../Component/Utils/helper'
+import { useRoute } from '@react-navigation/native'
 
 const Profession = () => {
+  const route = useRoute();
   const [currentlyworking, setCurrentlyWorking] = useState<string>('');
   const [skill, setSkill] = useState<string>('');
   const [officename, setOfficeName] = useState<string>('');
@@ -24,7 +26,6 @@ const Profession = () => {
   // const profiledata = useSelector(selectProfile)
   const [addProfessionDetails, { isLoading }] = useUpdateProfessionDetailsMutation()
   const { data: profiledata, refetch } = useGetProfileQuery({});
-
 
   useEffect(() => {
     refetch();
@@ -37,13 +38,13 @@ const Profession = () => {
   ];
 
   useEffect(() => {
-  if(profiledata &&  profiledata.profession_details != 0){
-    let working = getObject(Currently_Working, profiledata.currently_working.toString());
-    setCurrentlyWorking(working)
-    setSkill(profiledata.skill)
-    setOfficeName(profiledata.office)
-    setSalary(profiledata.salary.toString())
-  }
+    if (profiledata && profiledata.profession_details != 0) {
+      let working = getObject(Currently_Working, profiledata.currently_working.toString());
+      setCurrentlyWorking(working)
+      setSkill(profiledata.skill)
+      setOfficeName(profiledata.office)
+      setSalary(profiledata.salary.toString())
+    }
   }, [profiledata])
 
 
@@ -76,7 +77,7 @@ const Profession = () => {
       skill: skill,
       office: officename,
       salary: salary,
-      
+
     }
     try {
       if (validateForm()) {
@@ -84,7 +85,7 @@ const Profession = () => {
         console.log('add Profession details->>', respo);
         if (respo?.status == true) {
           showToast(respo?.message, { type: 'normal' });
-          navigate("CreationSteps", { key: "ProfessionDetails" })
+          navigate(route.params.type ? "MainNavigator" : "CreationSteps", {});
         } else {
           showToast(respo?.message, { type: 'normal' });
         }
@@ -119,8 +120,8 @@ const Profession = () => {
           <NameInput
             placeholder='Enter your office name'
             title='Offce Name'
-             value={officename}
-             onChangeText={setOfficeName}
+            value={officename}
+            onChangeText={setOfficeName}
             nameStyle
           />
           <NameInput

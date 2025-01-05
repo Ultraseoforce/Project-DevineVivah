@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, Text, View } from 'react-native'
+import { ActivityIndicator, Pressable, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import { Color } from '../../Theme'
 import { moderateScale } from '../../Theme/ResposiveSize'
@@ -9,14 +9,18 @@ interface Ibutton {
     onPress?: Function
     mainStyle?: any
     title?: string
-    disabled?: boolean
-    
+    disabled?: boolean,
+    loading?: boolean,
+
 }
 
 const Button = (auto: Ibutton) => {
     return (
         <Pressable disabled={auto.disabled} style={[styles.container, auto.mainStyle]} onPress={() => auto.onPress ? auto.onPress() : null}>
-            <Text style={[styles.text, Typography.small]}>{auto.title}</Text>
+            {auto.loading ? <ActivityIndicator size="small" color={Color.orange} />
+                :
+                <Text style={[styles.text, Typography.small]}>{auto.title}</Text>
+            }
         </Pressable>
     )
 }

@@ -78,7 +78,7 @@ const FamilyDetails = () => {
 
     }
     if (validateForm()) {
-      navigate("SiblingDetails", { FamilyDetails: request })
+      navigate("SiblingDetails", { FamilyDetails: request, type: "SiblingDetails" })
     }
   }
 

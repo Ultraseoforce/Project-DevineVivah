@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import {
     View,
@@ -24,10 +25,12 @@ const imageWidth = (width - 73) / 2.01;
 
 type ImageType = 'primary' | 'second' | 'third';
 
-export default function ImagePickerComponent() {
+
+const UploadPictures = () => {
+
     const { showToast } = Toast();
     const { data: userProfileData } = useGetProfileQuery({});
-    const [uploadPictures] = useUploadProfileImgMutation();
+    const [uploadPicture] = useUploadProfileImgMutation();
     const [deleteProfileImg] = useDeleteProfileImgMutation();
     const [images, setImages] = useState<Record<ImageType, string>>({
         primary: '',
@@ -42,7 +45,7 @@ export default function ImagePickerComponent() {
             second: getImagePath(userProfileData?.profile_photo2 || ""),
             third: getImagePath(userProfileData?.profile_photo3 || ""),
         });
-    }, [userProfileData]);
+    }, []);
 
     const handleImagePick = async (type: ImageType) => {
         const result = await launchImageLibrary({ mediaType: 'photo', quality: 1 });
@@ -56,7 +59,7 @@ export default function ImagePickerComponent() {
                 formData.append('picture_number', getPictureNumber(type));
                 formData.append('profile_photo', { uri, name: fileName, type: mimeType || 'image/jpeg' });
 
-                const response = await uploadPictures(formData).unwrap();
+                const response = await uploadPicture(formData).unwrap();
                 setImages(prev => ({ ...prev, [type]: uri }));
                 showToast(response?.message, { type: 'normal' });
             } catch (error) {
@@ -129,12 +132,14 @@ export default function ImagePickerComponent() {
                     </View>
                 </View>
                 <View style={styles.buttonContainer}>
-                    <Button title='SAVE' onPress={() => navigate("MainNavigator", {})} />
+                    <Button title='SAVE' onPress={() => navigate("CreationSteps", {})} />
                 </View>
             </View>
         </SafeAreaView>
     );
 }
+
+export default UploadPictures
 
 const styles = StyleSheet.create({
     safeArea: {
@@ -197,4 +202,5 @@ const styles = StyleSheet.create({
     buttonContainer: {
         marginTop: 20
     },
-});
+
+})

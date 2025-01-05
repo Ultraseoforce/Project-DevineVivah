@@ -6,7 +6,6 @@ import { NavigationContainer } from "@react-navigation/native";
 
 // Screens
 import { navigationRef } from './Utils';
-// import CreationSteps from '../Screens/CreationSteps';
 import PersonalDetails from '../Screens/Details/PersonalDetails';
 import Education from '../Screens/Details/EducationDetails';
 import Profession from '../Screens/Details/ProfessionDetails';
@@ -60,6 +59,8 @@ import MyTickets from '../Screens/Help/MyTickers';
 import DininevivahSupport from '../Screens/Help/DininevivahSupport';
 import Daily from '../Screens/DailyMatches/Daily';
 import CreationSteps from '../Screens/CreationSteps';
+import VerificationDetails from '../Screens/Details/VerificationDetails';
+import DetailsSubmitSuccessfully from '../Component/Modal/DetailsSubmitSuccessfully';
 
 
 
@@ -115,24 +116,24 @@ const Application = () => {
     requestUserPermission();
     // Get the FCM token for the device
     getFcmToken();
-    
+
     // Foreground notifications listener
     const unsubscribeForeground = messaging().onMessage(async remoteMessage => {
       displayNotification(remoteMessage);
     })
 
 
-    
-  
-    
+
+
+
 
     messaging()
-    .getInitialNotification()
-    .then(remoteMessage => {
-      if (remoteMessage) {
-        console.log('Notification opened from quit state:', remoteMessage.notification);
-      }
-    });
+      .getInitialNotification()
+      .then(remoteMessage => {
+        if (remoteMessage) {
+          console.log('Notification opened from quit state:', remoteMessage.notification);
+        }
+      });
 
     // Background notification tap handler
     const unsubscribeBackground = messaging().onNotificationOpenedApp(remoteMessage => {
@@ -195,7 +196,7 @@ const Application = () => {
     }
   };
 
-  
+
 
   return (
     <SafeAreaProvider>
@@ -216,6 +217,7 @@ const Application = () => {
           {/* The rest of the screens accessible after login */}
           <Stack.Screen name="MainNavigator" component={MainNavigator} />
           <Stack.Screen name="Location" component={Location} />
+          <Stack.Screen name="CreationSteps" component={CreationSteps} />
           <Stack.Screen name="HelpAndSupport" component={HelpAndSupport} />
           <Stack.Screen name="MyFavorites" component={MyFavorites} />
           <Stack.Screen name="MyOrders" component={MyOrders} />
@@ -223,7 +225,8 @@ const Application = () => {
           <Stack.Screen name="SelectInterests" component={SelectInterests} />
           <Stack.Screen name="ChatScreen" component={ChatScreen} />
           <Stack.Screen name="LiveChat" component={LiveChat} />
-          <Stack.Screen name="CreationSteps" component={CreationSteps} />
+          <Stack.Screen name="UploadPictures" component={UploadPictures} />
+          <Stack.Screen name="DetailsSubmitSuccessfully" component={DetailsSubmitSuccessfully} />
           <Stack.Screen name="OrderDetails" component={OrderDetails} />
           <Stack.Screen name="PersonalDetails" component={PersonalDetails} />
           <Stack.Screen name="Education" component={Education} />
@@ -241,7 +244,6 @@ const Application = () => {
           <Stack.Screen name="ShippingAddressCard" component={ShippingAddressCard} />
           <Stack.Screen name="ChangePassword" component={ChangePassword} />
           <Stack.Screen name="SiblingDetails" component={SiblingDetails} />
-          <Stack.Screen name="UploadPictures" component={UploadPictures} />
           <Stack.Screen name="Daily" component={Daily} />
           <Stack.Screen name="OTPVerification" component={OTPVerification} />
 
@@ -259,6 +261,7 @@ const Application = () => {
           <Stack.Screen name="ProfileSettings" component={ProfileSettings} />
           <Stack.Screen name="Filters" component={Filters} />
           <Stack.Screen name="DininevivahSupport" component={DininevivahSupport} />
+          <Stack.Screen name="VerificationDetails" component={VerificationDetails} />
         </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaProvider>

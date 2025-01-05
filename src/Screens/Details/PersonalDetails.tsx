@@ -14,6 +14,7 @@ import { navigate } from '../../Navigator/Utils';
 import { useSelector } from 'react-redux';
 import { selectProfile } from '../../Store/auth/authSlice';
 import { getObject, getObjectByName } from '../../Component/Utils/helper';
+import { useRoute } from '@react-navigation/native';
 
 interface PersonalDetailsErrors {
   email?: string;
@@ -37,6 +38,8 @@ interface Dropdown {
 }
 
 const PersonalDetails = () => {
+  const route = useRoute()
+  const { showToast } = Toast();
   const [email, setEmail] = useState<string>('');
   const [dob, setDob] = useState<string>('');
   const [religion, setReligion] = useState("");
@@ -52,9 +55,9 @@ const PersonalDetails = () => {
   const [childrenLive, setChildrenLives] = useState<Dropdown | null>(null);
   const [annualIncome, setAnnualIncome] = useState<Dropdown | null>(null);
   const [createdBy, setCreatedBy] = useState<Dropdown | null>(null);
-
-  const { showToast } = Toast();
+  const { data: profiledata,  refetch } = useGetProfileQuery<ProfileData>({});
   const [addPersonalDetails, { }] = useUpdatePersonalDetailsMutation();
+
   interface ProfileData {
     personal_details: number;
     marital_status: string;
@@ -69,7 +72,7 @@ const PersonalDetails = () => {
     weight: number;
   }
   
-  const { data: profiledata,  refetch } = useGetProfileQuery<ProfileData>({});
+
 
   useEffect(() => {
     refetch();
@@ -269,7 +272,7 @@ const PersonalDetails = () => {
         const respo = await addPersonalDetails(request).unwrap();
         if (respo?.status == true) {
           showToast(respo?.message, { type: 'normal' });
-          navigate("CreationSteps", { key: "PersonalDetails" });
+          navigate(route.params.type ? "MainNavigator" : "CreationSteps", {});
         } else {
           showToast(respo?.message, { type: 'normal' });
         }

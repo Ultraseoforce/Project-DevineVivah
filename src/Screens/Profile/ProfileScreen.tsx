@@ -45,7 +45,6 @@ const ProfileScreen = () => {
   ];
 
 
-console.log("userProfileData", userProfileData)
 
   const images = [
     { uri: getImagePath(userProfileData?.profile_photo1 ? userProfileData?.profile_photo1 : null) },

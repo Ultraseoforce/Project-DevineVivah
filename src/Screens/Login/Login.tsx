@@ -48,7 +48,7 @@ const Login = () => {
         const requestBody = {
             mobile: trimmedPhoneNumber,
             password: trimmedPassword,
-            firebase_token: fcmToken
+            firebase_token: "fjsdjfgsajgfjasgfagfdashgfashj"
         };
 
         try {

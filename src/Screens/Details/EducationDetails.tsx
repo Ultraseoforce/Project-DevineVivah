@@ -13,10 +13,12 @@ import { navigate } from '../../Navigator/Utils';
 import { selectProfile } from '../../Store/auth/authSlice';
 import { useSelector } from 'react-redux';
 import { getObject, getObjectByName } from '../../Component/Utils/helper';
+import { useRoute } from '@react-navigation/native';
 
 
 const EducationDetails = () => {
   const { showToast } = Toast();
+  const route = useRoute();
   const [studying, setStudying] = useState<string>('');
   const [educationlevel, setEducationLevel] = useState<string>('');
   const [institutename, setInstituteName] = useState<string>('');
@@ -34,8 +36,8 @@ const EducationDetails = () => {
   }
 
   const Studying = [
-    { name: 'Yes', id: '1' },
-    { name: 'No', id: '2' },
+    { name: 'Yes', id: '0' },
+    { name: 'No', id: '1' },
   ]
 
 
@@ -95,7 +97,7 @@ const EducationDetails = () => {
         console.log('add Education details->>', respo);
         if (respo?.status == true) {
           showToast(respo?.message, { type: 'normal' });
-          navigate("CreationSteps", { key: "EducationDetails" })
+           navigate(route.params?.type ? "MainNavigator" : "CreationSteps", {});
         } else {
           showToast(respo?.message, { type: 'normal' });
         }

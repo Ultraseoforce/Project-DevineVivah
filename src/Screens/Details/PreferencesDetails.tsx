@@ -13,8 +13,10 @@ import { selectProfile } from '../../Store/auth/authSlice'
 import { getObject } from '../../Component/Utils/helper'
 import { useGetProfileQuery } from '../../Store/profile/ProfileApiSlice'
 import { ActivityIndicator } from 'react-native'
+import { useRoute } from '@react-navigation/native'
 
 const Preferences = () => {
+  const route = useRoute()
   const [abouttext, setAboutText] = useState<string>('');
   const [likingstext, setLikingsText] = useState<string>('');
   const [dislikingstext, setDislikingsText] = useState<string>('');

@@ -39,7 +39,7 @@ if (isLoading) {
 }
 
 useEffect(() => {
-  if(profiledata){
+  if(profiledata && profiledata?.location_details != 0){
     setCountry(profiledata.country.name)
     setState(profiledata.state.name)
     setCity(profiledata.city.name)
@@ -87,7 +87,8 @@ useEffect(() => {
         console.log("addLocation", respo)
         if (respo?.status == true) {
           showToast(respo?.message, { type: 'normal' });
-          navigate("MainNavigator", {})
+          navigate("CreationSteps", {})
+          // navigate("MainNavigator", {})
         } else {
           showToast(respo?.message, { type: 'normal' });
         }
