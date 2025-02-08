@@ -1,25 +1,33 @@
-import { ScrollView, StyleSheet, Text, View } from 'react-native'
-import React, { useEffect, useState } from 'react'
-import { Color } from '../../Theme'
-import BackHeader from '../../Component/Header/BackHeader'
-import { Typography } from '../../Theme/Typography'
-import { moderateScale } from '../../Theme/ResposiveSize'
-import NameInput from '../../Component/Placeholder/NameInput'
-import InputDropdown from '../../Component/Dropdowns/InputDropdown'
-import Button from '../../Component/Buttons/Button'
-import { navigate } from '../../Navigator/Utils'
-import { useSelector } from 'react-redux'
-import { selectProfile } from '../../Store/auth/authSlice'
-import About from '../../Component/Placeholder/About'
-import { useGetProfileQuery } from '../../Store/profile/ProfileApiSlice'
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Color } from '../../Theme';
+import BackHeader from '../../Component/Header/BackHeader';
+import { Typography } from '../../Theme/Typography';
+import { moderateScale } from '../../Theme/ResposiveSize';
+import NameInput from '../../Component/Placeholder/NameInput';
+import InputDropdown from '../../Component/Dropdowns/InputDropdown';
+import Button from '../../Component/Buttons/Button';
+import { navigate } from '../../Navigator/Utils';
+import { useSelector } from 'react-redux';
+import { selectProfile } from '../../Store/auth/authSlice';
+import About from '../../Component/Placeholder/About';
+import { useGetProfileQuery } from '../../Store/profile/ProfileApiSlice';
+
+interface FamilyDetailsErrors {
+  fathername?: string;
+  mothername?: string;
+  siblingsno?: string;
+  fatherprofession?: string;
+  motherprofession?: string;
+  familydetails?: string;
+}
 
 const FamilyDetails = () => {
-  // const profiledata = useSelector(selectProfile)
   const { data: profiledata, isLoading, refetch } = useGetProfileQuery({});
   const [fathername, setFatherName] = useState<string>('');
   const [mothername, setMotherName] = useState<string>('');
   const [siblingsno, setSiblingsNo] = useState<string>('');
-  const [familydetails, setFamilyDetails] = useState("")
+  const [familydetails, setFamilyDetails] = useState<string>('');
   const [fatherprofession, setFatherProfession] = useState<string>('');
   const [motherprofession, setMotherProfession] = useState<string>('');
   const [errors, setErrors] = useState<FamilyDetailsErrors>({});
@@ -28,17 +36,16 @@ const FamilyDetails = () => {
     refetch();
   }, [refetch]);
 
-
   useEffect(() => {
     if (profiledata && profiledata.family_details != 0) {
-      setFatherName(profiledata?.father_name)
-      setMotherName(profiledata?.mother_name)
-      setFatherProfession(profiledata?.father_profession)
-      setMotherProfession(profiledata?.mother_profession)
-      setSiblingsNo(profiledata?.siblings.toString())
-      setFamilyDetails(profiledata?.about_family)
+      setFatherName(profiledata?.father_name);
+      setMotherName(profiledata?.mother_name);
+      setFatherProfession(profiledata?.father_profession);
+      setMotherProfession(profiledata?.mother_profession);
+      setSiblingsNo(profiledata?.siblings.toString());
+      setFamilyDetails(profiledata?.about_family);
     }
-  }, [profiledata])
+  }, [profiledata]);
 
   const validateForm = (): boolean => {
     let formErrors: FamilyDetailsErrors = {};
@@ -63,6 +70,12 @@ const FamilyDetails = () => {
       formErrors.motherprofession = 'Mother profession is required';
     }
 
+    if (!familydetails) {
+      formErrors.familydetails = 'Family details are required';
+    } else if (familydetails.length < 270) {
+      formErrors.familydetails = 'Family details 1-270 chars required.';
+    }
+
     setErrors(formErrors);
     return Object.keys(formErrors).length === 0;
   };
@@ -74,15 +87,13 @@ const FamilyDetails = () => {
       father_profession: fatherprofession,
       mother_profession: motherprofession,
       siblings: siblingsno,
-      about_family: familydetails
+      about_family: familydetails,
+    };
 
-    }
     if (validateForm()) {
-      navigate("SiblingDetails", { FamilyDetails: request, type: "SiblingDetails" })
+      navigate('SiblingDetails', { FamilyDetails: request, type: 'SiblingDetails' });
     }
-  }
-
-
+  };
 
   return (
     <View style={{ flex: 1, backgroundColor: Color.white }}>
@@ -93,8 +104,8 @@ const FamilyDetails = () => {
           <View style={{ marginTop: moderateScale(20), gap: moderateScale(20) }}>
             <View>
               <NameInput
-                placeholder='Enter Father Name'
-                title='Father Name'
+                placeholder="Enter Father Name"
+                title="Father Name"
                 value={fathername}
                 onChangeText={setFatherName}
                 nameStyle
@@ -104,8 +115,8 @@ const FamilyDetails = () => {
 
             <View>
               <NameInput
-                placeholder='Enter Mother Name'
-                title='Mother Name'
+                placeholder="Enter Mother Name"
+                title="Mother Name"
                 value={mothername}
                 onChangeText={setMotherName}
                 nameStyle
@@ -114,8 +125,8 @@ const FamilyDetails = () => {
             </View>
             <View>
               <InputDropdown
-                placeholder='0'
-                title='No. of siblings'
+                placeholder="0"
+                title="No. of siblings"
                 value={siblingsno}
                 onChangeText={setSiblingsNo}
                 nameStyle
@@ -124,8 +135,8 @@ const FamilyDetails = () => {
             </View>
             <View>
               <NameInput
-                placeholder='Father job details'
-                title='Father Profession'
+                placeholder="Father job details"
+                title="Father Profession"
                 value={fatherprofession}
                 onChangeText={setFatherProfession}
                 nameStyle
@@ -134,8 +145,8 @@ const FamilyDetails = () => {
             </View>
             <View>
               <NameInput
-                placeholder='Mother job details'
-                title='Mother Profession'
+                placeholder="Mother job details"
+                title="Mother Profession"
                 value={motherprofession}
                 onChangeText={setMotherProfession}
                 nameStyle
@@ -143,25 +154,27 @@ const FamilyDetails = () => {
               {errors.motherprofession && <Text style={styles.errorText}>{errors.motherprofession}</Text>}
             </View>
             <View>
-              <About placeholder='About family details'
-                title='Family details'
+              <About
+                placeholder="About family details"
+                title="Family details"
                 onChangeText={setFamilyDetails}
                 value={familydetails}
               />
+              {errors.familydetails && <Text style={styles.errorText}>{errors.familydetails}</Text>}
             </View>
           </View>
         </View>
       </ScrollView>
-      <Button title='SAVE' mainStyle={styles.btn} onPress={Submit} />
+      <Button title="SAVE" mainStyle={styles.btn} onPress={Submit} />
     </View>
-  )
-}
+  );
+};
 
-export default FamilyDetails
+export default FamilyDetails;
 
 const styles = StyleSheet.create({
   container: {
-    padding: moderateScale(17)
+    padding: moderateScale(17),
   },
   selectedText: {
     marginTop: 20,
@@ -169,10 +182,10 @@ const styles = StyleSheet.create({
   },
   btn: {
     margin: moderateScale(17),
-    marginVertical: moderateScale(25)
+    marginVertical: moderateScale(25),
   },
   errorText: {
     color: 'red',
     marginTop: 5,
   },
-})
+});

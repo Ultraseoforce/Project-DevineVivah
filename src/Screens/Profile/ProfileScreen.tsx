@@ -96,7 +96,7 @@ const ProfileScreen = () => {
                         {activeIndex === 0 && (
                           <View style={styles.uploadImage}>
                             <Text style={styles.fullName}>Full Name</Text>
-                            <Pressable onPress={() => navigate('UploadPictures', {})} style={styles.uploadBtn}>
+                            <Pressable onPress={() => navigate('UploadPictures', {type: "MainNavigator"})} style={styles.uploadBtn}>
                               <Feather name="upload" size={20} color={Color.white} />
                               <Text style={styles.managePhotos}>Manage photos</Text>
                             </Pressable>

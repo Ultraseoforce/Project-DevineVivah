@@ -116,7 +116,7 @@ import CompletedIcon from '../../assets/svg/CompletedIcon.svg';
 import Toast from '../../Component/Modal/ToastMessage';
 import { navigate } from '../../Navigator/Utils';
 
-const VerificationDetails = () => {
+const CreationSteps = () => {
   const { showToast } = Toast();
   const [cardType, setCardType] = useState(1);
   const [frontPhoto, setFrontPhoto] = useState<string | null>(null);
@@ -124,15 +124,15 @@ const VerificationDetails = () => {
   const [selfie, setSelfie] = useState<string | null>(null);
   const [updateVerificationDetails, { isLoading, error }] = useUpdateVerificationDetailsMutation();
   const [validationErrors, setValidationErrors] = useState<{ [key: string]: string }>({});
- const { data: getProfile } = useGetProfileQuery({});
+  const { data: getProfile } = useGetProfileQuery({});
 
   useEffect(() => {
-    if(getProfile?.verification_details === 1){
-     setSelfie(getProfile.selfie)
-     setFrontPhoto(getProfile.front_photo)
-     setBackPhoto(getProfile.back_photo)
+    if (getProfile?.verification_details === 1) {
+      setSelfie(getProfile.selfie);
+      setFrontPhoto(getProfile.front_photo);
+      setBackPhoto(getProfile.back_photo);
     }
-   }, [getProfile])
+  }, [getProfile]);
 
   const scanDocument = async (setImage: React.Dispatch<React.SetStateAction<string | null>>) => {
     const { scannedImages } = await DocumentScanner.scanDocument();
@@ -152,9 +152,9 @@ const VerificationDetails = () => {
     if (!backPhoto) {
       errors.backPhoto = 'Back photo is required';
     }
-    // if (!selfie) {
-    //   errors.selfie = 'Selfie is required';
-    // }
+    if (!selfie) {
+      errors.selfie = 'Selfie is required';
+    }
     setValidationErrors(errors);
     return Object.keys(errors).length === 0;
   };
@@ -188,7 +188,7 @@ const VerificationDetails = () => {
       });
     }
 
-console.log("formData", formData)
+    console.log("formData", formData);
 
     try {
       const response = await updateVerificationDetails(formData).unwrap();
@@ -254,7 +254,7 @@ console.log("formData", formData)
   );
 };
 
-export default VerificationDetails;
+export default CreationSteps;
 
 const styles = StyleSheet.create({
   container: {
@@ -292,26 +292,9 @@ const styles = StyleSheet.create({
     fontSize: moderateScale(12),
     color: Color.black,
   },
-  input: {
-    borderWidth: 1,
-    borderColor: Color.border,
-    padding: moderateScale(10),
-    marginVertical: moderateScale(10),
-    borderRadius: moderateScale(5),
-    width: '100%',
-  },
-  loader: {
-    marginTop: moderateScale(20),
-  },
   errorText: {
     color: 'red',
     textAlign: 'center',
     marginTop: moderateScale(20),
-  },
-  image: {
-    width: moderateScale(100),
-    height: moderateScale(100),
-    borderRadius: moderateScale(10),
-    marginTop: moderateScale(10),
   },
 });

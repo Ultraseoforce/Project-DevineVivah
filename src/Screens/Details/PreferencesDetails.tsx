@@ -51,24 +51,37 @@ const Preferences = () => {
 
   const validation = (): boolean => {
     let formErrors: PreferencesErrors = {};
+
     if (!abouttext.trim()) {
       formErrors.abouttext = "About text is required";
+    } else if (abouttext.length < 270) {
+      formErrors.abouttext = "Min 270 chars";
     }
+
     if (!likingstext.trim()) {
       formErrors.likingstext = "Likings are required";
+    } else if (likingstext.length < 150) {
+      formErrors.likingstext = "Min 150 chars";
     }
+
     if (!dislikingstext.trim()) {
       formErrors.dislikingstext = "Dislikings are required";
+    } else if (dislikingstext.length < 150) {
+      formErrors.dislikingstext = "Min 150 chars";
     }
+
     if (!String(smokestates).trim()) {
       formErrors.smokestates = "Smoking status is required";
     }
+
     if (!String(drinkstates).trim()) {
       formErrors.drinkstates = "Drinking status is required";
     }
+
     setErrors(formErrors);
     return Object.keys(formErrors).length === 0;
   };
+
 
 
   const Save = () => {

@@ -11,10 +11,8 @@ import Button from '../../Component/Buttons/Button';
 import { useGetProfileQuery, useUpdatePersonalDetailsMutation } from '../../Store/profile/ProfileApiSlice';
 import Toast from '../../Component/Modal/ToastMessage';
 import { navigate } from '../../Navigator/Utils';
-import { useSelector } from 'react-redux';
-import { selectProfile } from '../../Store/auth/authSlice';
-import { getObject, getObjectByName } from '../../Component/Utils/helper';
 import { useRoute } from '@react-navigation/native';
+import { getObject, getObjectByName } from '../../Component/Utils/helper';
 
 interface PersonalDetailsErrors {
   email?: string;
@@ -34,29 +32,29 @@ interface PersonalDetailsErrors {
 
 interface Dropdown {
   name: string;
-  id: number;
+  id: string;
 }
 
 const PersonalDetails = () => {
-  const route = useRoute()
+  const route = useRoute();
   const { showToast } = Toast();
   const [email, setEmail] = useState<string>('');
   const [dob, setDob] = useState<string>('');
-  const [religion, setReligion] = useState("");
+  const [religion, setReligion] = useState<Dropdown | null>(null);
   const [caste, setCaste] = useState<string>('');
-  const [mothertongue, setMotherTongue] = useState("");
-  const [maritalstatus, setMaritalStatus] = useState("");
+  const [mothertongue, setMotherTongue] = useState<Dropdown | null>(null);
+  const [maritalstatus, setMaritalStatus] = useState<Dropdown | null>(null);
   const [dietname, setDietName] = useState<Dropdown | null>(null);
   const [height, setHeight] = useState<string>('');
   const [weight, setWeight] = useState<string>('');
   const [gender, setGender] = useState<Dropdown | null>(null);
   const [errors, setErrors] = useState<PersonalDetailsErrors>({});
-  const [childrenCount, setChildrenCount] = useState('');
+  const [childrenCount, setChildrenCount] = useState<string>('');
   const [childrenLive, setChildrenLives] = useState<Dropdown | null>(null);
   const [annualIncome, setAnnualIncome] = useState<Dropdown | null>(null);
   const [createdBy, setCreatedBy] = useState<Dropdown | null>(null);
-  const { data: profiledata,  refetch } = useGetProfileQuery<ProfileData>({});
-  const [addPersonalDetails, { }] = useUpdatePersonalDetailsMutation();
+  const { data: profiledata, refetch } = useGetProfileQuery<ProfileData>({});
+  const [addPersonalDetails] = useUpdatePersonalDetailsMutation();
 
   interface ProfileData {
     personal_details: number;
@@ -70,15 +68,15 @@ const PersonalDetails = () => {
     mother_tongue: number;
     height: number;
     weight: number;
+    children_count: number;
+    children_live: number;
+    annual_income: number;
+    profile_created_by: number;
   }
-  
-
 
   useEffect(() => {
     refetch();
   }, [refetch]);
-
-
 
   const marital_status = [
     { name: 'Never Married', id: '1' },
@@ -161,7 +159,6 @@ const PersonalDetails = () => {
     { id: 5, name: 'More than 1 Crore' },
   ];
 
-
   useEffect(() => {
     if (profiledata && profiledata.personal_details != 0) {
       let Marital = getObject(marital_status, profiledata?.marital_status.toString());
@@ -172,10 +169,10 @@ const PersonalDetails = () => {
       const childrenLive = getObject(childrenLiveData, profiledata?.children_live);
       const annualincome = getObject(annualIncomeData, profiledata?.annual_income);
       const creactedBy = getObject(profileCreatedByData, profiledata?.profile_created_by);
-      setCreatedBy(creactedBy)
-      setAnnualIncome(annualincome)
-      setChildrenLives(childrenLive)
-      setReligion(religion)
+      setCreatedBy(creactedBy);
+      setAnnualIncome(annualincome);
+      setChildrenLives(childrenLive);
+      setReligion(religion);
       setMaritalStatus(Marital);
       setGender(gender);
       setEmail(profiledata?.member_email);
@@ -185,10 +182,9 @@ const PersonalDetails = () => {
       setHeight(profiledata?.height.toString());
       setWeight(profiledata?.weight.toString());
       setDietName(diet);
-      setChildrenCount(profiledata.children_count)
+      setChildrenCount(profiledata?.children_count);
     }
   }, [profiledata]);
-
 
   const validateForm = (): boolean => {
     let formErrors: PersonalDetailsErrors = {};
@@ -233,7 +229,7 @@ const PersonalDetails = () => {
       formErrors.dietname = 'Diet name is required';
     }
 
-    if (!childrenLive) {
+    if (maritalstatus?.id !== '1' && !childrenLive) {
       formErrors.childrenLive = 'Children live status is required';
     }
 
@@ -333,40 +329,6 @@ const PersonalDetails = () => {
               />
               {errors.religion && <Text style={styles.errorText}>{errors.religion}</Text>}
             </View>
-
-            <View>
-              <NameInput
-                placeholder='Your Caste'
-                title='Caste'
-                value={caste}
-                nameStyle
-                onChangeText={setCaste}
-              />
-              {errors.caste && <Text style={styles.errorText}>{errors.caste}</Text>}
-            </View>
-
-            <View>
-              <CustomDropdown
-                items={motherTongueData}
-                selectedValue={mothertongue}
-                onSelect={setMotherTongue}
-                placeholder='Mother Tongue'
-                title='Mother Tongue'
-              />
-              {errors.mothertongue && <Text style={styles.errorText}>{errors.mothertongue}</Text>}
-            </View>
-
-            <View>
-              <CustomDropdown
-                items={marital_status}
-                selectedValue={maritalstatus}
-                onSelect={setMaritalStatus}
-                placeholder='Marital Status'
-                title='Marital Status'
-              />
-              {errors.maritalstatus && <Text style={styles.errorText}>{errors.maritalstatus}</Text>}
-            </View>
-
             <View>
               <CustomDropdown
                 items={dietItem}
@@ -380,23 +342,58 @@ const PersonalDetails = () => {
 
             <View>
               <NameInput
-                placeholder='Children Count'
-                title='Children Count'
-                value={childrenCount}
+                placeholder='Your Caste'
+                title='Caste'
+                value={caste}
                 nameStyle
-                onChangeText={setChildrenCount}
+                onChangeText={setCaste}
               />
+              {errors.caste && <Text style={styles.errorText}>{errors.caste}</Text>}
             </View>
-
             <View>
               <CustomDropdown
-                items={childrenLiveData}
-                selectedValue={childrenLive}
-                onSelect={setChildrenLives}
-                placeholder="Select Children Live's Where?"
-                title="Children Live's Where"
+                items={marital_status}
+                selectedValue={maritalstatus}
+                onSelect={setMaritalStatus}
+                placeholder='Marital Status'
+                title='Marital Status'
               />
-              {errors.childrenLive && <Text style={styles.errorText}>{errors.childrenLive}</Text>}
+              {errors.maritalstatus && <Text style={styles.errorText}>{errors.maritalstatus}</Text>}
+            </View>
+
+            {maritalstatus?.id !== '1' && (
+              <View>
+                <NameInput
+                  placeholder='Children Count'
+                  title='Children Count'
+                  value={childrenCount}
+                  nameStyle
+                  onChangeText={setChildrenCount}
+                />
+              </View>
+            )}
+
+            {maritalstatus?.id !== '1' && (
+              <View>
+                <CustomDropdown
+                  items={childrenLiveData}
+                  selectedValue={childrenLive}
+                  onSelect={setChildrenLives}
+                  placeholder="Select Children Live's Where?"
+                  title="Children Live's Where"
+                />
+                {errors.childrenLive && <Text style={styles.errorText}>{errors.childrenLive}</Text>}
+              </View>
+            )}
+            <View>
+              <CustomDropdown
+                items={motherTongueData}
+                selectedValue={mothertongue}
+                onSelect={setMotherTongue}
+                placeholder='Mother Tongue'
+                title='Mother Tongue'
+              />
+              {errors.mothertongue && <Text style={styles.errorText}>{errors.mothertongue}</Text>}
             </View>
 
             <View>
@@ -424,7 +421,7 @@ const PersonalDetails = () => {
             <View>
               <InputDropdown
                 placeholder='0'
-                title='Your Height(cm)'
+                title='Your Height (Feet)'
                 nameStyle
                 value={height}
                 onChangeText={setHeight}
@@ -435,7 +432,7 @@ const PersonalDetails = () => {
             <View>
               <InputDropdown
                 placeholder='0'
-                title='Your Weight(Kg)'
+                title='Your Weight (Kg)'
                 nameStyle
                 value={weight}
                 onChangeText={setWeight}

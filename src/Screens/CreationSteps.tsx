@@ -1,5 +1,6 @@
 // import { FlatList, Pressable, ScrollView, StatusBar, StyleSheet, Text, View, ActivityIndicator } from 'react-native';
-// import React, { useEffect, useMemo } from 'react';
+// import React, { useEffect, useMemo, useState } from 'react';
+// import { useFocusEffect } from '@react-navigation/native';
 // import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 // import { Typography } from '../Theme/Typography';
 // import { moderateScale } from '../Theme/ResposiveSize';
@@ -18,86 +19,104 @@
 //     preferences_details: number;
 //     location_details: number;
 //     verification_details: number;
+//     profile_photo: number;
 // }
 
 // const CreationSteps = () => {
 //     const { data: getProfile, refetch: refetchProfileDetails, isLoading } = useGetProfileQuery({});
+//     const [steps, setSteps] = useState<Profile | null>(null);
+//     const [isUpdating, setIsUpdating] = useState(false);
 
 //     useEffect(() => {
 //         refetchProfileDetails();
 //     }, []);
 
+//     useFocusEffect(
+//         React.useCallback(() => {
+//             refetchProfileDetails();
+//         }, [])
+//     );
 
+//     useEffect(() => {
+//         if (getProfile) {
+//             setSteps(getProfile);
+//         }
+//     }, [getProfile]);
 
-//     const details = useMemo(() => [
+//     console.log("getProfile", getProfile)
+
+//     const stepsDetails = useMemo(() => [
 //         {
 //             id: '1',
 //             title: 'Personal Details',
 //             screen: 'PersonalDetails',
-//             completed: getProfile?.personal_details === 1,
-//             active: false
+//             completed: steps?.personal_details === 1,
+//             active: steps?.personal_details === 0
 //         },
 //         {
 //             id: '2',
 //             title: 'Education',
 //             screen: 'Education',
-//             completed: getProfile?.education_details === 1,
-//             active: getProfile?.personal_details === 1 && getProfile?.education_details === 0
+//             completed: steps?.education_details === 1,
+//             active: steps?.personal_details === 1 && steps?.education_details === 0
 //         },
 //         {
 //             id: '3',
 //             title: 'Profession',
 //             screen: 'Profession',
-//             completed: getProfile?.profession_details === 1,
-//             active: getProfile?.education_details === 1 && getProfile?.profession_details === 0
+//             completed: steps?.profession_details === 1,
+//             active: steps?.education_details === 1 && steps?.profession_details === 0
 //         },
 //         {
 //             id: '4',
 //             title: 'Family Details',
 //             screen: 'FamilyDetails',
-//             completed: getProfile?.family_details === 1,
-//             active: getProfile?.profession_details === 1 && getProfile?.family_details === 0
+//             completed: steps?.family_details === 1,
+//             active: steps?.profession_details === 1 && steps?.family_details === 0
 //         },
 //         {
 //             id: '5',
 //             title: 'Preferences',
 //             screen: 'Preferences',
-//             completed: getProfile?.preferences_details === 1,
-//             active: getProfile?.family_details === 1 && getProfile?.preferences_details === 0
+//             completed: steps?.preferences_details === 1,
+//             active: steps?.family_details === 1 && steps?.preferences_details === 0
 //         },
 //         {
 //             id: '6',
 //             title: 'Location',
 //             screen: 'Location',
-//             completed: getProfile?.location_details === 1,
-//             active: getProfile?.preferences_details === 1 && getProfile?.location_details === 0
+//             completed: steps?.location_details === 1,
+//             active: steps?.preferences_details === 1 && steps?.location_details === 0
 //         },
 //         {
 //             id: '7',
-//             title: 'Verification',
-//             screen: 'Verification',
-//             completed: getProfile?.verification_details === 1,
-//             active: getProfile?.location_details === 1 && getProfile?.verification_details === 0
+//             title: 'Upload Profile Picture',
+//             screen: 'UploadPictures',
+//             completed: steps?.profile_photo === 1,
+//             active: steps?.verification_details === 1 && steps?.profile_photo === 0
 //         },
 //         {
 //             id: '8',
-//             title: 'Upload Profile Picture',
-//             screen: 'UploadPictures',
-//             completed: getProfile?.profile_photo === 1,
-//             active: getProfile?.profile_photo === 1 && getProfile?.profile_photo === 0
+//             title: 'Verification',
+//             screen: 'Verification',
+//             completed: steps?.verification_details === 1,
+//             active: steps?.profile_photo === 1 && steps?.verification_details === 0
 //         },
-//     ], [getProfile]);
+//     ], [steps]);
 
 //     const allStepsCompleted = useMemo(() => {
-//         return details.every(step => step.completed);
-//     }, [details]);
+//         return stepsDetails.every(step => step.completed);
+//     }, [stepsDetails]);
 
-//     const detailspage = (screen: string) => {
+//     const detailspage = async (screen: string, stepId: string) => {
+//         setIsUpdating(true);
 //         navigate(screen, {});
+//         await refetchProfileDetails();
+//         setIsUpdating(false);
 //     };
 
-//     const renderItem = ({ item }: { item: typeof details[0] }) => (
-//         <Pressable onPress={() => detailspage(item.screen)}>
+//     const renderItem = ({ item }: { item: typeof stepsDetails[0] }) => (
+//         <Pressable onPress={() => item.active && detailspage(item.screen, item.id)} disabled={!item.active}>
 //             <View style={styles.itemContainer}>
 //                 <View style={[
 //                     styles.iconContainer,
@@ -120,7 +139,11 @@
 //         </Pressable>
 //     );
 
-//     if (isLoading) {
+//     const renderSeparator = ({ leadingItem }: { leadingItem: typeof stepsDetails[0] }) => (
+//         <View style={[styles.separator, leadingItem.completed && { backgroundColor: Color.border }]} />
+//     );
+
+//     if (isLoading || isUpdating) {
 //         return (
 //             <View style={styles.loaderContainer}>
 //                 <ActivityIndicator size="large" color={Color.orange} />
@@ -142,11 +165,11 @@
 //                     </Text>
 
 //                     <FlatList
-//                         data={details}
+//                         data={stepsDetails}
 //                         renderItem={renderItem}
 //                         keyExtractor={(item) => item.id}
 //                         contentContainerStyle={styles.listContainer}
-//                         ItemSeparatorComponent={() => <View style={styles.separator} />}
+//                         ItemSeparatorComponent={renderSeparator}
 //                     />
 //                 </View>
 //                 <Button
@@ -226,8 +249,11 @@
 
 // export default CreationSteps;
 
+
+
 import { FlatList, Pressable, ScrollView, StatusBar, StyleSheet, Text, View, ActivityIndicator } from 'react-native';
 import React, { useEffect, useMemo, useState } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Typography } from '../Theme/Typography';
 import { moderateScale } from '../Theme/ResposiveSize';
@@ -252,6 +278,17 @@ interface Profile {
 const CreationSteps = () => {
     const { data: getProfile, refetch: refetchProfileDetails, isLoading } = useGetProfileQuery({});
     const [steps, setSteps] = useState<Profile | null>(null);
+    const [isUpdating, setIsUpdating] = useState(false);
+
+    useEffect(() => {
+        refetchProfileDetails();
+    }, []);
+
+    useFocusEffect(
+        React.useCallback(() => {
+            refetchProfileDetails();
+        }, [])
+    );
 
     useEffect(() => {
         if (getProfile) {
@@ -259,7 +296,7 @@ const CreationSteps = () => {
         }
     }, [getProfile]);
 
-    const details = useMemo(() => [
+    const stepsDetails = useMemo(() => [
         {
             id: '1',
             title: 'Personal Details',
@@ -304,64 +341,33 @@ const CreationSteps = () => {
         },
         {
             id: '7',
-            title: 'Verification',
-            screen: 'Verification',
-            completed: steps?.verification_details === 1,
-            active: steps?.location_details === 1 && steps?.verification_details === 0
-        },
-        {
-            id: '8',
             title: 'Upload Profile Picture',
             screen: 'UploadPictures',
             completed: steps?.profile_photo === 1,
-            active: steps?.verification_details === 1 && steps?.profile_photo === 0
+            active: steps?.location_details === 1 && steps?.profile_photo === 0
+        },
+        {
+            id: '8',
+            title: 'Verification',
+            screen: 'Verification',
+            completed: steps?.verification_details === 1,
+            active: steps?.profile_photo === 1 && steps?.verification_details === 0
         },
     ], [steps]);
 
     const allStepsCompleted = useMemo(() => {
-        return details.every(step => step.completed);
-    }, [details]);
+        return stepsDetails.every(step => step.completed);
+    }, [stepsDetails]);
 
-    const detailspage = (screen: string, stepId: string) => {
-        navigate(screen, {});
-        // Simulate updating the step status
-        setSteps(prevSteps => {
-            if (!prevSteps) return prevSteps;
-            const updatedSteps = { ...prevSteps };
-            switch (stepId) {
-                case '1':
-                    updatedSteps.personal_details = 1;
-                    break;
-                case '2':
-                    updatedSteps.education_details = 1;
-                    break;
-                case '3':
-                    updatedSteps.profession_details = 1;
-                    break;
-                case '4':
-                    updatedSteps.family_details = 1;
-                    break;
-                case '5':
-                    updatedSteps.preferences_details = 1;
-                    break;
-                case '6':
-                    updatedSteps.location_details = 1;
-                    break;
-                case '7':
-                    updatedSteps.verification_details = 1;
-                    break;
-                case '8':
-                    updatedSteps.profile_photo = 1;
-                    break;
-                default:
-                    break;
-            }
-            return updatedSteps;
-        });
+    const detailspage = async (screen: string, stepId: string) => {
+        setIsUpdating(true);
+        navigate(screen, {} );
+        await refetchProfileDetails();
+        setIsUpdating(false);
     };
 
-    const renderItem = ({ item }: { item: typeof details[0] }) => (
-        <Pressable onPress={() => detailspage(item.screen, item.id)}>
+    const renderItem = ({ item }: { item: typeof stepsDetails[0] }) => (
+        <Pressable onPress={() => item.active && detailspage(item.screen, item.id)} disabled={!item.active}>
             <View style={styles.itemContainer}>
                 <View style={[
                     styles.iconContainer,
@@ -384,11 +390,11 @@ const CreationSteps = () => {
         </Pressable>
     );
 
-    const renderSeparator = ({ leadingItem }: { leadingItem: typeof details[0] }) => (
+    const renderSeparator = ({ leadingItem }: { leadingItem: typeof stepsDetails[0] }) => (
         <View style={[styles.separator, leadingItem.completed && { backgroundColor: Color.border }]} />
     );
 
-    if (isLoading) {
+    if (isLoading || isUpdating) {
         return (
             <View style={styles.loaderContainer}>
                 <ActivityIndicator size="large" color={Color.orange} />
@@ -410,7 +416,7 @@ const CreationSteps = () => {
                     </Text>
 
                     <FlatList
-                        data={details}
+                        data={stepsDetails}
                         renderItem={renderItem}
                         keyExtractor={(item) => item.id}
                         contentContainerStyle={styles.listContainer}
@@ -419,7 +425,7 @@ const CreationSteps = () => {
                 </View>
                 <Button
                     title="Submit"
-                    onPress={() => navigate("SelectInterests", {})}
+                    onPress={() => navigate("DetailsSubmitSuccessfully", {})}
                     mainStyle={[styles.submitButton, { backgroundColor: !allStepsCompleted ? "#DEDEDE" : Color.orange }]}
                     disabled={!allStepsCompleted}
                 />

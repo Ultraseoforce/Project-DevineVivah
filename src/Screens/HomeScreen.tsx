@@ -18,7 +18,6 @@ import YourMatches from '../Component/Cards/YourMatches';
 import CategoryCard from '../Component/Cards/CategoryCard';
 import FamousAstrologers from '../Component/Cards/FamousAstrologers';
 import SuggestedMatches from '../Component/Cards/SuggestedMatches';
-import Shortlisted from './TopTab/Shortlisted';
 import LinearGradient from 'react-native-linear-gradient';
 import WhiteButton from '../Component/Buttons/WhiteButton';
 import { useGetProfileQuery } from '../Store/auth/authApiSlice';
@@ -26,10 +25,8 @@ import { useDispatch } from 'react-redux';
 import { navigate } from '../Navigator/Utils';
 import { useIsFocused } from '@react-navigation/native';
 import AllProfile from './TopTab/AllProfile';
-import NotViewed from './TopTab/NotViewed';
-import NotInterested from './TopTab/NotInterested';
-import Viewed from './TopTab/Viewed';
 import { useGetAllProfilesMutation } from '../Store/profile/ProfileApiSlice';
+import Notviewed from './TopTab/Notviewed';
 
 const TABS = ['Brodata', "All", 'Not viewed', 'Shortlisted', 'Viewed', 'Not Interested'];
 
@@ -139,7 +136,7 @@ const HomeScreen = () => {
                     <Text style={styles.addPhotoSubtitle}>
                       Add more photos to get more reach!!!
                     </Text>
-                    <WhiteButton title="Add Photos" mainStyle={{ marginTop: scale(15) }} onPress={() => navigate("UploadPictures", {type: "homescreen"})} />
+                    <WhiteButton title="Add Photos" mainStyle={{ marginTop: scale(15) }} onPress={() => navigate("UploadPictures", {type: "MainNavigator"})} />
                   </View>
                 </View>
               </LinearGradient>
@@ -151,7 +148,7 @@ const HomeScreen = () => {
       case 1:
         return <AllProfile profilesData={AllProfiles} />;
       case 2:
-        return <AllProfile profilesData={AllProfiles} />;
+        return <Notviewed profilesData={AllProfiles} />;
       case 3:
         return <AllProfile profilesData={AllProfiles} />;
       case 4:

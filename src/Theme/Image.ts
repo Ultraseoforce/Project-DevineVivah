@@ -32,6 +32,7 @@ export const images = {
    PetsIcon : require("../assets/Image/pets.png"),
    FashionIcon : require("../assets/Image/fashion.png"),
    SportsIcon : require("../assets/Image/sports.png"),
+   Other : require("../assets/Image/Other.png"),
 
    PersonalIcon : require("../assets/Image/profile.png"),
    EducationIcon : require("../assets/Image/education.png"),

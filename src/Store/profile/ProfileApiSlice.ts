@@ -97,7 +97,7 @@ export const profileApiSlice = apiSlice.injectEndpoints({
             }),
         }),
         addFavoriteProfile: builder.mutation({
-            query: (body: any) => ({
+            query: (body: any) => (console.log("requst cody", body),{
                 url: `${URLS.addFavorite}`,
                 method: "POST",
                 body: body,

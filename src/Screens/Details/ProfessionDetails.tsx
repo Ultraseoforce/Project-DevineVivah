@@ -125,8 +125,8 @@ const Profession = () => {
             nameStyle
           />
           <NameInput
-            placeholder='Yearly Salary'
-            title='Enter your yearly salary'
+            placeholder='Yearly Salary (LPA)'
+            title='Enter your yearly salary (LPA)'
             value={salary}
             onChangeText={setSalary}
             nameStyle
