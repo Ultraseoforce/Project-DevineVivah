@@ -3,3 +3,41 @@ workflows:
         name: Codemagic Sample Workflow
         max_build_duration: 120
         instance_type: mac_mini_m2
+
+        
+
+react-native:
+
+  environment:
+
+    vars:
+
+      BUNDLE_ID: "com.devinevivah"
+
+      XCODE_WORKSPACE: --project "MyXcodeProject.xcodeproj"
+
+      XCODE_SCHEME: "CodemagicSample" # <-- Name of your Xcode scheme
+
+scripts:
+
+  # ...
+
+  - name: Build ipa for distribution
+
+    script: | 
+
+      xcode-project build-ipa \
+
+        --workspace "$CM_BUILD_DIR/$XCODE_WORKSPACE" \
+
+        --scheme "$XCODE_SCHEME"
+
+artifacts:
+
+  - build/ios/ipa/*.ipa
+
+  - /tmp/xcodebuild_logs/*.log
+
+  - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.app
+
+  - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.dSYM
