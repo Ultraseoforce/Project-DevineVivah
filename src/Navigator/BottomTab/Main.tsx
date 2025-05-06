@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { BackHandler, SafeAreaView } from "react-native";
+import { BackHandler, SafeAreaView, View } from "react-native";
 import { navigationRef } from "../Utils";
 import NavigationTab from "./Tab";
 import HomeScreen from "../../Screens/HomeScreen";
@@ -38,7 +38,7 @@ const MainNavigator = ({ navigation }: any) => {
   };
 
   return (
-    <SafeAreaView style={{flex: 1}}>
+    <View style={{flex: 1}}>
       <Tab.Navigator
         tabBar={(props) => (
           <NavigationTab
@@ -71,7 +71,7 @@ const MainNavigator = ({ navigation }: any) => {
           options={options}
         />
       </Tab.Navigator>
-    </SafeAreaView>
+    </View>
   );
 };
 

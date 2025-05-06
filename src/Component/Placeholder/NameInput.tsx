@@ -5,14 +5,14 @@ import {
   TextInput,
   View,
   TouchableOpacity,
+  Platform,
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { moderateScale } from '../../Theme/ResposiveSize';
+import { moderateScale, scale } from '../../Theme/ResposiveSize'; // Assuming scale is also defined for better scaling
 import { Color } from '../../Theme';
 import { FontSize } from '../../Theme/Typography';
 import { Typography } from '../../Theme/Typography';
 import CustomDatePicker from '../Modal/CustomDatePicker';
-// import CustomDatePicker from './custom-date-picker';
 
 interface Input {
   title?: string;
@@ -41,19 +41,24 @@ const NameInput = (auto: Input) => {
 
   return (
     <View style={[styles.container, auto.mainStyle]}>
-      <Text
-        style={[
-          Typography.title,
-          { marginBottom: auto.nameStyle ? 5 : -15 },
-        ]}
-      >
-        {auto.title}
-      </Text>
+      {auto.title && (
+        <Text
+          style={[
+            Typography.title,
+            {
+              marginBottom: auto.nameStyle ? moderateScale(5) : moderateScale(-15),
+              fontSize: moderateScale(14), // You can change font size based on screen size here
+            },
+          ]}
+        >
+          {auto.title}
+        </Text>
+      )}
       <View style={styles.inputBox}>
         <TextInput
           placeholder={auto.placeholder}
           onChangeText={auto.onChangeText}
-          style={styles.input}
+          style={[styles.input, { fontSize: moderateScale(14) }]} // Responsive font size
           value={auto.value || selectedDate}
           keyboardType={auto.keyboardType}
           maxLength={auto.maxLength}
@@ -68,7 +73,7 @@ const NameInput = (auto: Input) => {
           >
             <Ionicons
               name={showPassword ? 'eye' : 'eye-off'}
-              size={22}
+              size={moderateScale(22)} // Responsive icon size
               color="#6A707C"
             />
           </TouchableOpacity>
@@ -78,7 +83,11 @@ const NameInput = (auto: Input) => {
             onPress={() => setShowDatePicker(true)}
             style={styles.icon}
           >
-            <Ionicons name="calendar-outline" size={22} color={Color.orange} />
+            <Ionicons
+              name="calendar-outline"
+              size={moderateScale(22)} // Responsive icon size
+              color={Color.orange}
+            />
           </TouchableOpacity>
         )}
       </View>
@@ -95,25 +104,26 @@ const NameInput = (auto: Input) => {
 export default NameInput;
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+    marginVertical: moderateScale(10),
+  },
   inputBox: {
     flexDirection: 'row',
     alignItems: 'center',
     borderWidth: 1,
-    borderRadius: moderateScale(50),
+    borderRadius: moderateScale(50), // Rounded corners with responsive scaling
     borderColor: Color.border,
     backgroundColor: Color.inputBg,
-    paddingHorizontal: moderateScale(15),
+    paddingHorizontal: moderateScale(15), // Responsive padding
   },
   input: {
     flex: 1,
     fontFamily: 'Urbanist-Medium',
-    // fontSize: FontSize.Font11,
     color: Color.placeholderText,
     fontWeight: '500',
-    paddingVertical: 10,
+    paddingVertical: moderateScale(10), // Responsive padding
   },
   icon: {
-    padding: 5,
+    padding: moderateScale(5), // Responsive icon padding
   },
 });

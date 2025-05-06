@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
         marginBottom: moderateScale(25)
     },
     container: {
-        marginTop: moderateScale(110),
+        marginTop: moderateScale(150),
     },
     forget: {
         textAlign: "right",

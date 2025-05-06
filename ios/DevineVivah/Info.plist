@@ -21,20 +21,22 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>4</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>$(PRODUCT_NAME)  We have given the option to set a profile picture and, this picture is not used anywhere in the app. It only enhances the User experience. Also, setting a profile picture is not a mandatory process. It is totally up to users&apos; preferences and choices.</string>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
-		<false/>
+		<true/>
+		<key>NSAllowsArbitraryLoadsInWebContent</key>
+		<true/>
 		<key>NSAllowsLocalNetworking</key>
 		<true/>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>$(PRODUCT_NAME)  We have given the option to set a profile picture and, this picture is not used anywhere in the app. It only enhances the User experience. Also, setting a profile picture is not a mandatory process. It is totally up to users' preferences and choices.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Urbanist-Black.ttf</string>

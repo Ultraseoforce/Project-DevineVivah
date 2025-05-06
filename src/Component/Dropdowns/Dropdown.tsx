@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, FlatList, ActivityIndicator } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, FlatList, ActivityIndicator, Platform } from 'react-native';
 import { moderateScale } from '../../Theme/ResposiveSize';
 import { Color } from '../../Theme';
 import { Typography } from '../../Theme/Typography';
@@ -24,7 +24,6 @@ const CustomDropdown = (props: Idropdown) => {
         setIsVisible(false);
     };
 
-
     return (
         <View style={styles.container}>
             {props.title && (
@@ -39,7 +38,7 @@ const CustomDropdown = (props: Idropdown) => {
                 }}
             >
                 <Text style={[Typography.small, { color: Color.black }]}>
-                {props.selectedValue ?  props.selectedValue.name || props.selectedValue : props.placeholder}
+                    {props.selectedValue ? props.selectedValue.name || props.selectedValue : props.placeholder}
                 </Text>
                 <AntDesign name="down" size={16} color="#8391A1" style={styles.icon} />
             </TouchableOpacity>
@@ -79,16 +78,27 @@ const CustomDropdown = (props: Idropdown) => {
 };
 
 const styles = StyleSheet.create({
-    container: {},
+    container: {
+        marginVertical: moderateScale(10),
+    },
     showdropdown: {
         marginTop: 10,
-        elevation: 5,
         alignSelf: 'center',
         width: '100%',
         zIndex: 1,
         backgroundColor: Color.inputBg,
         borderRadius: 10,
         paddingVertical: 10,
+        // iOS shadow properties
+        // shadowColor: '#000', // Shadow color (black)
+        // shadowOffset: { width: 0, height: 1 }, // Horizontal and vertical shadow offset
+        // shadowOpacity: 0.1, // Transparency of shadow (from 0 to 1)
+        // shadowRadius: 5, // Shadow blur radius
+        // Android shadow using elevation
+        // elevation: 2,
+        shadowOffset: { width: 0, height: 1 },
+        shadowColor: '#000',
+        shadowOpacity: 0.3
     },
     dropdown: {
         borderWidth: 1,

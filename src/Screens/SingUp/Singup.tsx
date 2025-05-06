@@ -112,14 +112,14 @@ const Singup = () => {
                         nameStyle
                     />
                     {errors.confirmpassword && <Text style={styles.errorText}>{errors.confirmpassword}</Text>}
-                    <View style={{ flexDirection: "row", alignItems: "center", marginHorizontal: 16 }}>
+                    <View style={{ flexDirection: "row", alignItems: "center", marginHorizontal: 16, marginVertical:20 }}>
                         <CheckBox checkstyle />
                         <Text onPress={() => navigate("ForgotPassword", {})} style={[styles.forget, Typography.small, { color: Color.orange }]}>
                             <Text style={{ color: Color.chatBg }}>I agree to the </Text>
                             Terms and Services <Text style={{ color: Color.chatBg }}>and</Text> Privacy Policy.</Text>
                     </View>
                     <Button mainStyle={styles.btn} title='Register' onPress={singup} isLoading={isLoading} />
-                    <View style={{
+                    {/* <View style={{
                         flexDirection: 'row',
                         alignItems: 'center',
                         marginTop: moderateScale(20)
@@ -127,8 +127,8 @@ const Singup = () => {
                         <View style={styles.line} />
                         <Text style={[styles.text, Typography.small, { color: Color.border }]}>Or Register with</Text>
                         <View style={styles.line} />
-                    </View>
-                    <Authenticate />
+                    </View> */}
+                    {/* <Authenticate /> */}
                     <Text style={styles.register}>Already have an account? <Text onPress={() => navigate("Login", {})} style={{ fontWeight: "bold", color: Color.orange }}>Login Now</Text></Text>
                 </View>
             </ScrollView>
@@ -140,7 +140,7 @@ export default Singup;
 
 const styles = StyleSheet.create({
     mainContainer: {
-        marginTop: moderateScale(100),
+        marginTop: moderateScale(150),
         padding: moderateScale(16),
         flex: 1,
     },

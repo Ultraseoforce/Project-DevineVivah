@@ -163,7 +163,7 @@ const HomeScreen = () => {
   return (
     <>
       {isFocused && <StatusBar backgroundColor="#FF5A60" barStyle="light-content" />}
-      <SafeAreaView style={styles.safeArea}>
+      <View style={styles.safeArea}>
         <HeaderCard />
         <FlatList
           ListHeaderComponent={
@@ -199,7 +199,7 @@ const HomeScreen = () => {
           renderItem={null}
           ListFooterComponent={renderTabContent}
         />
-      </SafeAreaView>
+      </View>
     </>
   );
 };
